@@ -4,8 +4,8 @@ public class Card {
         SPADES, HEARTS, DIAMONDS, CLUBS
     }
     public enum Rank {
-        TWO(2), THREE(3), FOUR(4), FIVE(5), SIX(6),
-        SEVEN(7), EIGHT(8), NINE(9), TEN(10), JOKER(11), QUEEN(12), KING(13), ACE(14);
+        ACE(1), TWO(2), THREE(3), FOUR(4), FIVE(5), SIX(6),
+        SEVEN(7), EIGHT(8), NINE(9), TEN(10), JOKER(11), QUEEN(12), KING(13);
         private final int cardValue;
 
         Rank(int cardValue)
@@ -40,10 +40,10 @@ public class Card {
         return getCardRank() + " OF " + getCardSuit();
     }
 
-//    public static void main(String[] args)
-//    {
-//        Card card = new Card(Rank.ACE, Suit.SPADES);
-//        System.out.println(card);
-//        System.out.println(card.getCardRank().getCardRankValue());
-//    }
+    public static void main(String[] args)
+    {
+        Card card = new Card(Rank.ACE, Suit.SPADES);
+        System.out.println(card);
+        System.out.println(card.getCardRank().getCardRankValue());
+    }
 }
