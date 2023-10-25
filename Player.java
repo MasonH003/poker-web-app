@@ -32,12 +32,12 @@ public class Player {
         return balance;
     }
 
-    public void fold()
+    public void setFold(boolean fold)
     {
-        isFolded = true;
+        isFolded = fold;
     }
 
-    public boolean getFoldStatus()
+    public boolean getFold()
     {
         return isFolded;
     }
@@ -67,7 +67,7 @@ public class Player {
 //        System.out.println(p1.getPlayerBalance());
 //        System.out.println(p1.getPlayerHand());
 //        int p1balance = p1.getPlayerBalance();
-//        p1.setPlayerBalance(1000 + p1balance);
+//        p1.addBalance(1000);
 //        System.out.println(p1.getPlayerBalance());
 //
 //    }
