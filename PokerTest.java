@@ -30,4 +30,13 @@ class PokerTest {
         // Assert equals size of community cards == 3
         assertEquals(3, pokerGame.getGameCards().size());
     }
+
+    @Test
+    public void testDealTurnEmpty() {
+
+        // Deal turn:
+        // pokerGame.dealTurn();
+        // Assert equals size of community cards == 1
+        assertEquals(1, pokerGame.getGameCards().size());
+    }
 }
