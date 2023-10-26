@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +20,19 @@ class PokerTest {
         playerList.add(p2);
 
         pokerGame = new Game(playerList);
+    }
+
+    @Test
+    public void testDealhand() {
+
+        // New player and deck:
+        Player p1 = new Player("Barry");
+        Deck deck = new Deck();
+        // Deal Barry a hand:
+        p1.setPlayerHand(deck.dealCard());
+        p1.setPlayerHand(deck.dealCard());
+        // Assert Barry's hand has 2 cards:
+        assertEquals(2, p1.getPlayerHand().size());
     }
 
     @Test
