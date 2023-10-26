@@ -52,6 +52,10 @@ public class Player {
         return "Player name: " + this.name + "\tBalance: " + this.balance + "\tHand: " + this.hand;
     }
 
+    public int getBet() {
+        // get a player's bet
+        return -1;
+    }
     public static void main(String[] args)
     {
         Player p1 = new Player("Christoph");
