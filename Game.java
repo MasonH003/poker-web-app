@@ -32,7 +32,20 @@ public class Game {
             gameCards.add(deck.dealCard());
         }
     }
-    
+
+    /**
+     * During a round, draw new card on table for everyone to use in their hand
+     */
+    public void dealTurn() {
+        gameCards.add(deck.dealCard());
+    }
+
+    /**
+     * During the last round, draw new card on table for everyone to use in their hand
+     */
+    public void dealRiver() {
+        gameCards.add(deck.dealCard());
+    }
 
     /**
      * purpose: find the closest player to the left of the Big Blind
