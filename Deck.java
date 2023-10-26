@@ -29,24 +29,30 @@ public class Deck  {
 //        return dealtCards;
 //    }
 
-    public Card deal()
+    public Card dealCard()
     {
         return cards.remove(0);
     }
-
     //fix getter to return a copy not a reference
     public List<Card> getDeck()
     {
         return cards;
     }
-
-//    public static void main(String[] args) {
-//        Deck d = new Deck();
-//        System.out.println(d.getDeck());
-//        d.shuffleDeck();
-//        System.out.println(d.getDeck());
-//        System.out.println("New Deck: " + d.getDeck());
-//    }
+    public int remainingDeckSize()
+    {
+        return cards.size();
+    }
+    public static void main(String[] args) {
+        Deck deck = new Deck();
+        System.out.println(deck.getDeck());
+        Card dealtCard = deck.dealCard();
+        System.out.println(dealtCard);
+        System.out.println(deck.remainingDeckSize());
+        System.out.println(deck.getDeck());
+        System.out.println(deck.dealCard());
+        System.out.println(deck.dealCard());
+        System.out.println(deck.dealCard());
+    }
 
 }
 

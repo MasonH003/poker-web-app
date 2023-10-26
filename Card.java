@@ -1,5 +1,5 @@
 //A simple Card class
-public class Card {
+public class Card implements Comparable<Card>{
     public enum Suit {
         SPADES, HEARTS, DIAMONDS, CLUBS
     }
@@ -12,11 +12,12 @@ public class Card {
         {
             this.cardValue=cardValue;
         }
-        public int getCardRankValue()
-        {
-            return cardValue;
-        }
     }
+    public int getRankValue()
+    {
+        return rank.cardValue;
+    }
+
     private final Rank rank;
     private final Suit suit;
 
@@ -34,16 +35,21 @@ public class Card {
         return rank;
     }
 
+
+    @Override
+    public int compareTo(Card card)
+    {
+        return rank.cardValue - card.rank.cardValue;
+    }
     @Override
     public String toString()
     {
-        return getCardRank() + " OF " + getCardSuit();
+        return rank + " OF " + suit;
     }
-
     public static void main(String[] args)
     {
         Card card = new Card(Rank.ACE, Suit.SPADES);
         System.out.println(card);
-        System.out.println(card.getCardRank().getCardRankValue());
+        System.out.println(card.getRankValue());
     }
 }
