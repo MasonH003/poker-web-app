@@ -7,11 +7,13 @@ public class Player {
     private int balance;
     private List<Card> hand;
     private boolean isFolded = false;
+    private int totalRoundBet;
 
     public Player(String name) {
         this.name = name;
         this.balance = 500;
         this.hand = new ArrayList<Card>();
+        this.totalRoundBet = 0;
     }
 
     public void setPlayerHand(Card dealtCard) {

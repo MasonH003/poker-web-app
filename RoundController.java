@@ -13,6 +13,8 @@ public class RoundController {
     }
 
     /**
+     * NOTE: should probably be moved into Game.java
+     * staying as is for Iteration 1
      * purpose: determine the player with the strongest hand
      * @return the player with the strongest hand
      */
@@ -21,7 +23,7 @@ public class RoundController {
         Player best = playerList.get(0);
         for( Player p : playerList )
         {
-            //if( table.evaluateHand( p.getPlayerHand() ) > table.evaluateHand( best.getPlayerHand() ) )
+            // if( !p.getFold() && table.evaluateHand( p.getPlayerHand() ) > table.evaluateHand( best.getPlayerHand() ) )
                 best = p;
         }
 
@@ -51,7 +53,7 @@ public class RoundController {
         table.roundOfBetting( roundCount, bigBlind );
 
         roundCount++;
-        //table.dealRiver();
+        // table.dealRiver();
         table.roundOfBetting( roundCount, bigBlind );
 
         showdown();
