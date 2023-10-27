@@ -7,7 +7,7 @@ public class Player {
     private int balance;
     private List<Card> hand;
     private boolean isFolded = false;
-    private int totalRoundBet;
+    private int totalRoundBet; // how much this player has bet this round; reset after every round
 
     public Player(String name) {
         this.name = name;
@@ -48,13 +48,26 @@ public class Player {
         return isFolded;
     }
 
+    public void setTotalRoundBet(int totalRoundBet) {
+        this.totalRoundBet = totalRoundBet;
+    }
+
+    public int getTotalRoundBet() {
+        return totalRoundBet;
+    }
+
     @Override
     public String toString()
     {
         return "Player name: " + this.name + "\tBalance: " + this.balance + "\tHand: " + this.hand;
     }
 
-    public int getBet() {
+    /**
+     * purpose: get a player's choice of action
+     * @param open_bet an int, the open bet of the round (i.e. what the player's totalRoundBet must match to keep playing)
+     * @return an int, 0 if check, positive if calling or raising, -1 if folding
+     */
+    public int makeABet( int open_bet ) {
         // get a player's bet
         return -1;
     }

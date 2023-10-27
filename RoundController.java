@@ -38,23 +38,41 @@ public class RoundController {
     protected void playAGame() {
         int roundCount = 1;
         int bigBlind = 0;
-        //bet, then flop and bet, then turn and bet, then river and bet
 
         // continue playing rounds until there aren't enough players to play
 
+
+        // code duplication smells
+        // functions dealFlop, dealTurn, dealRiver would have to be refactored to reduce duplication
         table.roundOfBetting( roundCount, bigBlind );
+        if( table.countActivePlayers() == 1 ) {
+            // determine winner and payout
+            return;
+        }
 
         roundCount++;
         table.dealFlop();
         table.roundOfBetting( roundCount, bigBlind );
+        if( table.countActivePlayers() == 1 ) {
+            // determine winner and payout
+            return;
+        }
 
         roundCount++;
-        // table.dealTurn();
+        table.dealTurn();
         table.roundOfBetting( roundCount, bigBlind );
+        if( table.countActivePlayers() == 1 ) {
+            // determine winner and payout
+            return;
+        }
 
         roundCount++;
-        // table.dealRiver();
+        table.dealRiver();
         table.roundOfBetting( roundCount, bigBlind );
+        if( table.countActivePlayers() == 1 ) {
+            // determine winner and payout
+            return;
+        }
 
         showdown();
         }

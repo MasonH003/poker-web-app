@@ -28,12 +28,16 @@ public class Game {
     }
 
     /**
-     * Initial three cards drawn on table for everyone to use in their hand
+     * purpose: get the number of player who have not folded yet
+     * @return an int, the number of players who have not folded yet
      */
-    public void dealFlop() {
-        for (int i = 0; i < 3; i++) {
-            gameCards.add(deck.dealCard());
+    public int countActivePlayers() {
+        int count = 0;
+        for( Player p : playerList ) {
+            if( p.getFold() )
+                count++;
         }
+        return count;
     }
 
     /**
@@ -45,6 +49,16 @@ public class Game {
         this.pot = 0;
         this.open_bet = 0;
     }
+
+    /**
+     * Initial three cards drawn on table for everyone to use in their hand
+     */
+    public void dealFlop() {
+        for (int i = 0; i < 3; i++) {
+            gameCards.add(deck.dealCard());
+        }
+    }
+
 
     /**
      * During a round, draw new card on table for everyone to use in their hand
@@ -92,12 +106,15 @@ public class Game {
      * purpose: do a round of betting
      * players can check if they're equal to the open bet,
      *      call if they're less than the open bet,
-     *      raise if they have enough money,
+     *      raise,
      *      or fold.
      */
     protected void roundOfBetting( int roundNumber, int bigBlind ) {
         int better;
         int smallBlind;
+        boolean passedAll = false; //a boolean to measure whether everyone's had a chance to bet or not
+        int choice;
+
         if( bigBlind >= playerList.size() )
             smallBlind = 0;
         else
@@ -105,18 +122,40 @@ public class Game {
 
         Player turn = playerList.get( getNextLeft( bigBlind ) );
 
-        if( roundNumber == 1 ) {
+        if( roundNumber == 1 ) { // it is the first round, so the BB and SB must put in some money
             playerList.get(bigBlind).subBalance(BIGBLINDBET);
             this.pot += BIGBLINDBET;
             playerList.get(smallBlind).subBalance(SMALLBLINDBET);
             this.pot += SMALLBLINDBET;
+            this.open_bet = BIGBLINDBET;
 
             better = getNextLeft( bigBlind );
+
+
         }
+
+        // it is not the first round
         else if( roundNumber > 1 && roundNumber < 5 ) {
+            better = getNextLeft( bigBlind );
+
+            // loop through all players until everyone has had a chance to bet once, and everyone still in play
+            // is equal to the open bet
+            for( ; !passedAll || playerList.get(better).getTotalRoundBet() != this.open_bet ; better++ ) {
+                choice = playerList.get(better).makeABet( this.open_bet );
+                if( choice < 0 ) // if the player's choice is fold, set them to folded
+                {
+                    playerList.get(better).setFold(true);
+                    if( countActivePlayers() == 1 ) {
+                        return;
+                    }
+                }
+                if( better == bigBlind )
+                    passedAll = true;
+            }
 
 
         }
+
 
         // open bet returns to 0 at the end of each betting round
         this.open_bet = 0;
