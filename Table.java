@@ -89,6 +89,7 @@ public class Table {
             if( !p.getFold() )
                 return p;
         }
+        return null;
     }
 
     /**
