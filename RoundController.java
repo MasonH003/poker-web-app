@@ -53,7 +53,7 @@ public class RoundController {
 
         roundCount++;
         table.dealFlop();
-        System.out.println( table );
+        System.out.println( "Round " + roundCount + "\n" + table  );
         table.roundOfBetting(roundCount, bigBlind);
         if (table.countActivePlayers() == 1) {
             // determine winner and payout

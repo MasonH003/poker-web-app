@@ -47,6 +47,9 @@ public class Deck  {
         return cards;
     }
 
+    /**
+     * purpose: reset the deck with all cards, shuffled
+     */
     public void resetDeck() {
         this.cards = new ArrayList<Card>();
         populateDeck();

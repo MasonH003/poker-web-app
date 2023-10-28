@@ -133,10 +133,7 @@ public class Table {
                 return next;
 
             next++;
-
-
         }
-
         return -1; // the big blind is the only player left
     }
 
