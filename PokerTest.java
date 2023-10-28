@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PokerTest {
 
-    private Game pokerGame;
+    private Table pokerTable;
     private List<Player> playerList;
 
     @BeforeEach
@@ -19,7 +19,7 @@ class PokerTest {
         playerList.add(p1);
         playerList.add(p2);
 
-        pokerGame = new Game(playerList);
+        pokerTable = new Table(playerList);
     }
 
     @Test
@@ -29,8 +29,8 @@ class PokerTest {
         Player p1 = new Player("Barry");
         Deck deck = new Deck();
         // Deal Barry a hand:
-        p1.setPlayerHand(deck.dealCard());
-        p1.setPlayerHand(deck.dealCard());
+        p1.addToPlayerHand(deck.dealCard());
+        p1.addToPlayerHand(deck.dealCard());
         // Assert Barry's hand has 2 cards:
         assertEquals(2, p1.getPlayerHand().size());
     }
@@ -51,32 +51,34 @@ class PokerTest {
     public void testDealFlop() {
 
         // Deal flop:
-        pokerGame.dealFlop();
+        pokerTable.dealFlop();
         // Assert equals size of community cards == 3
-        assertEquals(3, pokerGame.getGameCards().size());
+        assertEquals(3, pokerTable.getGameCards().size());
     }
 
     @Test
     public void testDealTurn() {
 
         // Deal initial flop: 3 cards
-        pokerGame.dealFlop();
+        pokerTable.dealFlop();
         // Deal turn: 4 cards
-        pokerGame.dealTurn();
+        pokerTable.dealTurn();
         // Assert equals size of community cards == 4
-        assertEquals(4, pokerGame.getGameCards().size());
+        assertEquals(4, pokerTable.getGameCards().size());
     }
 
     @Test
     public void testDealRiver() {
 
         // Deal initial flop: 3 cards
-        pokerGame.dealFlop();
+        pokerTable.dealFlop();
         // Deal turn: 4 cards
-        pokerGame.dealTurn();
+        pokerTable.dealTurn();
         // Deal river: 5 cards
-        pokerGame.dealRiver();
+        pokerTable.dealRiver();
         // Assert equals size of community cards == 5
-        assertEquals(5, pokerGame.getGameCards().size());
+        assertEquals(5, pokerTable.getGameCards().size());
     }
+
+
 }

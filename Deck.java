@@ -2,11 +2,19 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 public class Deck  {
-    private final List<Card> cards;
+    private List<Card> cards;
 
     public Deck() {
         cards = new ArrayList<Card>();
         populateDeck();
+    }
+
+    @Override
+    public String toString() {
+        String str = "";
+        for( Card c : cards )
+            str = str + c.toString() + " ";
+        return str;
     }
     private void populateDeck() {
         for (Card.Suit suit : Card.Suit.values())
@@ -37,6 +45,15 @@ public class Deck  {
     public List<Card> getDeck()
     {
         return cards;
+    }
+
+    /**
+     * purpose: reset the deck with all cards, shuffled
+     */
+    public void resetDeck() {
+        this.cards = new ArrayList<Card>();
+        populateDeck();
+        shuffleDeck();
     }
     public int remainingDeckSize()
     {
