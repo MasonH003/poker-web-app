@@ -43,7 +43,6 @@ public class RoundController {
 
         // continue playing rounds until there aren't enough players to play
 
-
         // code duplication smells
         // functions dealFlop, dealTurn, dealRiver would have to be refactored to reduce duplication
         table.roundOfBetting(roundCount, bigBlind);
@@ -54,6 +53,7 @@ public class RoundController {
 
         roundCount++;
         table.dealFlop();
+        System.out.println( table );
         table.roundOfBetting(roundCount, bigBlind);
         if (table.countActivePlayers() == 1) {
             // determine winner and payout
@@ -78,8 +78,9 @@ public class RoundController {
 
         showdown();
 
-
+        System.out.println( table );
         table.resetTable();
+
 
 
     }

@@ -50,8 +50,22 @@ public class Table {
     public void incPot( int increment ) {
         this.pot += increment;
     }
+
+    @Override
+    public String toString() {
+        String str = "Table cards: ";
+        for( Card c : gameCards )
+            str = str + c + ", ";
+        str = str + "\n" + "Pot: " + pot + "\tOpen Bet: " + openBet + "\n";
+        for( Player p : playerList ) {
+            str = str + p;
+            str = str + "\n";
+        }
+        return str;
+    }
+
     /**
-     * purpose: get the number of player who have not folded yet
+     * purpose: get the number of players who have not folded yet
      * @return an int, the number of players who have not folded yet
      */
     public int countActivePlayers() {
