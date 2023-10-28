@@ -16,7 +16,7 @@ public class Player {
         this.totalRoundBet = 0;
     }
 
-    public void setPlayerHand(Card dealtCard) {
+    public void addToPlayerHand(Card dealtCard) {
         hand.add(dealtCard);
     }
 
@@ -78,11 +78,11 @@ public class Player {
         Deck deck = new Deck();
         deck.shuffleDeck();
         System.out.println(deck.getDeck());
-        p1.setPlayerHand(deck.dealCard());
-        p1.setPlayerHand(deck.dealCard());
+        p1.addToPlayerHand(deck.dealCard());
+        p1.addToPlayerHand(deck.dealCard());
         System.out.println(p1);
-        p2.setPlayerHand(deck.dealCard());
-        p2.setPlayerHand(deck.dealCard());
+        p2.addToPlayerHand(deck.dealCard());
+        p2.addToPlayerHand(deck.dealCard());
         System.out.println(p2);
     }
 }

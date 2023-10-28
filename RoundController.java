@@ -46,8 +46,10 @@ public class RoundController {
         // code duplication smells
         // functions dealFlop, dealTurn, dealRiver would have to be refactored to reduce duplication
         table.roundOfBetting(roundCount, bigBlind);
+        System.out.println( "Round " + roundCount + "\n" + table  );
         if (table.countActivePlayers() == 1) {
             // determine winner and payout
+
             return;
         }
 

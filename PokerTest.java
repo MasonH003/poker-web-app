@@ -29,8 +29,8 @@ class PokerTest {
         Player p1 = new Player("Barry");
         Deck deck = new Deck();
         // Deal Barry a hand:
-        p1.setPlayerHand(deck.dealCard());
-        p1.setPlayerHand(deck.dealCard());
+        p1.addToPlayerHand(deck.dealCard());
+        p1.addToPlayerHand(deck.dealCard());
         // Assert Barry's hand has 2 cards:
         assertEquals(2, p1.getPlayerHand().size());
     }
