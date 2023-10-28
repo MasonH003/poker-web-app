@@ -13,6 +13,7 @@ public class Table {
     public Table(List<Player> playerList ) {
 
         deck = new Deck();
+        deck.shuffleDeck();
         gameCards = new ArrayList<>();
         this.playerList = playerList;
         this.pot = 0;
@@ -146,10 +147,7 @@ public class Table {
         this.pot = 0;
         this.openBet = 0;
         this.gameCards = new ArrayList<>();
-
-        Deck freshDeck = new Deck( );
-        freshDeck.shuffleDeck();
-        this.deck = freshDeck;
+        this.deck.resetDeck();
 
         // consider handling players with no money left here
     }
