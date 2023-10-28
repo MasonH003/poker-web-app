@@ -79,6 +79,19 @@ public class Table {
     }
 
     /**
+     * purpose: if there is only one player left, return them so they can be given the pot
+     * @return a Player, the last un-folded player, or null if incorrectly called with more than 1 active player
+     */
+    public Player findLastPlayer() {
+        if( countActivePlayers() != 1)
+            return null;
+        for( Player p : playerList ) {
+            if( !p.getFold() )
+                return p;
+        }
+    }
+
+    /**
      * purpose: give the winning player the pot
      * @param p a Player, the winner of the hand
      */
@@ -177,8 +190,26 @@ public class Table {
             this.pot += SMALLBLINDBET;
             this.openBet = BIGBLINDBET;
 
+            for( Player p : playerList ) {
+                p.addToPlayerHand( deck.dealCard() );
+                p.addToPlayerHand( deck.dealCard() );
+            }
+
             better = getNextLeft( bigBlind );
 
+            // Fixed? Do betting here
+            for(; !passedAll || playerList.get(better).getTotalRoundBet() != this.openBet; better++ ) {
+                choice = playerList.get(better).getPlayerChoice( this.openBet);
+                if( choice < 0 ) // if the player's choice is fold, set them to folded
+                {
+                    playerList.get(better).setFold(true);
+                    if( countActivePlayers() == 1 ) {
+                        return;
+                    }
+                }
+                if( better == bigBlind )
+                    passedAll = true;
+            }
 
         }
 
