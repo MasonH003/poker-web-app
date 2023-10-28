@@ -1,22 +1,22 @@
 import java.util.ArrayList;
 import java.util.List;
-public class Game {
+public class Table {
 
     private Deck deck;
     private List<Card> gameCards;
     private List<Player> playerList;
     private int pot; // this is the total money in the pot
-    private int open_bet; //this is the highest bet in the current round
+    private int openBet; //this is the highest bet in the current round
     private final int BIGBLINDBET = 5;
     private final int SMALLBLINDBET = 2;
 
-    public Game( List<Player> playerList ) {
+    public Table(List<Player> playerList ) {
 
         deck = new Deck();
         gameCards = new ArrayList<>();
         this.playerList = playerList;
         this.pot = 0;
-        this.open_bet = 0;
+        this.openBet = 0;
     }
 
     public List<Card> getGameCards() {
@@ -27,6 +27,29 @@ public class Game {
         return playerList;
     }
 
+    public int getOpenBet() {
+        return openBet;
+    }
+
+    public void setOpenBet(int openBet) {
+        this.openBet = openBet;
+    }
+
+    public void incOpenBet( int increment ) {
+        this.openBet += increment;
+    }
+
+    public int getPot() {
+        return pot;
+    }
+
+    public void setPot(int pot) {
+        this.pot = pot;
+    }
+
+    public void incPot( int increment ) {
+        this.pot += increment;
+    }
     /**
      * purpose: get the number of player who have not folded yet
      * @return an int, the number of players who have not folded yet
@@ -34,7 +57,7 @@ public class Game {
     public int countActivePlayers() {
         int count = 0;
         for( Player p : playerList ) {
-            if( p.getFold() )
+            if( !p.getFold() )
                 count++;
         }
         return count;
@@ -47,7 +70,7 @@ public class Game {
     public void win( Player p ) {
         p.addBalance(this.pot);
         this.pot = 0;
-        this.open_bet = 0;
+        this.openBet = 0;
     }
 
     /**
@@ -103,6 +126,22 @@ public class Game {
     }
 
     /**
+     * purpose: reset the state of the table to be ready for a new round
+     */
+    protected void resetTable() {
+        this.pot = 0;
+        this.openBet = 0;
+        this.gameCards = new ArrayList<>();
+
+        Deck freshDeck = new Deck( );
+        freshDeck.shuffleDeck();
+        this.deck = freshDeck;
+
+        // consider handling players with no money left here
+    }
+
+
+    /**
      * purpose: do a round of betting
      * players can check if they're equal to the open bet,
      *      call if they're less than the open bet,
@@ -127,7 +166,7 @@ public class Game {
             this.pot += BIGBLINDBET;
             playerList.get(smallBlind).subBalance(SMALLBLINDBET);
             this.pot += SMALLBLINDBET;
-            this.open_bet = BIGBLINDBET;
+            this.openBet = BIGBLINDBET;
 
             better = getNextLeft( bigBlind );
 
@@ -140,8 +179,8 @@ public class Game {
 
             // loop through all players until everyone has had a chance to bet once, and everyone still in play
             // is equal to the open bet
-            for( ; !passedAll || playerList.get(better).getTotalRoundBet() != this.open_bet ; better++ ) {
-                choice = playerList.get(better).makeABet( this.open_bet );
+            for(; !passedAll || playerList.get(better).getTotalRoundBet() != this.openBet; better++ ) {
+                choice = playerList.get(better).getPlayerChoice( this.openBet);
                 if( choice < 0 ) // if the player's choice is fold, set them to folded
                 {
                     playerList.get(better).setFold(true);
@@ -158,7 +197,7 @@ public class Game {
 
 
         // open bet returns to 0 at the end of each betting round
-        this.open_bet = 0;
+        this.openBet = 0;
 
     }
     public static void main(String[] args)

@@ -63,12 +63,12 @@ public class Player {
     }
 
     /**
-     * purpose: get a player's choice of action
+     * purpose: get a player's choice of action when it's their turn
      * @param open_bet an int, the open bet of the round (i.e. what the player's totalRoundBet must match to keep playing)
      * @return an int, 0 if check, positive if calling or raising, -1 if folding
      */
-    public int makeABet( int open_bet ) {
-        // get a player's bet
+    public int getPlayerChoice(int open_bet ) {
+        // get a player's choice on their turn
         return -1;
     }
     public static void main(String[] args)
