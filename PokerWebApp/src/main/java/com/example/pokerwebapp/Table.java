@@ -203,7 +203,7 @@ public class Table {
         int better;
         int smallBlind;
         boolean passedAll = false; //a boolean to measure whether everyone's had a chance to bet or not
-        String choice;
+        String choice = "";
 
         if( bigBlind >= playerList.size() )
             smallBlind = 0;
@@ -228,7 +228,10 @@ public class Table {
 
             // Fixed? Do betting here
             for(; !passedAll || playerList.get(better).getTotalRoundBet() != this.openBet; better++ ) {
-                choice = playerList.get(better).getPlayerChoice(openBet);
+                //don't ask for a choice from player who has already folded in the round
+                if(!playerList.get(better).getFold()) {
+                    choice = playerList.get(better).getPlayerChoice(openBet);
+                }
                 //fold, skip the players turn
                 if (playerList.get(better).getFold())
                 {
@@ -245,9 +248,6 @@ public class Table {
                     openBet = playerList.get(better).getTotalRoundBet() + raiseAmount;
                 }
 
-
-
-
                 if( better == bigBlind )
                     passedAll = true;
             }
@@ -263,7 +263,10 @@ public class Table {
             // loop through all players until everyone has had a chance to bet once, and everyone still in play
             // is equal to the open bet
             for(; !passedAll || playerList.get(better).getTotalRoundBet() != this.openBet; better++ ) {
-                choice = playerList.get(better).getPlayerChoice(openBet);
+                //don't ask for a choice from player who has already folded or checked in the round
+                if(!playerList.get(better).getFold() && !playerList.get(better).getCheckedStatus()) {
+                    choice = playerList.get(better).getPlayerChoice(openBet);
+                }
                 //fold
                 if (playerList.get(better).getFold())
                 {

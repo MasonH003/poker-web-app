@@ -89,8 +89,9 @@ public class Player {
                 isFolded = true;
                 return "fold";
             } else if (choice.equals("call") && this.balance >= open_bet) {
-                this.balance -= open_bet;
-                this.totalRoundBet += open_bet;
+                int difference = open_bet - this.totalRoundBet;
+                this.balance -= difference;
+                this.totalRoundBet += difference;
                 return "call";
             } else if (choice.equals("raise")) {
                 do {
