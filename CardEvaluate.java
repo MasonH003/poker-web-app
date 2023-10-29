@@ -88,6 +88,6 @@ public class CardEvaluate {
         //System.out.println(hand[0]);
         CardEvaluate e = new CardEvaluate();
         e.RankHand(hand);
-
+//
     }
 }
