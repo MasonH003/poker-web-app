@@ -1,7 +1,6 @@
-package model.dao;
+package com.example.pokerwebapp.model.dao;
 
-import com.example.pokerwebapp.model.dao.AccountDAO;
-import com.example.pokerwebapp.model.dao.GenericDAO;
+
 import com.example.pokerwebapp.model.entity.Account;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

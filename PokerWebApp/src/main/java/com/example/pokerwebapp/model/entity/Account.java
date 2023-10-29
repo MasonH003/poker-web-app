@@ -6,9 +6,9 @@ import javax.persistence.*;
 
 @Entity
 public class Account extends BaseEntity {
-    @Id @Column(name="id_user") @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @Column(name="id_account") @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID = null;
-    private int isAdmin;
+    private int is_admin;
     @Column(unique=true) //Login must be unique for each record in DB
     private String username;
     private String password;
@@ -18,14 +18,14 @@ public class Account extends BaseEntity {
     public transient static final int ADMIN_PERMISSION = 1;
 
     public Account(){
-        this.isAdmin = NORMAL_PERMISSION;
+        this.is_admin = NORMAL_PERMISSION;
     }
 
-    public Account(Integer ID, String username, String password, int isAdmin) {
+    public Account(Integer ID, String username, String password, int is_admin) {
         this.ID = ID;
         this.username = username;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.is_admin = is_admin;
     }
 
     public Integer getID() {
@@ -66,16 +66,16 @@ public class Account extends BaseEntity {
     }
 
     public int getPermission() {
-        return isAdmin;
+        return is_admin;
     }
 
     public void setPermission(int permission) {
-        this.isAdmin = permission;
+        this.is_admin = permission;
     }
 
     public String getPermissionAsString(){
-        if(isAdmin==NORMAL_PERMISSION) return "Normal";
-        else if(isAdmin==ADMIN_PERMISSION) return "Admin";
+        if(is_admin ==NORMAL_PERMISSION) return "Normal";
+        else if(is_admin ==ADMIN_PERMISSION) return "Admin";
         else return "Unknown";
     }
 
