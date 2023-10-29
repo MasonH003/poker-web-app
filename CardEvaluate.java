@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.*;
 
 public class CardEvaluate {
@@ -20,10 +19,9 @@ public class CardEvaluate {
       Map<Card.Rank, Integer> count_rank = new HashMap<>();
 
       //count rank and suit of cards
-      for(int i=0;i<hand.size();i++)
-      {
-          count_suit.compute(hand.get(i).getCardSuit(), (key, value) -> ((value == null) ? 1 : value+1));
-          count_rank.compute(hand.get(i).getCardRank(), (key, value) -> ((value == null) ? 1 : value+1));
+      for (Card card : hand) {
+          count_suit.compute(card.getCardSuit(), (key, value) -> ((value == null) ? 1 : value + 1));
+          count_rank.compute(card.getCardRank(), (key, value) -> ((value == null) ? 1 : value + 1));
           //System.out.println(hand.get(i));
       }
       System.out.println(count_suit);
@@ -75,7 +73,7 @@ public class CardEvaluate {
       return 0;
   }
     public static void main(String[] args) {
-        ArrayList hand= new ArrayList<Card>();
+        ArrayList<Card> hand= new ArrayList<Card>();
 
         Card c1 = new Card(Card.Rank.ACE, Card.Suit.SPADES);
         Card c2 = new Card(Card.Rank.TWO, Card.Suit.CLUBS);
