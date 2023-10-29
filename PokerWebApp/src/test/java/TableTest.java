@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PokerTest {
+class TableTest {
 
     private Table pokerTable;
     private List<Player> playerList;
