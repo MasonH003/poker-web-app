@@ -1,3 +1,5 @@
+package com.example.pokerwebapp;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,9 +29,9 @@ public class Deck  {
         Collections.shuffle(cards);
     }
 
-//    public List<Card> deal(int numCards)
+//    public List<com.example.pokerwebapp.Card> deal(int numCards)
 //    {
-//        List<Card> dealtCards = new ArrayList<Card>();
+//        List<com.example.pokerwebapp.Card> dealtCards = new ArrayList<com.example.pokerwebapp.Card>();
 //        for(int i = 0; i < numCards; i++)
 //        {
 //            dealtCards.add(cards.remove(0));

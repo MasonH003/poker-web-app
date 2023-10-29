@@ -1,3 +1,5 @@
+package com.example.pokerwebapp;
+
 import java.util.ArrayList;
 import java.util.List;
 public class Table {
@@ -80,7 +82,7 @@ public class Table {
 
     /**
      * purpose: if there is only one player left, return them so they can be given the pot
-     * @return a Player, the last un-folded player, or null if incorrectly called with more than 1 active player
+     * @return a com.example.pokerwebapp.Player, the last un-folded player, or null if incorrectly called with more than 1 active player
      */
     public Player findLastPlayer() {
         if( countActivePlayers() != 1)
@@ -94,7 +96,7 @@ public class Table {
 
     /**
      * purpose: give the winning player the pot
-     * @param p a Player, the winner of the hand
+     * @param p a com.example.pokerwebapp.Player, the winner of the hand
      */
     public void win( Player p ) {
         p.addBalance(this.pot);
@@ -163,6 +165,25 @@ public class Table {
         // consider handling players with no money left here
     }
 
+    /**
+     * purpose: reset the fold status of every player
+     */
+    public void resetPlayerFoldStatus()
+    {
+        for(Player p : playerList)
+        {
+            p.setFold(false);
+        }
+    }
+
+    public void resetTotalRoundBet()
+    {
+        for(Player p : playerList)
+        {
+            p.setTotalRoundBet(0);
+        }
+
+    }
 
     /**
      * purpose: do a round of betting
@@ -175,7 +196,7 @@ public class Table {
         int better;
         int smallBlind;
         boolean passedAll = false; //a boolean to measure whether everyone's had a chance to bet or not
-        int choice;
+        String choice;
 
         if( bigBlind >= playerList.size() )
             smallBlind = 0;
@@ -200,16 +221,25 @@ public class Table {
 
             // Fixed? Do betting here
             for(; !passedAll || playerList.get(better).getTotalRoundBet() != this.openBet; better++ ) {
-                //call raise fold
-                //if fold, return (essentially just skipping there turn
-                choice = playerList.get(better).getPlayerChoice( this.openBet);
-                if( choice < 0 ) // if the player's choice is fold, set them to folded
+                choice = playerList.get(better).getPlayerChoice(openBet);
+                //fold, skip the players turn
+                if (playerList.get(better).getFold())
                 {
-                    playerList.get(better).setFold(true);
-                    if( countActivePlayers() == 1 ) {
-                        return;
-                    }
+                    continue;
                 }
+                else if(choice.equals("call"))
+                {
+                    this.pot+=openBet;
+                }
+                else if(choice.equals("raise"))
+                {
+                    int raiseAmount = playerList.get(better).getRaiseAmount();
+                    this.pot+=raiseAmount;
+                    openBet = playerList.get(better).getTotalRoundBet() + raiseAmount;
+                }
+
+
+
                 if( better == bigBlind )
                     passedAll = true;
             }
@@ -223,11 +253,29 @@ public class Table {
             // loop through all players until everyone has had a chance to bet once, and everyone still in play
             // is equal to the open bet
             for(; !passedAll || playerList.get(better).getTotalRoundBet() != this.openBet; better++ ) {
-                choice = playerList.get(better).getPlayerChoice( this.openBet);
-                if( choice < 0 ) // if the player's choice is fold, set them to folded
+                choice = playerList.get(better).getPlayerChoice(openBet);
+                //fold
+                if (playerList.get(better).getFold())
                 {
-                    playerList.get(better).setFold(true);
-                    if( countActivePlayers() == 1 ) {
+                    continue;
+                }
+                else if(choice.equals("call"))
+                {
+                    this.pot+=openBet;
+                }
+                else if(choice.equals("raise"))
+                {
+                    int raiseAmount = playerList.get(better).getRaiseAmount();
+                    this.pot+=raiseAmount;
+                    openBet = playerList.get(better).getTotalRoundBet() + raiseAmount;
+                }
+                //fix this, player can only check if no one has bet
+                else if(choice.equals("check") && openBet == 0)
+                {
+                    continue;
+                }
+
+                if( countActivePlayers() == 1 ) {
                         return;
                     }
                 }
@@ -235,14 +283,16 @@ public class Table {
                     passedAll = true;
             }
 
+            //reset fold status
+            resetPlayerFoldStatus();
+        // open bet returns to 0 at the end of each betting round
+        this.openBet = 0;
 
         }
 
 
-        // open bet returns to 0 at the end of each betting round
-        this.openBet = 0;
 
-    }
+
     public static void main(String[] args)
     {
         Deck deck = new Deck();

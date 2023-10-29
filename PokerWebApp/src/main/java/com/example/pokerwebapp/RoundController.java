@@ -1,3 +1,5 @@
+package com.example.pokerwebapp;
+
 import java.util.ArrayList;
 
 public class RoundController {
@@ -14,7 +16,7 @@ public class RoundController {
     }
 
     /**
-     * NOTE: should probably be moved into Table.java
+     * NOTE: should probably be moved into com.example.pokerwebapp.Table.java
      * staying as is for Iteration 1
      * purpose: determine the player with the strongest hand
      *
@@ -54,6 +56,7 @@ public class RoundController {
         }
 
         roundCount++;
+        table.resetTotalRoundBet();
         table.dealFlop();
         System.out.println( "Round " + roundCount + "\n" + table  );
         table.roundOfBetting(roundCount, bigBlind);
@@ -63,6 +66,7 @@ public class RoundController {
         }
 
         roundCount++;
+        table.resetTotalRoundBet();
         table.dealTurn();
         table.roundOfBetting(roundCount, bigBlind);
         if (table.countActivePlayers() == 1) {
@@ -71,6 +75,7 @@ public class RoundController {
         }
 
         roundCount++;
+        table.resetTotalRoundBet();
         table.dealRiver();
         table.roundOfBetting(roundCount, bigBlind);
         if (table.countActivePlayers() == 1) {
