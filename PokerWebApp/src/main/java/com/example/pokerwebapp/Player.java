@@ -15,6 +15,8 @@ public class Player {
 
     private int raiseAmount; // how much a player raises their bet by
 
+    private boolean isChecked = false;
+
     public Player(String name) {
         this.name = name;
         this.balance = 500;
@@ -62,6 +64,15 @@ public class Player {
         return raiseAmount;
     }
 
+    public void setChecked(boolean check)
+    {
+        isChecked=check;
+    }
+
+    public boolean getCheckedStatus()
+    {
+        return this.isChecked;
+    }
 
     @Override
     public String toString() {
@@ -93,7 +104,8 @@ public class Player {
                 this.totalRoundBet += raiseAmount;
                 return "raise";
 
-            } else if (choice.equals("check")) {
+            } else if (choice.equals("check") && open_bet == 0) {
+                isChecked=true;
                 return "check";
             }
 

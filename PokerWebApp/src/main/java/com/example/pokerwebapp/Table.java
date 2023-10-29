@@ -175,6 +175,13 @@ public class Table {
             p.setFold(false);
         }
     }
+    public void resetPlayerCheckStatus()
+    {
+        for(Player p : playerList)
+        {
+            p.setChecked(false);
+        }
+    }
 
     public void resetTotalRoundBet()
     {
@@ -240,9 +247,11 @@ public class Table {
 
 
 
+
                 if( better == bigBlind )
                     passedAll = true;
             }
+            //after a round completes reset the openBet to 0 and every players totalroundbet
             this.openBet = 0;
             resetTotalRoundBet();
         }
@@ -270,8 +279,8 @@ public class Table {
                     this.pot+=raiseAmount;
                     openBet = playerList.get(better).getTotalRoundBet() + raiseAmount;
                 }
-                //fix this, player can only check if no one has bet
-                else if(choice.equals("check") && openBet == 0)
+                //if a player checks and
+                else if(playerList.get(better).getCheckedStatus())
                 {
                     continue;
                 }
@@ -282,11 +291,15 @@ public class Table {
                 if( better == bigBlind )
                     passedAll = true;
                 }
-            resetPlayerFoldStatus();
+            //after a round is completed reset check status, openbet, and totalroundbet of players
+            resetPlayerCheckStatus();
             resetTotalRoundBet();
             this.openBet = 0;
         }
-        }
+        //after the 4 rounds complete, reset a players fold status
+        resetPlayerFoldStatus();
+
+    }
 
 
 
