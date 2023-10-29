@@ -68,8 +68,17 @@ public class Player {
      * @param open_bet an int, the open bet of the round (i.e. what the player's totalRoundBet must match to keep playing)
      * @return an int, 0 if check, positive if calling or raising, -1 if folding
      */
-    public int getPlayerChoice(int open_bet ) {
+    public int getPlayerChoice(int open_bet) {
         // get a player's choice on their turn
+        Scanner scan = new Scanner(System.in);
+        int choice;
+    if(totalRoundBet < open_bet)
+    {
+        System.out.println("CALL\t0\nRAISE\tN\nFOLD\t-1\n");
+        choice = scan.nextInt();
+
+    }
+
 
         /*
         Scanner scan = new Scanner(System.in);
@@ -100,8 +109,7 @@ public class Player {
             System.out.println("CHECK\t0\nRAISE\tN\nFOLD\t-1\n");
         }
         */
-        return -1;
-    }
+
     public static void main(String[] args)
     {
         Player p1 = new Player("Christoph");

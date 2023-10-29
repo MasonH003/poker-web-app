@@ -200,6 +200,8 @@ public class Table {
 
             // Fixed? Do betting here
             for(; !passedAll || playerList.get(better).getTotalRoundBet() != this.openBet; better++ ) {
+                //call raise fold
+                //if fold, return (essentially just skipping there turn
                 choice = playerList.get(better).getPlayerChoice( this.openBet);
                 if( choice < 0 ) // if the player's choice is fold, set them to folded
                 {
