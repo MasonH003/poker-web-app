@@ -37,6 +37,19 @@ public class CardTest {
         );
     }
 
+    @Test
+    public void testToString()
+    {
+        String expectedString = "TWO OF SPADES";
+        assertEquals(expectedString, c.toString());
+    }
+
+    @Test
+    public void compareToTest()
+    {
+        int compareValue = c.compareTo(c1);
+        assertEquals(-2, compareValue);
+    }
 
 
 }
