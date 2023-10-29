@@ -243,6 +243,7 @@ public class Table {
                 if( better == bigBlind )
                     passedAll = true;
             }
+            this.openBet = 0;
             resetTotalRoundBet();
         }
 
