@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/PokerWebApp/PokerWebApp.iml" filepath="$PROJECT_DIR$/PokerWebApp/PokerWebApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/poker-web-app.iml" filepath="$PROJECT_DIR$/poker-web-app.iml" />
     </modules>
   </component>
