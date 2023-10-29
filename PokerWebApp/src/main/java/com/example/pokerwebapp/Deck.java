@@ -61,17 +61,17 @@ public class Deck  {
     {
         return cards.size();
     }
-    public static void main(String[] args) {
-        Deck deck = new Deck();
-        System.out.println(deck.getDeck());
-        Card dealtCard = deck.dealCard();
-        System.out.println(dealtCard);
-        System.out.println(deck.remainingDeckSize());
-        System.out.println(deck.getDeck());
-        System.out.println(deck.dealCard());
-        System.out.println(deck.dealCard());
-        System.out.println(deck.dealCard());
-    }
+//    public static void main(String[] args) {
+//        Deck deck = new Deck();
+//        System.out.println(deck);
+//        Card dealtCard = deck.dealCard();
+//        System.out.println(dealtCard);
+//        System.out.println(deck.remainingDeckSize());
+//        System.out.println(deck.getDeck());
+//        System.out.println(deck.dealCard());
+//        System.out.println(deck.dealCard());
+//        System.out.println(deck.dealCard());
+//    }
 
 }
 
