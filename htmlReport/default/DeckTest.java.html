@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeckTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">DeckTest.java</span></div><h1>DeckTest.java</h1><pre class="source lang-java linenums">import com.example.pokerwebapp.Card;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import com.example.pokerwebapp.Deck;
+<span class="fc" id="L5">public class DeckTest {</span>
+
+
+    @Test
+    public void properDeckSize()
+    {
+<span class="fc" id="L11">        Deck d = new Deck();</span>
+<span class="fc" id="L12">        assertEquals(52, d.remainingDeckSize());</span>
+<span class="fc" id="L13">    }</span>
+
+    //Assure that the card that is dealt is equal to the first card of the deck
+    @Test
+    public void dealCard()
+    {
+<span class="fc" id="L19">        Deck d = new Deck();</span>
+<span class="fc" id="L20">        d.dealCard();</span>
+<span class="fc" id="L21">        assertEquals(d.getDeck().get(0), d.dealCard());</span>
+<span class="fc" id="L22">    }</span>
+
+
+    //weird bug in this test, assertEquals is not properly comparing the decks
+    @Test
+    public void shuffledDeck()
+    {
+<span class="fc" id="L29">        Deck d = new Deck();</span>
+
+<span class="fc" id="L31">        Deck shuffled = new Deck();</span>
+<span class="fc" id="L32">        shuffled.shuffleDeck();</span>
+<span class="fc" id="L33">        assertNotEquals(d, shuffled);</span>
+<span class="fc" id="L34">    }</span>
+    @Test
+    public void resetDeckTest()
+    {
+<span class="fc" id="L38">        Deck d = new Deck();</span>
+<span class="fc" id="L39">        Deck d1 = new Deck();</span>
+<span class="fc" id="L40">        d1.resetDeck();</span>
+<span class="fc" id="L41">        assertNotEquals(d, d1);</span>
+
+
+<span class="fc" id="L44">    }</span>
+
+
+    //test to test the toString method on a non shuffled deck
+    @Test
+    public void testToString()
+    {
+<span class="fc" id="L51">        Deck d = new Deck();</span>
+<span class="fc" id="L52">        String expectedString = &quot;ACE OF SPADES TWO OF SPADES THREE OF SPADES FOUR OF SPADES FIVE OF SPADES SIX OF SPADES SEVEN OF SPADES EIGHT OF SPADES NINE OF SPADES TEN OF SPADES JACK OF SPADES QUEEN OF SPADES KING OF SPADES ACE OF HEARTS TWO OF HEARTS THREE OF HEARTS FOUR OF HEARTS FIVE OF HEARTS SIX OF HEARTS SEVEN OF HEARTS EIGHT OF HEARTS NINE OF HEARTS TEN OF HEARTS JACK OF HEARTS QUEEN OF HEARTS KING OF HEARTS ACE OF DIAMONDS TWO OF DIAMONDS THREE OF DIAMONDS FOUR OF DIAMONDS FIVE OF DIAMONDS SIX OF DIAMONDS SEVEN OF DIAMONDS EIGHT OF DIAMONDS NINE OF DIAMONDS TEN OF DIAMONDS JACK OF DIAMONDS QUEEN OF DIAMONDS KING OF DIAMONDS ACE OF CLUBS TWO OF CLUBS THREE OF CLUBS FOUR OF CLUBS FIVE OF CLUBS SIX OF CLUBS SEVEN OF CLUBS EIGHT OF CLUBS NINE OF CLUBS TEN OF CLUBS JACK OF CLUBS QUEEN OF CLUBS KING OF CLUBS &quot;;</span>
+<span class="fc" id="L53">        String actual = d.toString();</span>
+<span class="fc" id="L54">        assertEquals(expectedString, actual);</span>
+<span class="fc" id="L55">    }</span>
+
+
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

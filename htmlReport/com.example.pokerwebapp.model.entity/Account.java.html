@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Account.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.example.pokerwebapp.model.entity</a> &gt; <span class="el_source">Account.java</span></div><h1>Account.java</h1><pre class="source lang-java linenums">// SPDX-License-Identifier: MIT
+package com.example.pokerwebapp.model.entity;
+
+
+import javax.persistence.*;
+
+@Entity
+public class Account extends BaseEntity {
+<span class="pc" id="L9">    @Id @Column(name=&quot;id_account&quot;) @GeneratedValue(strategy = GenerationType.IDENTITY)</span>
+    private Integer ID = null;
+    private int is_admin;
+    @Column(unique=true) //Login must be unique for each record in DB
+    private String username;
+    private String password;
+    private int money;
+
+    public transient static final int NORMAL_PERMISSION = 0;
+    public transient static final int ADMIN_PERMISSION = 1;
+
+<span class="fc" id="L20">    public Account(){</span>
+<span class="fc" id="L21">        this.is_admin = NORMAL_PERMISSION;</span>
+<span class="fc" id="L22">    }</span>
+
+<span class="nc" id="L24">    public Account(Integer ID, String username, String password, int is_admin) {</span>
+<span class="nc" id="L25">        this.ID = ID;</span>
+<span class="nc" id="L26">        this.username = username;</span>
+<span class="nc" id="L27">        this.password = password;</span>
+<span class="nc" id="L28">        this.is_admin = is_admin;</span>
+<span class="nc" id="L29">    }</span>
+
+    public Integer getID() {
+<span class="fc" id="L32">        return ID;</span>
+    }
+    public void setID(Integer ID) {
+<span class="nc" id="L35">        this.ID = ID;</span>
+<span class="nc" id="L36">    }</span>
+
+    public String getUsername() {
+<span class="fc" id="L39">        return username;</span>
+    }
+
+    public void setUsername(String username) {
+<span class="fc" id="L43">        this.username = username;</span>
+<span class="fc" id="L44">    }</span>
+
+    /***
+     * Returns the email which should be same as the Login
+     *
+     * @return
+     */
+<span class="nc" id="L51">    public String getEmail(){ return getUsername(); }</span>
+
+    /***
+     * Sets the Email which should be same as Login
+     */
+    public void setEmail(String email){
+<span class="fc" id="L57">        setUsername(email);</span>
+<span class="fc" id="L58">    }</span>
+
+    public String getPassword() {
+<span class="fc" id="L61">        return password;</span>
+    }
+
+    public void setPassword(String password) {
+<span class="fc" id="L65">        this.password = password;</span>
+<span class="fc" id="L66">    }</span>
+
+    public int getPermission() {
+<span class="fc" id="L69">        return is_admin;</span>
+    }
+
+    public void setPermission(int permission) {
+<span class="fc" id="L73">        this.is_admin = permission;</span>
+<span class="fc" id="L74">    }</span>
+
+    public String getPermissionAsString(){
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if(is_admin ==NORMAL_PERMISSION) return &quot;Normal&quot;;</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        else if(is_admin ==ADMIN_PERMISSION) return &quot;Admin&quot;;</span>
+<span class="nc" id="L79">        else return &quot;Unknown&quot;;</span>
+    }
+
+    public void setMoney(int money) {
+<span class="nc" id="L83">        this.money = money;</span>
+<span class="nc" id="L84">    }</span>
+
+    public int getMoney() {
+<span class="nc" id="L87">        return this.money;</span>
+    }
+}
+
+/**
+ create table account(
+ id_account int not null auto_increment,
+ is_admin int not null default 0,
+ username varchar(50) not null,
+ password varchar(50) not null,
+ money int not null default 500,
+
+ constraint account_pk primary key(id_account),
+ constraint account_username_uk unique key(username)
+ );
+ */
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

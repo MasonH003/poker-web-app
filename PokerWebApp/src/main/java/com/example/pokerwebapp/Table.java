@@ -161,7 +161,8 @@ public class Table {
         this.openBet = 0;
         this.gameCards = new ArrayList<>();
         this.deck.resetDeck();
-
+        resetPlayerCheckStatus();
+        resetPlayerFoldStatus();
         // consider handling players with no money left here
     }
 
