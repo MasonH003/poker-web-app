@@ -73,7 +73,7 @@ public class CardEvaluate {
       return 0;
   }
     public static void main(String[] args) {
-        ArrayList<Card> hand= new ArrayList<Card>();
+        ArrayList<Card> hand= new ArrayList<>();
 
         Card c1 = new Card(Card.Rank.ACE, Card.Suit.SPADES);
         Card c2 = new Card(Card.Rank.TWO, Card.Suit.CLUBS);
