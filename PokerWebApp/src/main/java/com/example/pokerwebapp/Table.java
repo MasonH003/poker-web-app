@@ -243,7 +243,7 @@ public class Table {
                 if( better == bigBlind )
                     passedAll = true;
             }
-
+            resetTotalRoundBet();
         }
 
         // it is not the first round
@@ -278,16 +278,13 @@ public class Table {
                 if( countActivePlayers() == 1 ) {
                         return;
                     }
-                }
                 if( better == bigBlind )
                     passedAll = true;
-            }
-
-            //reset fold status
+                }
             resetPlayerFoldStatus();
-        // open bet returns to 0 at the end of each betting round
-        this.openBet = 0;
-
+            resetTotalRoundBet();
+            this.openBet = 0;
+        }
         }
 
 

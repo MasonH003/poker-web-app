@@ -56,7 +56,6 @@ public class RoundController {
         }
 
         roundCount++;
-        table.resetTotalRoundBet();
         table.dealFlop();
         System.out.println( "Round " + roundCount + "\n" + table  );
         table.roundOfBetting(roundCount, bigBlind);
@@ -66,7 +65,6 @@ public class RoundController {
         }
 
         roundCount++;
-        table.resetTotalRoundBet();
         table.dealTurn();
         table.roundOfBetting(roundCount, bigBlind);
         if (table.countActivePlayers() == 1) {
@@ -75,7 +73,6 @@ public class RoundController {
         }
 
         roundCount++;
-        table.resetTotalRoundBet();
         table.dealRiver();
         table.roundOfBetting(roundCount, bigBlind);
         if (table.countActivePlayers() == 1) {
