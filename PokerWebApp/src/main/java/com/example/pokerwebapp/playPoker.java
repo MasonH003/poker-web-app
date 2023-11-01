@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
 @WebServlet(name = "playPoker", value = "/play-poker")
 public class playPoker extends HttpServlet {
     private String message;

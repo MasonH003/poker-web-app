@@ -15,6 +15,7 @@
       <img src = "images/FuturetechLogo.jpg" width="125" height="100"/>
     </center>
   <a href="play-poker">PLAY</a>
+  <a href="loginServlet">LOG IN</a>
 </div>
 
 <br/>
