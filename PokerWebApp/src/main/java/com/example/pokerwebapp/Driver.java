@@ -7,9 +7,7 @@ public class Driver {
         Player p1 = new Player("Mason");
         Player p2 = new Player( "Christoph" );
         Player p3 = new Player( "Horacio" );
-        Player p4 = new Player( "Karis" );
-
-
+        Player p4 = new Player( "Karis" );3
 
         ArrayList<Player> playerList = new ArrayList<>();
         playerList.add( p1 );
