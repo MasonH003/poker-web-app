@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Deck.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.example.pokerwebapp</a> &gt; <span class="el_source">Deck.java</span></div><h1>Deck.java</h1><pre class="source lang-java linenums">package com.example.pokerwebapp;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+public class Deck  {
+    private List&lt;Card&gt; cards;
+
+<span class="fc" id="L9">    public Deck() {</span>
+<span class="fc" id="L10">        cards = new ArrayList&lt;Card&gt;();</span>
+<span class="fc" id="L11">        populateDeck();</span>
+<span class="fc" id="L12">    }</span>
+
+    @Override
+    public String toString() {
+<span class="fc" id="L16">        String str = &quot;&quot;;</span>
+<span class="fc bfc" id="L17" title="All 2 branches covered.">        for( Card c : cards )</span>
+<span class="fc" id="L18">            str = str + c.toString() + &quot; &quot;;</span>
+<span class="fc" id="L19">        return str;</span>
+    }
+    private void populateDeck() {
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        for (Card.Suit suit : Card.Suit.values())</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">            for (Card.Rank rank : Card.Rank.values()) {</span>
+<span class="fc" id="L24">                cards.add(new Card(rank, suit));</span>
+            }
+<span class="fc" id="L26">    }</span>
+    public void shuffleDeck()
+    {
+<span class="fc" id="L29">        Collections.shuffle(cards);</span>
+<span class="fc" id="L30">    }</span>
+
+//    public List&lt;com.example.pokerwebapp.Card&gt; deal(int numCards)
+//    {
+//        List&lt;com.example.pokerwebapp.Card&gt; dealtCards = new ArrayList&lt;com.example.pokerwebapp.Card&gt;();
+//        for(int i = 0; i &lt; numCards; i++)
+//        {
+//            dealtCards.add(cards.remove(0));
+//        }
+//        return dealtCards;
+//    }
+
+    public Card dealCard()
+    {
+<span class="fc" id="L44">        return cards.remove(0);</span>
+    }
+    //fix getter to return a copy not a reference
+    public List&lt;Card&gt; getDeck()
+    {
+<span class="fc" id="L49">        return cards;</span>
+    }
+
+    /**
+     * purpose: reset the deck with all cards, shuffled
+     */
+    public void resetDeck() {
+<span class="fc" id="L56">        this.cards = new ArrayList&lt;Card&gt;();</span>
+<span class="fc" id="L57">        populateDeck();</span>
+<span class="fc" id="L58">        shuffleDeck();</span>
+<span class="fc" id="L59">    }</span>
+    public int remainingDeckSize()
+    {
+<span class="fc" id="L62">        return cards.size();</span>
+    }
+//    public static void main(String[] args) {
+//        Deck deck = new Deck();
+//        System.out.println(deck);
+//        Card dealtCard = deck.dealCard();
+//        System.out.println(dealtCard);
+//        System.out.println(deck.remainingDeckSize());
+//        System.out.println(deck.getDeck());
+//        System.out.println(deck.dealCard());
+//        System.out.println(deck.dealCard());
+//        System.out.println(deck.dealCard());
+//    }
+
+}
+
+
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

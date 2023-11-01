@@ -26,6 +26,63 @@ class TableTest {
     }
 
     @Test
+    public void testGetOpenBet() {
+        assertEquals( 0, pokerTable.getOpenBet());
+    }
+
+    @Test
+    public void testSetOpenBet() {
+        pokerTable.setOpenBet( 24 );
+        assertEquals( 24, pokerTable.getOpenBet());
+    }
+
+    @Test
+    public void testIncOpenBet() {
+        pokerTable.setOpenBet( 24 );
+        pokerTable.incOpenBet( 10 );
+        assertEquals( 34, pokerTable.getOpenBet());
+    }
+
+    @Test
+    public void testGetPot() {
+        assertEquals( 0, pokerTable.getPot());
+    }
+
+    @Test
+    public void testSetPot() {
+        pokerTable.setPot( 200 );
+        assertEquals( 200, pokerTable.getPot());
+    }
+
+    @Test
+    public void testIncPot() {
+        pokerTable.setPot( 200 );
+        pokerTable.incPot( 300 );
+        assertEquals( 500, pokerTable.getPot());
+    }
+
+    @Test
+    public void testGetPlayerList() {
+        assertEquals( playerList, pokerTable.getPlayerList());
+    }
+
+    @Test
+    public void testGetGameCards() {
+        pokerTable.dealFlop();
+        assertEquals( 3, pokerTable.getGameCards().size());
+    }
+
+    @Test
+    public void testCountActivePlayers() {
+        assertEquals( 2, pokerTable.countActivePlayers());
+    }
+
+    public void testCountActivePlayersWhenFold() {
+        pokerTable.getPlayerList().get(0).setFold( true );
+        assertEquals( 1, pokerTable.countActivePlayers());
+    }
+
+    @Test
     public void testDealhand() {
 
         // New player and deck:

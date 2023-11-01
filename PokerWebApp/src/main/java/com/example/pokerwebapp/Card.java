@@ -48,10 +48,10 @@ public class Card implements Comparable<Card>{
     {
         return rank + " OF " + suit;
     }
-    public static void main(String[] args)
-    {
-        Card card = new Card(Rank.ACE, Suit.SPADES);
-        System.out.println(card);
-        System.out.println(card.getRankValue());
-    }
+//    public static void main(String[] args)
+//    {
+//        Card card = new Card(Rank.ACE, Suit.SPADES);
+//        System.out.println(card);
+//        System.out.println(card.getRankValue());
+//    }
 }

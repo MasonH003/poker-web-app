@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountDAOTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.example.pokerwebapp.model.dao</a> &gt; <span class="el_source">AccountDAOTest.java</span></div><h1>AccountDAOTest.java</h1><pre class="source lang-java linenums">package com.example.pokerwebapp.model.dao;
+
+
+import com.example.pokerwebapp.model.entity.Account;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+<span class="fc" id="L12">public class AccountDAOTest {</span>
+
+<span class="fc" id="L14">    public static AccountDAO dao = null;</span>
+
+    /***
+     * To facilitate tests, this method create a new User Entity object
+     *
+     * @return User with ID=null, login=&quot;test@test.com&quot;, password=&quot;111&quot;,
+     */
+    public static Account createNewUserEntity(){
+<span class="fc" id="L22">        Account acc = new Account();</span>
+<span class="fc" id="L23">        acc.setUsername(&quot;test@test.com&quot;);</span>
+<span class="fc" id="L24">        acc.setPassword(&quot;111&quot;);</span>
+<span class="fc" id="L25">        acc.setPermission(Account.NORMAL_PERMISSION);</span>
+<span class="fc" id="L26">        return acc;</span>
+    }
+
+    @BeforeAll public static void createDao(){
+<span class="fc" id="L30">        dao = new AccountDAO();</span>
+<span class="fc" id="L31">        dao.setDbTypeOutput(GenericDAO.DbType.TEST);</span>
+<span class="fc" id="L32">    }</span>
+
+    @BeforeEach public void deleteAll(){
+<span class="fc" id="L35">        dao.deleteAll();</span>
+<span class="fc" id="L36">    }</span>
+
+    @AfterAll public static void deleteAllAfter(){
+<span class="fc" id="L39">        dao.deleteAll();</span>
+<span class="fc" id="L40">    }</span>
+
+    @Test public void testCreateUser(){
+<span class="fc" id="L43">        Account newAccount = createNewUserEntity();</span>
+
+<span class="fc" id="L45">        dao.create(newAccount);</span>
+<span class="fc" id="L46">        Account found = dao.read(newAccount.getID());</span>
+<span class="fc" id="L47">        assertAll(&quot;Grouped Assertions of Create User&quot;,</span>
+<span class="fc" id="L48">                () -&gt; assertNotNull(newAccount.getID(), &quot;ID should not be null after creation&quot;),</span>
+<span class="fc" id="L49">                () -&gt; assertNotNull(found, &quot;Found user after reading should not be null&quot;),</span>
+<span class="fc" id="L50">                () -&gt; assertEquals(newAccount.getUsername(), found.getUsername(), &quot;Login for the newAccount must be equal to the Login for the found user&quot;),</span>
+<span class="fc" id="L51">                () -&gt; assertEquals(newAccount.getPermissionAsString(),found.getPermissionAsString())</span>
+        );
+<span class="fc" id="L53">    }</span>
+
+    @Test public void testDeleteUserById(){
+<span class="fc" id="L56">        Account newAccount = createNewUserEntity();</span>
+<span class="fc" id="L57">        dao.create(newAccount);</span>
+<span class="fc" id="L58">        dao.delete(newAccount.getID());</span>
+<span class="fc" id="L59">        Account found = dao.read(newAccount);</span>
+<span class="fc" id="L60">        assertNull(found, &quot;User cannot be in the DB after deletion&quot;);</span>
+<span class="fc" id="L61">    }</span>
+
+    @Test public void smokeTestDeleteWhatDoesNotExists(){
+        //Smoke test has no assertion, we are only testing if this does not raise any exceptions
+<span class="fc" id="L65">        Account notsaved = createNewUserEntity();</span>
+<span class="fc" id="L66">        assertDoesNotThrow(() -&gt; dao.delete(notsaved));</span>
+<span class="fc" id="L67">    }</span>
+
+    @Test public void testUpdateUser(){
+<span class="fc" id="L70">        Account newAccount = createNewUserEntity();</span>
+<span class="fc" id="L71">        String newlogin = &quot;Altered&quot;;</span>
+<span class="fc" id="L72">        dao.create(newAccount);</span>
+<span class="fc" id="L73">        newAccount.setUsername(newlogin);</span>
+<span class="fc" id="L74">        Account updated = dao.update(newAccount);</span>
+<span class="fc" id="L75">        Account found = dao.read(newAccount);</span>
+<span class="fc" id="L76">        assertAll(&quot;Grouped Assertions of Updated User&quot;,</span>
+<span class="fc" id="L77">                () -&gt; assertEquals(updated.getUsername(),newlogin),</span>
+<span class="fc" id="L78">                () -&gt; assertEquals(updated.getID(), found.getID()),</span>
+<span class="fc" id="L79">                () -&gt; assertEquals(updated.getUsername(),found.getUsername()),</span>
+<span class="fc" id="L80">                () -&gt; assertEquals(updated.getPermission(),found.getPermission())</span>
+        );
+<span class="fc" id="L82">    }</span>
+
+    @Test public void testList(){
+<span class="fc" id="L85">        Account u1 = createNewUserEntity();</span>
+<span class="fc" id="L86">        Account u2 = createNewUserEntity();</span>
+<span class="fc" id="L87">        Account u3 = createNewUserEntity();</span>
+<span class="fc" id="L88">        u1.setEmail(&quot;ZZ&quot;);</span>
+<span class="fc" id="L89">        u2.setEmail(&quot;LL&quot;);</span>
+<span class="fc" id="L90">        u3.setEmail(&quot;AA&quot;);</span>
+<span class="fc" id="L91">        dao.create(u1);</span>
+<span class="fc" id="L92">        dao.create(u2);</span>
+<span class="fc" id="L93">        dao.create(u3);</span>
+<span class="nc" id="L94">        java.util.List&lt;Account&gt; lstUser = dao.list(&quot;login&quot;);</span>
+<span class="nc" id="L95">        assertAll(&quot;Grouped Assertions for List User&quot;,</span>
+<span class="nc" id="L96">                () -&gt; assertEquals(lstUser.size(), 3),</span>
+<span class="nc" id="L97">                () -&gt; assertEquals(lstUser.get(0).getUsername(),&quot;AA&quot;),</span>
+<span class="nc" id="L98">                () -&gt; assertEquals(lstUser.get(2).getEmail(),&quot;ZZ&quot;)</span>
+        );
+<span class="nc" id="L100">    }</span>
+
+    @Test
+    public void testCreateUniqueConstraintLogin(){
+<span class="fc" id="L104">        Account user1 = createNewUserEntity();</span>
+<span class="fc" id="L105">        dao.create(user1);</span>
+
+<span class="fc" id="L107">        Account user2 = createNewUserEntity();</span>
+<span class="fc" id="L108">        assertThrows(javax.persistence.PersistenceException.class,</span>
+<span class="nc" id="L109">                () -&gt; dao.create(user2),</span>
+                &quot;Login is a unique field in the DB, cannot have repeated login saved on create.&quot;
+        );//Should not allow to create two user with the same Login
+<span class="fc" id="L112">    }</span>
+
+    @Test
+    public void testUpdateUniqueConstraintLogin(){
+<span class="fc" id="L116">        Account user1 = createNewUserEntity();</span>
+<span class="fc" id="L117">        dao.create(user1);</span>
+
+<span class="fc" id="L119">        Account user2 = createNewUserEntity();</span>
+<span class="fc" id="L120">        user2.setUsername(&quot;different@test.com&quot;);</span>
+<span class="fc" id="L121">        dao.create(user2);</span>
+
+<span class="fc" id="L123">        user2.setUsername( user1.getUsername() ); //Set Login to one that in DB</span>
+
+<span class="fc" id="L125">        assertThrows(javax.persistence.PersistenceException.class,</span>
+<span class="nc" id="L126">                () -&gt; dao.update(user2),</span>
+                &quot;Login is a unique field in the DB, cannot have repeated login saved on update.&quot;
+        );//Should not allow to create two user with the same Login
+<span class="fc" id="L129">    }</span>
+
+    @Test public void testLoginSuccess(){
+<span class="fc" id="L132">        Account newuser = createNewUserEntity();</span>
+
+<span class="fc" id="L134">        dao.create(newuser); //Create a new user</span>
+<span class="fc" id="L135">        Account logged = dao.findUserByUsername(newuser.getUsername());</span>
+<span class="fc" id="L136">        assertAll(&quot;Successful Login Assertions&quot;,</span>
+<span class="fc" id="L137">                ()-&gt; assertNotNull(logged,&quot;Logged user cannot be null&quot;),</span>
+<span class="fc" id="L138">                ()-&gt; assertNotNull(logged.getPassword(), &quot;Password from logged user cannot be null&quot;),</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">                ()-&gt; assertTrue(logged.getPassword().length()&gt;0, &quot;Password cannot be empty&quot;)</span>
+        );
+<span class="fc" id="L141">    }</span>
+
+    @Test public void testLoginFailure(){
+<span class="fc" id="L144">        Account logged = dao.findUserByUsername(&quot;DoesNotExist@nowhere.com&quot;);</span>
+<span class="fc" id="L145">        assertNull(logged, &quot;Logged User must return null if Login not found&quot;);</span>
+<span class="fc" id="L146">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

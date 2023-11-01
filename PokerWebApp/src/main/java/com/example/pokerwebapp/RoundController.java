@@ -11,7 +11,7 @@ public class RoundController {
      *
      * @param table a Game that the round controller will be managing
      */
-    RoundController(Table table) {
+    public RoundController(Table table) {
         this.table = table;
     }
 
@@ -22,7 +22,7 @@ public class RoundController {
      *
      * @return the player with the strongest hand
      */
-    protected Player showdown() {
+    public Player showdown() {
         ArrayList<Player> playerList = (ArrayList<Player>) table.getPlayerList();
         Player best = playerList.get(0);
         for (Player p : playerList) {

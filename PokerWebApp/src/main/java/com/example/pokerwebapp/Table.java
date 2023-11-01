@@ -161,7 +161,8 @@ public class Table {
         this.openBet = 0;
         this.gameCards = new ArrayList<>();
         this.deck.resetDeck();
-
+        resetPlayerCheckStatus();
+        resetPlayerFoldStatus();
         // consider handling players with no money left here
     }
 
@@ -228,6 +229,9 @@ public class Table {
 
             // Fixed? Do betting here
             for(; !passedAll || playerList.get(better).getTotalRoundBet() != this.openBet; better++ ) {
+                if( better >= playerList.size() )
+                    better = 0;
+
                 //don't ask for a choice from player who has already folded in the round
                 if(!playerList.get(better).getFold()) {
                     choice = playerList.get(better).getPlayerChoice(openBet);
@@ -250,6 +254,7 @@ public class Table {
 
                 if( better == bigBlind )
                     passedAll = true;
+                //System.out.println("better: " + better + "\tbig blind: " + bigBlind +"\n");
             }
             //after a round completes reset the openBet to 0 and every players totalroundbet
             this.openBet = 0;
