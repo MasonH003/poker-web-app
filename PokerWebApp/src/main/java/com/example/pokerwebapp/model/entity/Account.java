@@ -124,7 +124,7 @@ public class Account extends BaseEntity {
         this.friends.add(toAdd);
         toAdd.getFriendOf().add(this);
     }
-
+    //move to service layer eventually
     public void deleteFriend(Account toRemove)
     {
         this.friends.remove(toRemove);
@@ -143,5 +143,16 @@ public class Account extends BaseEntity {
 
  constraint account_pk primary key(id_account),
  constraint account_username_uk unique key(username)
+ );
+ */
+
+
+/**
+ CREATE TABLE user_friend (
+ id_account INT,
+ id_friend INT,
+ PRIMARY KEY (id_account, id_friend),
+ FOREIGN KEY (id_account) REFERENCES account(id_account),
+ FOREIGN KEY (id_friend) REFERENCES account(id_account)
  );
  */
