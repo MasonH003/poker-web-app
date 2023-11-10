@@ -3,6 +3,8 @@ package com.example.pokerwebapp.model.entity;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Account extends BaseEntity {
@@ -13,6 +15,19 @@ public class Account extends BaseEntity {
     private String username;
     private String password;
     private int money;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_friend",
+            joinColumns = @JoinColumn(name = "id_account"),
+            inverseJoinColumns = @JoinColumn(name = "id_friend")
+    )
+
+    private Set<Account> friends = new HashSet<>();
+
+    @ManyToMany(mappedBy = "friends")
+    private Set<Account> friendOf = new HashSet<>();
+
 
     public transient static final int NORMAL_PERMISSION = 0;
     public transient static final int ADMIN_PERMISSION = 1;
@@ -85,6 +100,36 @@ public class Account extends BaseEntity {
 
     public int getMoney() {
         return this.money;
+    }
+
+    public Set<Account> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<Account> friends) {
+        this.friends = friends;
+    }
+
+    public Set<Account> getFriendOf() {
+        return friendOf;
+    }
+
+    public void setFriendOf(Set<Account> friendOf) {
+        this.friendOf = friendOf;
+    }
+
+    //move this to the service layer eventually
+    public void addFriend(Account toAdd)
+    {
+        this.friends.add(toAdd);
+        toAdd.getFriendOf().add(this);
+    }
+
+    public void deleteFriend(Account toRemove)
+    {
+        this.friends.remove(toRemove);
+        toRemove.getFriendOf().remove(this);
+
     }
 }
 
