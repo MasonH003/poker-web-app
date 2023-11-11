@@ -4,19 +4,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.*;
 import java.util.Collections;
+import java.math.BigDecimal;
 
 public class CardEvaluate {
-    //function to compare hands
-    public int compareHands(){
-        return 0;
-    }
-
     //function to check if cards are sequential
     public boolean isSequential(Card[] hand)
-    {   //check each card with its right neighbor
-        for(int i=0; i<hand.length-1;i++)
+    {
+        int limit= hand.length-1;
+        //if hand has king, check if hand could be ace straight/straight flush and remove ace from check if so
+        if(hand[0].compareTo(hand[4])==12){
+            limit=limit -1;
+        }
+        //check each card with its right neighbor
+        for(int i=0; i<limit;i++)
         {   //return false if cards aren't sequential
-            if(hand[i].compareTo(hand[i+1])!=1||hand[i].compareTo(hand[i+1])!=12)
+            if(hand[i].compareTo(hand[i+1])!=1)
             {
                 return false;
             }
@@ -40,6 +42,21 @@ public class CardEvaluate {
         }
         return result;
     }
+    //represent hand as a decimal, first two decimal spaces represent first card rank value, third and fourth spaces
+    //represent second card's, etc
+    //cards ranked from highest rank to lowest
+    public double buildRank(Card[] hand){
+        BigDecimal bd0 = BigDecimal.valueOf(hand[0].getRankValue() / 100.0);
+        BigDecimal bd1 = BigDecimal.valueOf(hand[1].getRankValue() / 10000.0);
+        BigDecimal bd2 = BigDecimal.valueOf(hand[2].getRankValue() / 1000000.0);
+        BigDecimal bd3 = BigDecimal.valueOf(hand[3].getRankValue() / 100000000.0);
+        BigDecimal bd4 = BigDecimal.valueOf(hand[4].getRankValue() / 10000000000.0);
+        bd0=bd0.add(bd1);
+        bd0=bd0.add(bd2);
+        bd0=bd0.add(bd3);
+        bd0=bd0.add(bd4);
+        return bd0.doubleValue();
+    }
 
     public double RankHand(Card[] hand) {
         //initialize suit and rank maps
@@ -61,41 +78,49 @@ public class CardEvaluate {
         System.out.println(count_suit);
         System.out.println(count_rank);
 
+        //make decimal representing card, each two decimal spaces represents a card's rank
+        double handValues = buildRank(hand);
+
         //evaluate cards, return float, whole number for hand ranking, and decimal for card ranking to eval same hands
         //if cards are sequential and same suite = straight flush
         if (count_suit.containsValue(5) && isSequential(hand)) {
-            System.out.println(hand[0].getCardRank() + "-high straight flush");
-            return 9.0 + (hand[0].getRankValue()/100.0) +(hand[1].getRankValue()/10000.0)+(hand[2].getRankValue()/1000000.0)
-                    +(hand[3].getRankValue()/100000000.0)+(hand[4].getRankValue()/10000000000.0);
+
+            //if ace high-flush: royal flush, highest flush in game
+            if(handValues==.1312111001){
+                System.out.println("Royal flush");
+                return 9.1413121110;
+            }
+            //else return straight flush
+            else{
+                System.out.println(hand[0].getCardRank() + "-high straight flush");
+                return 9.0 + handValues;
+            }
         }
 
         //same suite non-sequence=flush
         else if (count_suit.containsValue(5)) {
             System.out.println(hand[0].getCardRank() + "-high flush");
-            return 6.0 + (hand[0].getRankValue()/100.0)+(hand[1].getRankValue()/10000.0)+(hand[2].getRankValue()/1000000.0)
-                    +(hand[3].getRankValue()/100000000.0)+(hand[4].getRankValue()/10000000000.0);
+            return 6.0 + handValues;
         }
 
         //sequential with different suites=straight
         else if (isSequential(hand)) {
             System.out.println(hand[0].getCardRank() + " straight");
-            return 5.0 + (hand[0].getRankValue()/100.0)+(hand[1].getRankValue()/10000.0)+(hand[2].getRankValue()/1000000.0)
-                    +(hand[3].getRankValue()/100000000.0)+(hand[4].getRankValue()/10000000000.0);
+            return 5.0 + handValues;
         }
 
-        //if four cards same number = four of a kind, 1st-2nd decimals = 4 rank, 3rd-4th decimal = kicker rank
+        //if four cards same number = four of a kind
         else if (count_rank.containsValue(4)) {
             if(hand[0].compareTo(hand[1])>0)//kicker card is higher rank than rest
             {
-                highOrKick = hand[0];
                 lowOrQuad = hand[4];
             }
             else//four of a kind higher rank than kicker
-            {   highOrKick = hand[4];
+            {
                 lowOrQuad = hand[0];
             }
             System.out.println("Four of a kind, "+lowOrQuad.getCardRank());
-            return 8.0 + (lowOrQuad.getRankValue() / 100.0) + (highOrKick.getRankValue() / 10000.0);
+            return 8.0 + handValues;
         }
 
         //check for hands with three cards and/or two cards of same ranks
@@ -107,15 +132,12 @@ public class CardEvaluate {
                 if(flag2!=null){
                     Card triplet=new Card(entry.getKey(), Card.Suit.DIAMONDS);
                     System.out.println("Full house, "+ triplet.getCardRank() +" over "+ flag2.getCardRank());
-                    return 7.0 + (triplet.getRankValue()/100.0) + (flag2.getRankValue()/10000.0);
+                    return 7.0 + handValues;
                 }
                 //if three cards of same rank = three of a kind
                 else{
-                    //get kickers in seperate list
-                    List<Card> copy=getKickers(hand,entry.getValue());
-
                     System.out.println("Three of a kind, "+hand[2].getCardRank());
-                    return 4+(hand[2].getRankValue()/100.0)+(copy.get(0).getRankValue()/10000.0)+(copy.get(1).getRankValue()/1000000.0);
+                    return 4+handValues;
                 }
             }
 
@@ -123,8 +145,7 @@ public class CardEvaluate {
                 //if two pairs of two ranks = two pair
                 if(flag2!=null) {
                     Card second=new Card(entry.getKey(),Card.Suit.DIAMONDS);
-                    //get kicker
-                    Card kick=getKicker(hand,flag2.getRankValue(),second.getRankValue());
+
                     //rank higher pair over lower
                     if(flag2.compareTo(second)>0){
                         highOrKick=flag2;
@@ -135,60 +156,32 @@ public class CardEvaluate {
                         lowOrQuad=flag2;
                     }
                     System.out.println("Two pair, "+ highOrKick.getCardRank() +" and "+ lowOrQuad.getCardRank());
-                    return 3.0+(highOrKick.getRankValue()/100.0)+(lowOrQuad.getRankValue()/10000.0)+(kick.getRankValue()/1000000.0);
+                    return 3.0+handValues;
                 }
                 else {flag2= new Card(entry.getKey(), Card.Suit.DIAMONDS);}
             }
         }
         //if one pair of a rank = one pair
         if(flag2!=null){
-            //get kickers in seperate list
-            List<Card> copy=getKickers(hand,flag2.getRankValue());
             System.out.println("One pair, "+ flag2.getCardRank());
-            return 2+(flag2.getRankValue()/100.0)+(copy.get(0).getRankValue()/10000.0)+(copy.get(1).getRankValue()/1000000.0)
-                    +(copy.get(2).getRankValue()/100000000.0);
+            return 2+handValues;
         }
 
       //else, high card, rank by card rank
       else{
           System.out.println("High card: " + hand[0].getCardRank());
-          return 1+(hand[0].getRankValue()/100.0)+(hand[1].getRankValue()/10000.0)+(hand[2].getRankValue()/1000000.0)
-                  +(hand[3].getRankValue()/100000000.0)+(hand[4].getRankValue()/10000000000.0);
+          return 1+handValues;
       }
-  }
-
-    //function to get kicker
-    public Card getKicker(Card[] hand, int nonKick, int secondNonKick)
-    {
-        Card kick=hand[0];//placeholder
-        for(Card c: hand)
-        {
-            if(c.getRankValue()!=nonKick && c.getRankValue()!=secondNonKick)
-                return c;
-        }
-        return kick;
-    }
-
-  //function to get kickers
-  public List<Card> getKickers(Card[] hand, int nonKick)
-  {
-      List<Card> copy=new ArrayList<>();
-      for(Card c: hand)
-      {
-          if(c.getRankValue()!=nonKick)
-              copy.add(c);
-      }
-      return copy;
   }
 
     public static void main(String[] args) {
         Card[] hand=new Card[5];
 
-        Card c1 = new Card(Card.Rank.KING, Card.Suit.DIAMONDS);
-        Card c2 = new Card(Card.Rank.KING, Card.Suit.CLUBS);
-        Card c3 = new Card(Card.Rank.FIVE, Card.Suit.HEARTS);
-        Card c4 = new Card(Card.Rank.FIVE, Card.Suit.SPADES);
-        Card c5 = new Card(Card.Rank.SIX, Card.Suit.SPADES);
+        Card c1 = new Card(Card.Rank.KING, Card.Suit.SPADES);
+        Card c2 = new Card(Card.Rank.QUEEN, Card.Suit.SPADES);
+        Card c3 = new Card(Card.Rank.TWO, Card.Suit.SPADES);
+        Card c4 = new Card(Card.Rank.FOUR, Card.Suit.SPADES);
+        Card c5 = new Card(Card.Rank.ACE, Card.Suit.CLUBS);
         hand[0]=c1;
         hand[1]=c2;
         hand[2]=c3;
@@ -200,5 +193,35 @@ public class CardEvaluate {
         for (Card num : hand) {
             System.out.print(num + " ");
         }
+
+        Card[] hand1 ={new Card(Card.Rank.KING, Card.Suit.SPADES), new Card(Card.Rank.QUEEN, Card.Suit.SPADES),
+                new Card(Card.Rank.TEN, Card.Suit.SPADES), new Card(Card.Rank.JACK, Card.Suit.SPADES), new Card(Card.Rank.ACE, Card.Suit.SPADES)};
+        Card[] hand2 ={new Card(Card.Rank.ACE, Card.Suit.CLUBS), new Card(Card.Rank.FOUR, Card.Suit.HEARTS),
+                new Card(Card.Rank.FOUR, Card.Suit.CLUBS), new Card(Card.Rank.FOUR, Card.Suit.DIAMONDS), new Card(Card.Rank.FOUR, Card.Suit.SPADES)};
+        Card[] hand3 ={new Card(Card.Rank.SIX, Card.Suit.HEARTS), new Card(Card.Rank.SIX, Card.Suit.SPADES),
+                new Card(Card.Rank.SIX, Card.Suit.DIAMONDS), new Card(Card.Rank.TEN, Card.Suit.HEARTS), new Card(Card.Rank.TEN, Card.Suit.CLUBS)};
+        Card[] hand4 ={new Card(Card.Rank.KING, Card.Suit.SPADES), new Card(Card.Rank.TWO, Card.Suit.SPADES),
+                new Card(Card.Rank.TEN, Card.Suit.SPADES), new Card(Card.Rank.JACK, Card.Suit.SPADES), new Card(Card.Rank.ACE, Card.Suit.SPADES)};
+        Card[] hand5 ={new Card(Card.Rank.KING, Card.Suit.SPADES), new Card(Card.Rank.QUEEN, Card.Suit.SPADES),
+                new Card(Card.Rank.TEN, Card.Suit.CLUBS), new Card(Card.Rank.JACK, Card.Suit.SPADES), new Card(Card.Rank.ACE, Card.Suit.SPADES)};
+        Card[] hand6 ={new Card(Card.Rank.SIX, Card.Suit.HEARTS), new Card(Card.Rank.SIX, Card.Suit.SPADES),
+                new Card(Card.Rank.SIX, Card.Suit.DIAMONDS), new Card(Card.Rank.NINE, Card.Suit.HEARTS), new Card(Card.Rank.TEN, Card.Suit.CLUBS)};
+        Card[] hand7 ={new Card(Card.Rank.SIX, Card.Suit.HEARTS), new Card(Card.Rank.FIVE, Card.Suit.SPADES),
+                new Card(Card.Rank.SIX, Card.Suit.DIAMONDS), new Card(Card.Rank.TEN, Card.Suit.HEARTS), new Card(Card.Rank.TEN, Card.Suit.CLUBS)};
+        Card[] hand8 ={new Card(Card.Rank.SIX, Card.Suit.HEARTS), new Card(Card.Rank.SIX, Card.Suit.SPADES),
+                new Card(Card.Rank.TWO, Card.Suit.DIAMONDS), new Card(Card.Rank.NINE, Card.Suit.HEARTS), new Card(Card.Rank.TEN, Card.Suit.CLUBS)};
+        Card[] hand9 ={new Card(Card.Rank.KING, Card.Suit.CLUBS), new Card(Card.Rank.QUEEN, Card.Suit.HEARTS),
+                new Card(Card.Rank.JACK, Card.Suit.DIAMONDS), new Card(Card.Rank.TWO, Card.Suit.HEARTS), new Card(Card.Rank.THREE, Card.Suit.CLUBS)};
+
+        System.out.println(e.RankHand(hand1));
+        System.out.println(e.RankHand(hand2));
+        System.out.println(e.RankHand(hand3));
+        System.out.println(e.RankHand(hand4));
+        System.out.println(e.RankHand(hand5));
+        System.out.println(e.RankHand(hand6));
+        System.out.println(e.RankHand(hand7));
+        System.out.println(e.RankHand(hand8));
+        System.out.println(e.RankHand(hand9));
+
     }
 }
