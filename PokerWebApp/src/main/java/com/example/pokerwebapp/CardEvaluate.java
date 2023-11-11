@@ -1,6 +1,5 @@
 package com.example.pokerwebapp;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.*;
 import java.util.Collections;
@@ -75,6 +74,7 @@ public class CardEvaluate {
         //sort by values
         Arrays.sort(hand, Collections.reverseOrder());
         count_rank= sortByValue(count_rank);
+        //print for tests
         System.out.println(count_suit);
         System.out.println(count_rank);
 
@@ -193,8 +193,8 @@ public class CardEvaluate {
         for (Card num : hand) {
             System.out.print(num + " ");
         }
-
-        Card[] hand1 ={new Card(Card.Rank.KING, Card.Suit.SPADES), new Card(Card.Rank.QUEEN, Card.Suit.SPADES),
+        //tests
+        /*Card[] hand1 ={new Card(Card.Rank.KING, Card.Suit.SPADES), new Card(Card.Rank.QUEEN, Card.Suit.SPADES),
                 new Card(Card.Rank.TEN, Card.Suit.SPADES), new Card(Card.Rank.JACK, Card.Suit.SPADES), new Card(Card.Rank.ACE, Card.Suit.SPADES)};
         Card[] hand2 ={new Card(Card.Rank.ACE, Card.Suit.CLUBS), new Card(Card.Rank.FOUR, Card.Suit.HEARTS),
                 new Card(Card.Rank.FOUR, Card.Suit.CLUBS), new Card(Card.Rank.FOUR, Card.Suit.DIAMONDS), new Card(Card.Rank.FOUR, Card.Suit.SPADES)};
@@ -221,7 +221,7 @@ public class CardEvaluate {
         System.out.println(e.RankHand(hand6));
         System.out.println(e.RankHand(hand7));
         System.out.println(e.RankHand(hand8));
-        System.out.println(e.RankHand(hand9));
+        System.out.println(e.RankHand(hand9));*/
 
     }
 }
