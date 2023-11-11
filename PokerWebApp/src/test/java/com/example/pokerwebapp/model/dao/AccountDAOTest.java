@@ -7,9 +7,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountDAOTest {
@@ -28,86 +25,19 @@ public class AccountDAOTest {
         acc.setPermission(Account.NORMAL_PERMISSION);
         return acc;
     }
-    public static Account createNewUserEntity2(){
-        Account acc = new Account();
-        acc.setUsername("test2@test.com");
-        acc.setPassword("222");
-        acc.setPermission(Account.NORMAL_PERMISSION);
-        return acc;
-    }
-    public static Account createNewUserEntity3(){
-        Account acc = new Account();
-        acc.setUsername("test3@test.com");
-        acc.setPassword("333");
-        acc.setPermission(Account.NORMAL_PERMISSION);
-        return acc;
-    }
-
 
     @BeforeAll public static void createDao(){
         dao = new AccountDAO();
         dao.setDbTypeOutput(GenericDAO.DbType.TEST);
     }
 
-//    @BeforeEach public void deleteAll(){
-//        dao.deleteAll();
-//    }
-
-//    @AfterAll public static void deleteAllAfter(){
-//        dao.deleteAll();
-//    }
-
-    @Test
-    public void addFriendTest() {
-
+    @BeforeEach public void deleteAll(){
+        dao.deleteAll();
     }
 
-    @Test
-    public void addDeleteFriendTest(){
-        Account accountOne = createNewUserEntity();
-        Account accountTwo = createNewUserEntity2();
-
-        dao.create(accountOne);
-        dao.create(accountTwo);
-
-        accountOne.addFriend(accountTwo);
-
-        Account updatedAccountOne = dao.update(accountOne);
-        Account updatedAccountTwo = dao.update(accountTwo);
-
-
-
-//        updatedAccountOne.deleteFriend(updatedAccountTwo);
-//        updatedAccountOne = dao.update(accountOne);
-//        updatedAccountTwo = dao.update(accountTwo);
-
-
+    @AfterAll public static void deleteAllAfter(){
+        dao.deleteAll();
     }
-
-//    @Test
-//    public void testSetFriends() {
-//        Account userOne = createNewUserEntity();
-//        Account userTwo = createNewUserEntity2();
-//        Account userThree = createNewUserEntity3();
-//
-//        //userTwo and userThree are friends of userOne
-//        Set<Account> friendsOfSet = new HashSet<>();
-//        friendsOfSet.add(userOne);
-//        userTwo.setFriendOf(friendsOfSet);
-//        userThree.setFriendOf(friendsOfSet);
-//
-//
-//        dao.create(userTwo);
-//        dao.create(userThree);
-//        //userOne is friends with userTwo and userThree
-//        Set<Account> friendsSet = new HashSet<>();
-//        friendsSet.add(userTwo);
-//        friendsSet.add(userThree);
-//
-//        userOne.setFriends(friendsSet);
-//
-//        dao.create(userOne);
-//    }
 
     @Test public void testCreateUser(){
         Account newAccount = createNewUserEntity();
