@@ -84,4 +84,34 @@ public class AccountService {
 
         return dao.update(u);
     }
+
+    /***
+     * Add a friend
+     * @param account
+     * @param accountToAdd
+     */
+    public static void addFriend(Account account, Account accountToAdd)
+    {
+        account.getFriends().add(accountToAdd);
+        accountToAdd.getFriendOf().add(account);
+        dao.update(account);
+    //    dao.update(accountToAdd);
+
+    }
+
+
+    /***
+     * Add a friend
+     * @param account
+     * @param accountToRemove
+     */
+    public static void removeFriend(Account account, Account accountToRemove)
+    {
+        account.getFriends().remove(accountToRemove);
+        accountToRemove.getFriendOf().remove(account);
+        dao.update(account);
+       // dao.update(accountToRemove);
+
+    }
+
 }
