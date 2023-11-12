@@ -9,12 +9,18 @@
 <html>
 <head>
     <title>Registration Successful</title>
+    <jsp:include page="styling.jsp"/>
 </head>
 <body>
 
-<div class="col-12 col-md-2 d-grid">
-    <a type="button" class="btn btn-danger me-2" href="login.jsp"> Login</a>
+<div class="container">
+    <h1>Registration Successful!</h1>
+    <center>
+        <img src = "images/FuturetechLogo.jpg" width="125" height="100"/>
+    </center>
 </div>
+
+<a href="login.jsp" class="blue-button">LOGIN</a>
 
 
 </body>

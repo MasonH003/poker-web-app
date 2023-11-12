@@ -176,7 +176,7 @@ public class Account extends BaseEntity {
  id_account int not null auto_increment,
  is_admin int not null default 0,
  username varchar(50) not null,
- password varchar(50) not null,
+ password varchar(5000) not null,
  money int not null default 500,
 
  constraint account_pk primary key(id_account),
