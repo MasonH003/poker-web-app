@@ -1,6 +1,7 @@
 package com.example.pokerwebapp.controller.service;
 
 import com.example.pokerwebapp.model.dao.AccountDAO;
+import com.example.pokerwebapp.model.dao.GenericDAO;
 import com.example.pokerwebapp.model.entity.Account;
 import com.example.pokerwebapp.util.PasswordUtil;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 public class AccountService {
 
     public static AccountDAO dao = new AccountDAO();
+
 
     public static void setDAO(AccountDAO dao){
         AccountService.dao = dao;

@@ -6,6 +6,23 @@
   To change this template use File | Settings | File Templates.
 --%>
 
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%  String error = request.getParameter("error");
+    String errorMessage = "";
+
+    if(error != null) {
+        switch (error) {
+            case "1":
+                errorMessage = "Account username already exists! Please use a different username.";
+                break;
+            case "2":
+                errorMessage = "Unexpected error. Please contact the web master.";
+                break;
+        }
+    }
+
+%>
+
 <html>
 <head>
     <title>Register New Account</title>
@@ -13,26 +30,47 @@
 <body>
 <%-- Here you put the content for this page --%>
 
-<form method = "post" action = "registerAccountServlet">
-    <label for = "txt_reg_username"> Username: </label>
-    <input class= "form-control" type = "email" name = "txt_reg_username" id = "txt_reg_username" required />
-    <label for = "txt_reg_pw"> Password: </label>
-    <input class = "form-control" type= "password" name = "txt_reg_pw" id ="txt_reg_pw" autocomplete = "off" required/>
-    <label for = "txt_check_pw"> Re-enter password: </label>
-    <input class = "form-control" type= "password" name = "txt_check_pw" id = "txt_check_pw" autocomplete = "off" required/>
+<div>
+    <form method = "post" action = "registerAccountServlet">
+        <label for = "txt_reg_username"> Username: </label>
+        <input class= "form-control" type = "email" name = "txt_reg_username" id = "txt_reg_username" required />
+        <label for = "txt_reg_pw"> Password: </label>
+        <input class = "form-control" type= "password" name = "txt_reg_pw" id ="txt_reg_pw" autocomplete = "off" required/>
+        <label for = "txt_check_pw"> Re-enter password: </label>
+        <input class = "form-control" type= "password" name = "txt_check_pw" id = "txt_check_pw" autocomplete = "off" required/>
 
-    <div class="row mb-2">
-        <div class="offset-md-1 col-12 col-md-2 d-grid">
-            <button type="submit" onclick="return checkRegisterForm()" class="btn btn-success me-2"> Register</button>
+        <div class="row mb-2">
+            <div class="offset-md-1 col-12 col-md-2 d-grid">
+                <button type="submit" onclick="return checkRegisterForm()" class="btn btn-success me-2"> Register</button>
+            </div>
+            <div class="col-12 col-md-2 d-grid">
+                <button type="reset" class="btn btn-warning me-2" id="clear_button"> Clear</button>
+            </div>
+            <div class="col-12 col-md-2 d-grid">
+                <a type="button" class="btn btn-danger me-2" href="index.jsp"> Return</a>
+            </div>
         </div>
-        <div class="col-12 col-md-2 d-grid">
-            <button type="reset" class="btn btn-warning me-2" id="clear_button"> Clear</button>
-        </div>
-        <div class="col-12 col-md-2 d-grid">
-            <a type="button" class="btn btn-danger me-2" href="index.jsp"> Return</a>
+    </form>
+</div>
+
+<% if(errorMessage.length()>0){ %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong>Error!</strong> <%= errorMessage %>
+            </div>
         </div>
     </div>
-</form>
+</div>
+<% } /*close if*/%>
+
+
+<br/><br/>
+
+
+
 
 <script type="text/javascript">
 function checkRegisterForm(){
