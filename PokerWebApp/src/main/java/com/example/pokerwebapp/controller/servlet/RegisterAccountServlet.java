@@ -15,13 +15,13 @@ public class RegisterAccountServlet extends HttpServlet {
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String strLogin = request.getParameter("txt_reg_username");
         String strPass = request.getParameter("txt_reg_pw");
-        //strPass = "garbage";
-        //strLogin = "garbage@garbage.com";
+
         //System.out.println("hello!:) "+strLogin+strPass);
         Account newUser = new Account();
         newUser.setUsername(strLogin);
         newUser.setPassword(strPass);
-
+        newUser.setMoney( 500 );
+        newUser.setPermission( 0 );
 
 
         Account registered = AccountService.registerUser(newUser);
