@@ -8,7 +8,7 @@ import com.example.pokerwebapp.model.entity.Account;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-@WebServlet(name = "registerAccountServlet", value = "/registerUserServlet")
+@WebServlet(name = "registerAccountServlet", value = "/registerAccountServlet")
 public class RegisterAccountServlet extends HttpServlet {
 
 
@@ -16,19 +16,23 @@ public class RegisterAccountServlet extends HttpServlet {
         String strLogin = request.getParameter("txt_reg_username");
         String strPass = request.getParameter("txt_reg_pw");
 
+        //System.out.println("hello!:) "+strLogin+strPass);
         Account newUser = new Account();
         newUser.setUsername(strLogin);
         newUser.setPassword(strPass);
+        newUser.setMoney( 500 );
+        newUser.setPermission( 0 );
+
 
         Account registered = AccountService.registerUser(newUser);
         if(registered==null) {
-            response.sendRedirect("register.jsp?error=1");
+            response.sendRedirect("registernewaccount.jsp?error=1");
         } else {
             //Lets also "log-in"
             HttpSession session = request.getSession();
             registered.setPassword("");
             session.setAttribute("User", registered);
-            response.sendRedirect("user/registrationsuccess.jsp");
+            response.sendRedirect("registrationsuccess.jsp");
         }
     }
 
