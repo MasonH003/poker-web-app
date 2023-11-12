@@ -21,17 +21,15 @@ public class AddFriendServlet extends HttpServlet {
 
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException{
 
-        dao.setDbTypeOutput(AccountDAO.DbType.TEST);
 
         //Account of the currently logged-in user
-        Account logged = (Account) request.getSession().getAttribute("User");
+        Account logged = (Account) request.getSession().getAttribute("Account");
 
         String accountUsernameToAdd = request.getParameter("friend");
 
         //Account of the person you want to add
         Account toAdd = dao.findUserByUsername(accountUsernameToAdd);
 
-        AccountService.setDAO(dao);
         AccountService.addFriend(logged,toAdd);
 
         response.sendRedirect("testfriendaction.jsp");

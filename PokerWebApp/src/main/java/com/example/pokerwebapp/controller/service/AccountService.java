@@ -95,9 +95,9 @@ public class AccountService {
     public static void addFriend(Account account, Account accountToAdd)
     {
         account.getFriends().add(accountToAdd);
-        accountToAdd.getFriendOf().add(account);
+       // accountToAdd.getFriendOf().add(account);
         dao.update(account);
-        dao.update(accountToAdd);
+       // dao.update(accountToAdd);
     }
 
 
