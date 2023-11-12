@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class Table {
 
+    private String name;
     private Deck deck;
     private List<Card> gameCards;
     private List<Player> playerList;
@@ -22,7 +23,7 @@ public class Table {
         this.openBet = 0;
     }
 
-    public String setName(String name) {return name;}
+    public String getName(String name) {return name;}
 
     public void setName(String name) {this.name = name;}
 
