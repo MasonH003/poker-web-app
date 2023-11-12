@@ -22,9 +22,9 @@ public class Table {
         this.openBet = 0;
     }
 
-    public String setName(String name) {
-        this.name = name;
-    }
+    public String setName(String name) {return name;}
+
+    public void setName(String name) {this.name = name;}
 
     public List<Card> getGameCards() {
         return gameCards;
