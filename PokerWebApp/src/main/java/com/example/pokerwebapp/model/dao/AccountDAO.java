@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 /***
- * UserDAO is a subclass of GenericDAO
+ * AccountDAO is a subclass of GenericDAO
  * It is a good practice to extend GenericDAO for each specific entity
  * Then we can add custom methods for this DAO (mostly, custom list operations)
  */
