@@ -7,8 +7,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 public abstract class TableDAO extends GenericDAO<Table> {
-    public AccountDAO(){
-        super(Account.class);
+    public TableDAO(){
+        super(Table.class);
     }
 
     public Table findTable(String find){
