@@ -23,6 +23,16 @@
     font-size: 36px;
   }
 
+  button, a {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+
   .blue-button {
     display: inline-block;
     padding: 10px 20px;
@@ -34,7 +44,8 @@
     border-radius: 5px;
     /*border: 2px solid #2980b9;*/
     transition: background-color 0.3s ease;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    margin-top: 5px;
   }
 
   .blue-button:hover {
