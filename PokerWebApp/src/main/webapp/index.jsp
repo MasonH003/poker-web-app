@@ -21,6 +21,8 @@
 
 <a href="login.jsp" class="blue-button">LOG IN</a>
 
+<a href="registernewaccount.jsp" class="blue-button">REGISTER</a>
+
 </body>
 
 </html>
