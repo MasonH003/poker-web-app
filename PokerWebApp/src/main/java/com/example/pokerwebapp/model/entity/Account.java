@@ -16,6 +16,7 @@ public class Account extends BaseEntity {
     private String password;
     private int money;
 
+    // bidirectional relationship
     @ManyToMany
     @JoinTable(
             name = "user_friend",
@@ -27,6 +28,16 @@ public class Account extends BaseEntity {
 
     @ManyToMany(mappedBy = "friends")
     private Set<Account> friendOf = new HashSet<>();
+
+    // unidirectional relationship
+    @ManyToMany
+    @JoinTable(
+            name = "user_block",
+            joinColumns = @JoinColumn(name = "id_account"),
+            inverseJoinColumns = @JoinColumn(name = "id_blocked")
+    )
+    private Set<Account> blockedAccounts = new HashSet<>();
+
 
 
     public transient static final int NORMAL_PERMISSION = 0;
@@ -118,6 +129,14 @@ public class Account extends BaseEntity {
         this.friendOf = friendOf;
     }
 
+    public Set<Account> getBlockedAccounts() {
+        return blockedAccounts;
+    }
+
+    public void setBlockedAccounts(Set<Account> blockedAccounts) {
+        this.blockedAccounts = blockedAccounts;
+    }
+
     //move this to the service layer eventually
     public void addFriend(Account toAdd)
     {
@@ -130,6 +149,18 @@ public class Account extends BaseEntity {
         this.friends.remove(toRemove);
         toRemove.getFriendOf().remove(this);
 
+    }
+
+    //move to service layer
+    public void blockAccount(Account toBlock)
+    {
+        this.blockedAccounts.add(toBlock);
+    }
+
+    //move to service layer
+    public void unblockAccount(Account toUnblock)
+    {
+        this.blockedAccounts.remove(toUnblock);
     }
 }
 
@@ -154,5 +185,15 @@ public class Account extends BaseEntity {
  PRIMARY KEY (id_account, id_friend),
  FOREIGN KEY (id_account) REFERENCES account(id_account),
  FOREIGN KEY (id_friend) REFERENCES account(id_account)
+ );
+ */
+
+/**
+ CREATE TABLE user_block (
+ id_account INT,
+ id_blocked INT,
+ PRIMARY KEY (id_account, id_blocked),
+ FOREIGN KEY (id_account) REFERENCES account(id_account),
+ FOREIGN KEY (id_blocked) REFERENCES account(id_account)
  );
  */

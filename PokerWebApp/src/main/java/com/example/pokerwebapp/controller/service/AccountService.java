@@ -96,7 +96,6 @@ public class AccountService {
         accountToAdd.getFriendOf().add(account);
         dao.update(account);
     //    dao.update(accountToAdd);
-
     }
 
 
@@ -112,6 +111,17 @@ public class AccountService {
         dao.update(account);
        // dao.update(accountToRemove);
 
+    }
+    public static void blockAccount(Account account, Account toBlock)
+    {
+        account.getFriends().add(toBlock);
+        dao.update(account);
+    }
+
+    public static void unblockAccount(Account account, Account toBlock)
+    {
+        account.getBlockedAccounts().remove(toBlock);
+        dao.update(account);
     }
 
 }
