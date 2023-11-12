@@ -13,24 +13,27 @@
 </head>
 <body>
 
-
-
-
-    <h1> Bootstrap Test</h1>
-
-
-    <form method="post" action="accountActionServlet">
+    <form method="post" action="addFriendServlet">
         <div class="mb-3">
-            <label for="accountID" class="form-label">AccountID</label>
-            <input type="number" class="form-control" id="accountID" name="accountID" aria-describedby="emailHelp">
-        </div>
-        <div class="mb-3">
-            <label for="friendID" class="form-label">FriendID</label>
-            <input type="number" class="form-control" name="friendID" id="friendID">
+            <input type="email" class="form-control" id="friend" name="friend">
         </div>
         <button type="submit" class="btn btn-primary">Add Friend</button>
     </form>
 
+
+    <form method="post" action="removeFriendServlet">
+        <div class="mb-3">
+            <input type="email" class="form-control" id="remove" name="remove">
+        </div>
+        <button type="submit" class="btn btn-primary">Remove Friend</button>
+    </form>
+
+    <form method="post" action="blockAccountServlet">
+        <div class="mb-3">
+            <input type="email" class="form-control" id="block" name="block">
+        </div>
+        <button type="submit" class="btn btn-primary">Block Friend</button>
+    </form>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>

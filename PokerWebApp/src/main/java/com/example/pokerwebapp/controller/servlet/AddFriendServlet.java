@@ -24,7 +24,7 @@ public class AddFriendServlet extends HttpServlet {
         dao.setDbTypeOutput(AccountDAO.DbType.TEST);
 
         //Account of the currently logged-in user
-        Account logged = (Account) request.getSession().getAttribute("Account");
+        Account logged = (Account) request.getSession().getAttribute("User");
 
         String accountUsernameToAdd = request.getParameter("friend");
 
@@ -34,7 +34,7 @@ public class AddFriendServlet extends HttpServlet {
         AccountService.setDAO(dao);
         AccountService.addFriend(logged,toAdd);
 
-        response.sendRedirect("indextemp.jsp");
+        response.sendRedirect("testfriendaction.jsp");
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
