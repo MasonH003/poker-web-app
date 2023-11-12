@@ -29,7 +29,7 @@
             <button type="reset" class="btn btn-warning me-2" id="clear_button"> Clear</button>
         </div>
         <div class="col-12 col-md-2 d-grid">
-            <a type="button" class="btn btn-danger me-2" href="index.jsp"> Cancel</a>
+            <a type="button" class="btn btn-danger me-2" href="index.jsp"> Return</a>
         </div>
     </div>
 </form>
