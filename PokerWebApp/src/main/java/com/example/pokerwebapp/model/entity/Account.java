@@ -17,7 +17,7 @@ public class Account extends BaseEntity {
     private int money;
 
     // bidirectional relationship
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_friend",
             joinColumns = @JoinColumn(name = "id_account"),
