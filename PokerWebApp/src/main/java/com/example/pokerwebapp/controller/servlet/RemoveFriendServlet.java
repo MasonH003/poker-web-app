@@ -16,11 +16,12 @@ public class RemoveFriendServlet extends HttpServlet {
     protected AccountDAO dao = new AccountDAO();
 
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Account logged = (Account) request.getSession().getAttribute("User");
-        String accountUsernameToAdd = request.getParameter("friend");
-        Account toRemove = dao.findUserByUsername(accountUsernameToAdd);
-        AccountService.setDAO(dao);
+        Account logged = (Account) request.getSession().getAttribute("Account");
+        String accountUsernameToRemove = request.getParameter("remove");
+        Account toRemove = dao.findUserByUsername(accountUsernameToRemove);
         AccountService.removeFriend(logged,toRemove);
+        response.sendRedirect("testfriendaction.jsp");
+
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

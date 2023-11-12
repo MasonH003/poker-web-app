@@ -26,7 +26,7 @@ public class Account extends BaseEntity {
 
     private Set<Account> friends = new HashSet<>();
 
-    @ManyToMany(mappedBy = "friends")
+    @ManyToMany(mappedBy = "friends" ,fetch = FetchType.EAGER)
     private Set<Account> friendOf = new HashSet<>();
 
     // unidirectional relationship
