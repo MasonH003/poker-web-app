@@ -15,7 +15,9 @@ public class RegisterAccountServlet extends HttpServlet {
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String strLogin = request.getParameter("txt_reg_username");
         String strPass = request.getParameter("txt_reg_pw");
-        System.out.println("hello!:) "+strLogin+strPass);
+        //strPass = "garbage";
+        //strLogin = "garbage@garbage.com";
+        //System.out.println("hello!:) "+strLogin+strPass);
         Account newUser = new Account();
         newUser.setUsername(strLogin);
         newUser.setPassword(strPass);
@@ -30,7 +32,7 @@ public class RegisterAccountServlet extends HttpServlet {
             HttpSession session = request.getSession();
             registered.setPassword("");
             session.setAttribute("User", registered);
-            response.sendRedirect("user/registrationsuccess.jsp");
+            response.sendRedirect("registrationsuccess.jsp");
         }
     }
 

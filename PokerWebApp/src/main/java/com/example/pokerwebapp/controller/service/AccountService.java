@@ -24,8 +24,8 @@ public class AccountService {
      */
     public static Account registerUser(Account newAccount){
         try {
-            String hashed = PasswordUtil.hash(newAccount.getPassword());
-            newAccount.setPassword(hashed);
+            //String hashed = PasswordUtil.hash(newAccount.getPassword());
+            //newAccount.setPassword(hashed);
             newAccount = dao.create(newAccount);
         }catch(javax.persistence.PersistenceException ex){
             //Repeated login
