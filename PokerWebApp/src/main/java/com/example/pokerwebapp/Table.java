@@ -13,13 +13,17 @@ public class Table {
     private final int SMALLBLINDBET = 2;
 
     public Table(List<Player> playerList ) {
-
+        name = "";
         deck = new Deck();
         deck.shuffleDeck();
         gameCards = new ArrayList<>();
         this.playerList = playerList;
         this.pot = 0;
         this.openBet = 0;
+    }
+
+    public String setName(String name) {
+        this.name = name;
     }
 
     public List<Card> getGameCards() {
