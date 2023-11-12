@@ -26,28 +26,34 @@
 <html>
 <head>
     <title>Register New Account</title>
+    <jsp:include page="styling.jsp"/>
 </head>
 <body>
 <%-- Here you put the content for this page --%>
 
 <div>
     <form method = "post" action = "registerAccountServlet">
-        <label for = "txt_reg_username"> Username: </label>
-        <input class= "form-control" type = "email" name = "txt_reg_username" id = "txt_reg_username" required />
-        <label for = "txt_reg_pw"> Password: </label>
-        <input class = "form-control" type= "password" name = "txt_reg_pw" id ="txt_reg_pw" autocomplete = "off" required/>
-        <label for = "txt_check_pw"> Re-enter password: </label>
-        <input class = "form-control" type= "password" name = "txt_check_pw" id = "txt_check_pw" autocomplete = "off" required/>
-
+        <div class="form-group">
+            <label for = "txt_reg_username"> Username: </label>
+            <input class= "form-control" type = "email" name = "txt_reg_username" id = "txt_reg_username" required />
+        </div>
+        <div class="form-group">
+            <label for = "txt_reg_pw"> Password: </label>
+            <input class = "form-control" type= "password" name = "txt_reg_pw" id ="txt_reg_pw" autocomplete = "off" required/>
+        </div>
+        <div class="form-group">
+            <label for = "txt_check_pw"> Re-enter password: </label>
+            <input class = "form-control" type= "password" name = "txt_check_pw" id = "txt_check_pw" autocomplete = "off" required/>
+        </div>
         <div class="row mb-2">
             <div class="offset-md-1 col-12 col-md-2 d-grid">
-                <button type="submit" onclick="return checkRegisterForm()" class="btn btn-success me-2"> Register</button>
+                <button type="submit" onclick="return checkRegisterForm()" class="blue-button"> Register</button>
             </div>
             <div class="col-12 col-md-2 d-grid">
-                <button type="reset" class="btn btn-warning me-2" id="clear_button"> Clear</button>
+                <button type="reset" class="blue-button" id="clear-button"> Clear</button>
             </div>
             <div class="col-12 col-md-2 d-grid">
-                <a type="button" class="btn btn-danger me-2" href="index.jsp"> Return</a>
+                <a type="button" class="blue-button" href="index.jsp"> Return</a>
             </div>
         </div>
     </form>
