@@ -4,4 +4,4 @@ Method: 76% (71/93)
 Line: 48% (205/421)	
 Branch: 18% (23/125)
 
-JaCoCo auto-generated coverage report in /htmlReport
+JaCoCo auto-generated coverage report in /it1HtmlReport
