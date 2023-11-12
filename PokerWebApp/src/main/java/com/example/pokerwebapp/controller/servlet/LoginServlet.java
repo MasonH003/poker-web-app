@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet(name = "loginServlet", value = "/login")
+@WebServlet(name = "loginServlet", value = "/loginServlet")
 public class LoginServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -31,10 +31,9 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             logged.setPassword(""); //For security lets scrub the password
             session.setAttribute("Account",logged); //adding user to session
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("play-poker");
         } else {
             response.sendRedirect("login.jsp?msg=1");
         }
     }
-
 }

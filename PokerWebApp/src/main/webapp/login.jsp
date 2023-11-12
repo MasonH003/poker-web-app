@@ -33,19 +33,19 @@
             <label class="col-form-label col-md-3 col-lg-1" for="txt_pass"> Password: </label>
             <div class="col-12 col-md-6">
                 <input class="form-control" type="password" name="txt_pass" id="txt_pass" autocomplete="off"
-                       minlength="6" required/>
+                       minlength="4" required/>
             </div>
         </div>
 
         <div class="row mb-2">
             <div class="offset-md-1 col-12 col-md-2 d-grid">
-                <button type="submit" class="btn btn-success me-2"> <span class="bi bi-box-arrow-in-right"></span> Login </button>
+                <button type="submit" class="blue-button"> <span class="bi bi-box-arrow-in-right"></span> Login </button>
             </div>
             <div class="col-12 col-md-2 d-grid">
-                <button type="reset" class="btn btn-warning me-2" id="clear_button"> Clear</button>
+                <button type="reset" class="blue-button"> Clear</button>
             </div>
             <div class="col-12 col-md-2 d-grid">
-                <button type="button" class="btn btn-danger me-2" href="index.jsp"> Cancel</button>
+                <a href="index.jsp" class="blue-button">Cancel</a>
             </div>
         </div>
     </form>
@@ -67,8 +67,6 @@
 <br/><br/>
 <br/><br/>
 <br/><br/>
-
-<%-- =================================== --%>
 
 </body>
 </html>

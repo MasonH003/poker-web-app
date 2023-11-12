@@ -19,7 +19,11 @@
 
 <a href="play-poker" class="blue-button">PLAY</a>
 
+<br>
+
 <a href="login.jsp" class="blue-button">LOG IN</a>
+
+<br>
 
 <a href="registernewaccount.jsp" class="blue-button">REGISTER</a>
 
