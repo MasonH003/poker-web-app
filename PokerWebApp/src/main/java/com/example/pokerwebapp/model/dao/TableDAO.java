@@ -2,7 +2,7 @@ package com.example.pokerwebapp.model.dao;
 
 import com.example.pokerwebapp.model.entity.Account;
 import com.example.pokerwebapp.model.entity.BaseEntity;
-
+import com.example.pokerwebapp.model.util.Table;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
