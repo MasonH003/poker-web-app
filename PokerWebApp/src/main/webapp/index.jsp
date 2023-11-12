@@ -1,3 +1,4 @@
+<%@ page import="com.example.pokerwebapp.model.entity.Account"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
@@ -14,13 +15,11 @@
     <center>
       <img src = "images/FuturetechLogo.jpg" width="125" height="100"/>
     </center>
-  <a href="play-poker">PLAY</a>
-  <a href="loginServlet">LOG IN</a>
 </div>
 
-<br/>
+<a href="play-poker" class="blue-button">PLAY</a>
 
-<!-- <a href="hello-servlet">Hello Servlet</a> -->
+<a href="login.jsp" class="blue-button">LOG IN</a>
 
 </body>
 
