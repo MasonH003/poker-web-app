@@ -97,7 +97,7 @@ public class AccountService {
         account.getFriends().add(accountToAdd);
         accountToAdd.getFriendOf().add(account);
         dao.update(account);
-    //    dao.update(accountToAdd);
+        dao.update(accountToAdd);
     }
 
 
@@ -109,7 +109,7 @@ public class AccountService {
     public static void removeFriend(Account account, Account accountToRemove)
     {
         account.getFriends().remove(accountToRemove);
-        accountToRemove.getFriendOf().remove(account);
+    //    accountToRemove.getFriendOf().remove(account);
         dao.update(account);
        // dao.update(accountToRemove);
 
