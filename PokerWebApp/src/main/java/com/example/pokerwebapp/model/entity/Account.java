@@ -54,6 +54,13 @@ public class Account extends BaseEntity {
         this.is_admin = is_admin;
     }
 
+    /*public Account(String username, String password ) {
+        this.username = username;
+        this.password = password;
+        this.money = 500;
+        this.is_admin = NORMAL_PERMISSION;
+    }*/
+
     public Integer getID() {
         return ID;
     }
