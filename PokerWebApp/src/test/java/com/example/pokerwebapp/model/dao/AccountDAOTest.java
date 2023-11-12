@@ -1,6 +1,6 @@
 package com.example.pokerwebapp.model.dao;
 
-
+//import com.example.sevencardstud.*;
 import com.example.pokerwebapp.model.entity.Account;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -26,11 +26,10 @@ public class AccountDAOTest {
         return acc;
     }
 
-    @BeforeAll public static void createDao(){
+    @BeforeAll public static void createDao() {
         dao = new AccountDAO();
         dao.setDbTypeOutput(GenericDAO.DbType.TEST);
     }
-
     @BeforeEach public void deleteAll(){
         dao.deleteAll();
     }
