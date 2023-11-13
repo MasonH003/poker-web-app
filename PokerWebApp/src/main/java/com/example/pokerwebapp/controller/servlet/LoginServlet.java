@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("Account",logged); //adding user to session
             response.sendRedirect("play-poker");
         } else {
-            response.sendRedirect("play-poker?msg=1");
+            response.sendRedirect("login.jsp?msg=1");
         }
     }
 }
