@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             logged.setPassword(""); //For security lets scrub the password
             session.setAttribute("Account",logged); //adding user to session
-            response.sendRedirect("play-poker");
+            response.sendRedirect("index.jsp");
         } else {
             response.sendRedirect("login.jsp?msg=1");
         }
