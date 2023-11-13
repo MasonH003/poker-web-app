@@ -42,7 +42,7 @@ public class LoginServletTest {
             LoginServlet servlet = new LoginServlet();
             servlet.doPost(request, response);
 
-            assertAll("LoginUserServlet - Logged User Path Assertions",
+            assertAll("LoginAccountServlet - Logged Account Path Assertions",
                     () -> assertDoesNotThrow(
                             () -> verify(response).sendRedirect("play-poker"),
                             "LoginServlet should called sendRedirect(\"play-poker\")"),
@@ -62,7 +62,7 @@ public class LoginServletTest {
 
         //Setup the mock "inputs" on request
         when(request.getParameter("txt_login")).thenReturn("test@test.test");
-        when(request.getParameter("txt_pass")).thenReturn("testering");
+        when(request.getParameter("txt_pass")).thenReturn("test");
         when(request.getSession()).thenReturn(sessionMock);
 
         //Also need to mock AccountService, since it is static method, the mocking is different
@@ -100,7 +100,7 @@ public class LoginServletTest {
         assertAll("LoginUserServlet - doGet Assertions",
                 () -> assertDoesNotThrow(
                         () -> verify(response).sendRedirect("play-poker"),
-                        "LoginServlet.doGet should called sendRedirect(\"player-poker\")"),
+                        "LoginServlet.doGet should called sendRedirect(\"play-poker\")"),
                 () -> assertDoesNotThrow(
                         () -> verify(request,never()).getSession(),
                         "LoginServlet.doGet should never called request.getSession()"),

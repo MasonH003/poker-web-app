@@ -19,7 +19,7 @@ public class LoginServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         System.out.println("Security Issue: passwords should never be sent via GET.");
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("play-poker");
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String login = request.getParameter("txt_login");
@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("Account",logged); //adding user to session
             response.sendRedirect("play-poker");
         } else {
-            response.sendRedirect("login.jsp?msg=1");
+            response.sendRedirect("play-poker?msg=1");
         }
     }
 }
