@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CardEvaluate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.example.pokerwebapp</a> &gt; <span class="el_source">CardEvaluate.java</span></div><h1>CardEvaluate.java</h1><pre class="source lang-java linenums">package com.example.pokerwebapp;
+
+import java.util.Arrays;
+import java.util.*;
+import java.util.Collections;
+import java.math.BigDecimal;
+
+<span class="fc" id="L8">public class CardEvaluate {</span>
+    //function to check if cards are sequential
+    public boolean isSequential(Card[] hand)
+    {
+<span class="fc" id="L12">        int limit= hand.length-1;</span>
+        //if hand has king, check if hand could be ace straight/straight flush and remove ace from check if so
+<span class="fc bfc" id="L14" title="All 2 branches covered.">        if(hand[0].compareTo(hand[4])==12){</span>
+<span class="fc" id="L15">            limit=limit -1;</span>
+        }
+        //check each card with its right neighbor
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        for(int i=0; i&lt;limit;i++)</span>
+        {   //return false if cards aren't sequential
+<span class="fc bfc" id="L20" title="All 2 branches covered.">            if(hand[i].compareTo(hand[i+1])!=1)</span>
+            {
+<span class="fc" id="L22">                return false;</span>
+            }
+        }
+        //true if all cards are sequential
+<span class="fc" id="L26">        return true;</span>
+    }
+
+    //Sort hashmap based on values
+    public HashMap&lt;Card.Rank, Integer&gt; sortByValue(HashMap&lt;Card.Rank, Integer&gt; suit_map)
+    {
+        // Create list from suit hash map
+<span class="fc" id="L33">        List&lt;Map.Entry&lt;Card.Rank, Integer&gt;&gt; list= new LinkedList&lt;&gt;(suit_map.entrySet());</span>
+
+        // Sort list
+<span class="fc" id="L36">        list.sort(Map.Entry.comparingByValue());</span>
+        //Put sorted data back into hashmap
+<span class="fc" id="L38">        HashMap&lt;Card.Rank, Integer&gt; result = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        for (Map.Entry&lt;Card.Rank, Integer&gt; i : list) {</span>
+<span class="fc" id="L40">            result.put(i.getKey(), i.getValue());</span>
+<span class="fc" id="L41">        }</span>
+<span class="fc" id="L42">        return result;</span>
+    }
+    //represent hand as a decimal, first two decimal spaces represent first card rank value, third and fourth spaces
+    //represent second card's, etc
+    //cards ranked from highest rank to lowest
+    public double buildRank(Card[] hand){
+<span class="fc" id="L48">        BigDecimal bd0 = BigDecimal.valueOf(hand[0].getRankValue() / 100.0);</span>
+<span class="fc" id="L49">        BigDecimal bd1 = BigDecimal.valueOf(hand[1].getRankValue() / 10000.0);</span>
+<span class="fc" id="L50">        BigDecimal bd2 = BigDecimal.valueOf(hand[2].getRankValue() / 1000000.0);</span>
+<span class="fc" id="L51">        BigDecimal bd3 = BigDecimal.valueOf(hand[3].getRankValue() / 100000000.0);</span>
+<span class="fc" id="L52">        BigDecimal bd4 = BigDecimal.valueOf(hand[4].getRankValue() / 10000000000.0);</span>
+<span class="fc" id="L53">        bd0=bd0.add(bd1);</span>
+<span class="fc" id="L54">        bd0=bd0.add(bd2);</span>
+<span class="fc" id="L55">        bd0=bd0.add(bd3);</span>
+<span class="fc" id="L56">        bd0=bd0.add(bd4);</span>
+<span class="fc" id="L57">        return bd0.doubleValue();</span>
+    }
+
+    public double RankHand(Card[] hand) {
+        //initialize suit and rank maps
+<span class="fc" id="L62">        HashMap&lt;Card.Suit, Integer&gt; count_suit = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L63">        HashMap&lt;Card.Rank, Integer&gt; count_rank = new HashMap&lt;&gt;();</span>
+        //cards for comparing certain hands
+        Card highOrKick;
+        Card lowOrQuad;
+<span class="fc" id="L67">        Card flag2=null;</span>
+
+        //count rank and suit of cards
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        for (Card card : hand) {</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">            count_suit.compute(card.getCardSuit(), (key, value) -&gt; ((value == null) ? 1 : value + 1));</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">            count_rank.compute(card.getCardRank(), (key, value) -&gt; ((value == null) ? 1 : value + 1));</span>
+        }
+        //sort by values
+<span class="fc" id="L75">        Arrays.sort(hand, Collections.reverseOrder());</span>
+<span class="fc" id="L76">        count_rank= sortByValue(count_rank);</span>
+        //print for tests
+<span class="fc" id="L78">        System.out.println(count_suit);</span>
+<span class="fc" id="L79">        System.out.println(count_rank);</span>
+
+        //make decimal representing card, each two decimal spaces represents a card's rank
+<span class="fc" id="L82">        double handValues = buildRank(hand);</span>
+
+        //evaluate cards, return float, whole number for hand ranking, and decimal for card ranking to eval same hands
+        //if cards are sequential and same suite = straight flush
+<span class="fc bfc" id="L86" title="All 4 branches covered.">        if (count_suit.containsValue(5) &amp;&amp; isSequential(hand)) {</span>
+
+            //if ace high-flush: royal flush, highest flush in game
+<span class="fc bfc" id="L89" title="All 2 branches covered.">            if(handValues==.1312111001){</span>
+<span class="fc" id="L90">                System.out.println(&quot;Royal flush&quot;);</span>
+<span class="fc" id="L91">                return 9.1413121110;</span>
+            }
+            //else return straight flush
+            else{
+<span class="fc" id="L95">                System.out.println(hand[0].getCardRank() + &quot;-high straight flush&quot;);</span>
+<span class="fc" id="L96">                return 9.0 + handValues;</span>
+            }
+        }
+
+        //same suite non-sequence=flush
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        else if (count_suit.containsValue(5)) {</span>
+<span class="fc" id="L102">            System.out.println(hand[0].getCardRank() + &quot;-high flush&quot;);</span>
+<span class="fc" id="L103">            return 6.0 + handValues;</span>
+        }
+
+        //sequential with different suites=straight
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        else if (isSequential(hand)) {</span>
+<span class="fc" id="L108">            System.out.println(hand[0].getCardRank() + &quot; straight&quot;);</span>
+<span class="fc" id="L109">            return 5.0 + handValues;</span>
+        }
+
+        //if four cards same number = four of a kind
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        else if (count_rank.containsValue(4)) {</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">            if(hand[0].compareTo(hand[1])&gt;0)//kicker card is higher rank than rest</span>
+            {
+<span class="nc" id="L116">                lowOrQuad = hand[4];</span>
+            }
+            else//four of a kind higher rank than kicker
+            {
+<span class="fc" id="L120">                lowOrQuad = hand[0];</span>
+            }
+<span class="fc" id="L122">            System.out.println(&quot;Four of a kind, &quot;+lowOrQuad.getCardRank());</span>
+<span class="fc" id="L123">            return 8.0 + handValues;</span>
+        }
+
+        //check for hands with three cards and/or two cards of same ranks
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        for (Map.Entry&lt;Card.Rank, Integer&gt; entry: count_rank.entrySet())</span>
+        {
+<span class="fc bfc" id="L129" title="All 2 branches covered.">            if (entry.getValue()==3)</span>
+            {
+                //if three cards share rank and two cards share different rank=full house
+<span class="fc bfc" id="L132" title="All 2 branches covered.">                if(flag2!=null){</span>
+<span class="fc" id="L133">                    Card triplet=new Card(entry.getKey(), Card.Suit.DIAMONDS);</span>
+<span class="fc" id="L134">                    System.out.println(&quot;Full house, &quot;+ triplet.getCardRank() +&quot; over &quot;+ flag2.getCardRank());</span>
+<span class="fc" id="L135">                    return 7.0 + handValues;</span>
+                }
+                //if three cards of same rank = three of a kind
+                else{
+<span class="fc" id="L139">                    System.out.println(&quot;Three of a kind, &quot;+hand[2].getCardRank());</span>
+<span class="fc" id="L140">                    return 4+handValues;</span>
+                }
+            }
+
+<span class="fc bfc" id="L144" title="All 2 branches covered.">            else if(entry.getValue()==2){</span>
+                //if two pairs of two ranks = two pair
+<span class="fc bfc" id="L146" title="All 2 branches covered.">                if(flag2!=null) {</span>
+<span class="fc" id="L147">                    Card second=new Card(entry.getKey(),Card.Suit.DIAMONDS);</span>
+
+                    //rank higher pair over lower
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">                    if(flag2.compareTo(second)&gt;0){</span>
+<span class="nc" id="L151">                        highOrKick=flag2;</span>
+<span class="nc" id="L152">                        lowOrQuad=second;</span>
+                    }
+                    else{
+<span class="fc" id="L155">                        highOrKick=second;</span>
+<span class="fc" id="L156">                        lowOrQuad=flag2;</span>
+                    }
+<span class="fc" id="L158">                    System.out.println(&quot;Two pair, &quot;+ highOrKick.getCardRank() +&quot; and &quot;+ lowOrQuad.getCardRank());</span>
+<span class="fc" id="L159">                    return 3.0+handValues;</span>
+                }
+<span class="fc" id="L161">                else {flag2= new Card(entry.getKey(), Card.Suit.DIAMONDS);}</span>
+            }
+<span class="fc" id="L163">        }</span>
+        //if one pair of a rank = one pair
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        if(flag2!=null){</span>
+<span class="fc" id="L166">            System.out.println(&quot;One pair, &quot;+ flag2.getCardRank());</span>
+<span class="fc" id="L167">            return 2+handValues;</span>
+        }
+
+      //else, high card, rank by card rank
+      else{
+<span class="fc" id="L172">          System.out.println(&quot;High card: &quot; + hand[0].getCardRank());</span>
+<span class="fc" id="L173">          return 1+handValues;</span>
+      }
+  }
+
+    public static void main(String[] args) {
+<span class="nc" id="L178">        Card[] hand=new Card[5];</span>
+
+<span class="nc" id="L180">        Card c1 = new Card(Card.Rank.KING, Card.Suit.SPADES);</span>
+<span class="nc" id="L181">        Card c2 = new Card(Card.Rank.QUEEN, Card.Suit.SPADES);</span>
+<span class="nc" id="L182">        Card c3 = new Card(Card.Rank.TWO, Card.Suit.SPADES);</span>
+<span class="nc" id="L183">        Card c4 = new Card(Card.Rank.FOUR, Card.Suit.SPADES);</span>
+<span class="nc" id="L184">        Card c5 = new Card(Card.Rank.ACE, Card.Suit.CLUBS);</span>
+<span class="nc" id="L185">        hand[0]=c1;</span>
+<span class="nc" id="L186">        hand[1]=c2;</span>
+<span class="nc" id="L187">        hand[2]=c3;</span>
+<span class="nc" id="L188">        hand[3]=c4;</span>
+<span class="nc" id="L189">        hand[4]=c5;</span>
+
+<span class="nc" id="L191">        CardEvaluate e = new CardEvaluate();</span>
+<span class="nc" id="L192">        System.out.println(e.RankHand(hand));</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">        for (Card num : hand) {</span>
+<span class="nc" id="L194">            System.out.print(num + &quot; &quot;);</span>
+        }
+        //tests
+        /*Card[] hand1 ={new Card(Card.Rank.KING, Card.Suit.SPADES), new Card(Card.Rank.QUEEN, Card.Suit.SPADES),
+                new Card(Card.Rank.TEN, Card.Suit.SPADES), new Card(Card.Rank.JACK, Card.Suit.SPADES), new Card(Card.Rank.ACE, Card.Suit.SPADES)};
+        Card[] hand2 ={new Card(Card.Rank.ACE, Card.Suit.CLUBS), new Card(Card.Rank.FOUR, Card.Suit.HEARTS),
+                new Card(Card.Rank.FOUR, Card.Suit.CLUBS), new Card(Card.Rank.FOUR, Card.Suit.DIAMONDS), new Card(Card.Rank.FOUR, Card.Suit.SPADES)};
+        Card[] hand3 ={new Card(Card.Rank.SIX, Card.Suit.HEARTS), new Card(Card.Rank.SIX, Card.Suit.SPADES),
+                new Card(Card.Rank.SIX, Card.Suit.DIAMONDS), new Card(Card.Rank.TEN, Card.Suit.HEARTS), new Card(Card.Rank.TEN, Card.Suit.CLUBS)};
+        Card[] hand4 ={new Card(Card.Rank.KING, Card.Suit.SPADES), new Card(Card.Rank.TWO, Card.Suit.SPADES),
+                new Card(Card.Rank.TEN, Card.Suit.SPADES), new Card(Card.Rank.JACK, Card.Suit.SPADES), new Card(Card.Rank.ACE, Card.Suit.SPADES)};
+        Card[] hand5 ={new Card(Card.Rank.KING, Card.Suit.SPADES), new Card(Card.Rank.QUEEN, Card.Suit.SPADES),
+                new Card(Card.Rank.TEN, Card.Suit.CLUBS), new Card(Card.Rank.JACK, Card.Suit.SPADES), new Card(Card.Rank.ACE, Card.Suit.SPADES)};
+        Card[] hand6 ={new Card(Card.Rank.SIX, Card.Suit.HEARTS), new Card(Card.Rank.SIX, Card.Suit.SPADES),
+                new Card(Card.Rank.SIX, Card.Suit.DIAMONDS), new Card(Card.Rank.NINE, Card.Suit.HEARTS), new Card(Card.Rank.TEN, Card.Suit.CLUBS)};
+        Card[] hand7 ={new Card(Card.Rank.SIX, Card.Suit.HEARTS), new Card(Card.Rank.FIVE, Card.Suit.SPADES),
+                new Card(Card.Rank.SIX, Card.Suit.DIAMONDS), new Card(Card.Rank.TEN, Card.Suit.HEARTS), new Card(Card.Rank.TEN, Card.Suit.CLUBS)};
+        Card[] hand8 ={new Card(Card.Rank.SIX, Card.Suit.HEARTS), new Card(Card.Rank.SIX, Card.Suit.SPADES),
+                new Card(Card.Rank.TWO, Card.Suit.DIAMONDS), new Card(Card.Rank.NINE, Card.Suit.HEARTS), new Card(Card.Rank.TEN, Card.Suit.CLUBS)};
+        Card[] hand9 ={new Card(Card.Rank.KING, Card.Suit.CLUBS), new Card(Card.Rank.QUEEN, Card.Suit.HEARTS),
+                new Card(Card.Rank.JACK, Card.Suit.DIAMONDS), new Card(Card.Rank.TWO, Card.Suit.HEARTS), new Card(Card.Rank.THREE, Card.Suit.CLUBS)};
+
+        System.out.println(e.RankHand(hand1));
+        System.out.println(e.RankHand(hand2));
+        System.out.println(e.RankHand(hand3));
+        System.out.println(e.RankHand(hand4));
+        System.out.println(e.RankHand(hand5));
+        System.out.println(e.RankHand(hand6));
+        System.out.println(e.RankHand(hand7));
+        System.out.println(e.RankHand(hand8));
+        System.out.println(e.RankHand(hand9));*/
+
+<span class="nc" id="L226">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

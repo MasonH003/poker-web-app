@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Player.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.example.pokerwebapp</a> &gt; <span class="el_source">Player.java</span></div><h1>Player.java</h1><pre class="source lang-java linenums">package com.example.pokerwebapp;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
+
+public class Player {
+
+    private String name;
+    private int balance;
+    private List&lt;Card&gt; hand;
+<span class="fc" id="L13">    private boolean isFolded = false;</span>
+    private int totalRoundBet; // how much this player has bet this round; reset after every round
+
+    private int raiseAmount; // how much a player raises their bet by
+
+<span class="fc" id="L18">    private boolean isChecked = false;</span>
+
+<span class="fc" id="L20">    public Player(String name) {</span>
+<span class="fc" id="L21">        this.name = name;</span>
+<span class="fc" id="L22">        this.balance = 500;</span>
+<span class="fc" id="L23">        this.hand = new ArrayList&lt;Card&gt;();</span>
+<span class="fc" id="L24">        this.totalRoundBet = 0;</span>
+<span class="fc" id="L25">    }</span>
+
+    public void addToPlayerHand(Card dealtCard) {
+<span class="fc" id="L28">        hand.add(dealtCard);</span>
+<span class="fc" id="L29">    }</span>
+
+    //fix getter to return a copy not a reference
+    public List&lt;Card&gt; getPlayerHand() {
+<span class="fc" id="L33">        return hand;</span>
+    }
+
+    public void addBalance(int addAmount) {
+<span class="fc" id="L37">        balance += addAmount;</span>
+<span class="fc" id="L38">    }</span>
+
+    public void subBalance(int subAmount) {
+<span class="fc" id="L41">        balance -= subAmount;</span>
+<span class="fc" id="L42">    }</span>
+
+    public int getBalance() {
+<span class="fc" id="L45">        return balance;</span>
+    }
+
+    public void setFold(boolean fold) {
+<span class="fc" id="L49">        isFolded = fold;</span>
+<span class="fc" id="L50">    }</span>
+
+    public boolean getFold() {
+<span class="fc" id="L53">        return isFolded;</span>
+    }
+
+    public void setTotalRoundBet(int totalRoundBet) {
+<span class="fc" id="L57">        this.totalRoundBet = totalRoundBet;</span>
+<span class="fc" id="L58">    }</span>
+
+    public int getTotalRoundBet() {
+<span class="fc" id="L61">        return totalRoundBet;</span>
+    }
+    public int getRaiseAmount() {
+<span class="nc" id="L64">        return raiseAmount;</span>
+    }
+
+    public void setChecked(boolean check)
+    {
+<span class="fc" id="L69">        isChecked=check;</span>
+<span class="fc" id="L70">    }</span>
+
+    public boolean getCheckedStatus()
+    {
+<span class="fc" id="L74">        return this.isChecked;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L79">        return &quot;Player name: &quot; + this.name + &quot;\tBalance: &quot; + this.balance + &quot;\tHand: &quot; + this.hand;</span>
+    }
+
+
+    public String getPlayerChoice(int open_bet) {
+        while(true) {
+<span class="nc" id="L85">            Scanner scan = new Scanner(System.in);</span>
+<span class="nc" id="L86">            System.out.println(&quot;Enter your action(check/call/raise/fold)&quot;);</span>
+<span class="nc" id="L87">            String choice = scan.nextLine();</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">            if (choice.equals(&quot;fold&quot;)) {</span>
+<span class="nc" id="L89">                isFolded = true;</span>
+<span class="nc" id="L90">                return &quot;fold&quot;;</span>
+<span class="nc bnc" id="L91" title="All 4 branches missed.">            } else if (choice.equals(&quot;call&quot;) &amp;&amp; this.balance &gt;= open_bet) {</span>
+<span class="nc" id="L92">                int difference = open_bet - this.totalRoundBet;</span>
+<span class="nc" id="L93">                this.balance -= difference;</span>
+<span class="nc" id="L94">                this.totalRoundBet += difference;</span>
+<span class="nc" id="L95">                return &quot;call&quot;;</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">            } else if (choice.equals(&quot;raise&quot;)) {</span>
+                do {
+<span class="nc" id="L98">                    System.out.println(&quot;Enter a valid raise amount&quot;);</span>
+<span class="nc" id="L99">                    raiseAmount = scan.nextInt();</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">                    if (raiseAmount + totalRoundBet &lt; open_bet) {</span>
+<span class="nc" id="L101">                        System.out.println(&quot;Invalid raise amount&quot;);</span>
+                    }
+<span class="nc bnc" id="L103" title="All 2 branches missed.">                } while (this.totalRoundBet + raiseAmount &lt; open_bet);</span>
+<span class="nc" id="L104">                this.balance -= raiseAmount;</span>
+<span class="nc" id="L105">                this.totalRoundBet += raiseAmount;</span>
+<span class="nc" id="L106">                return &quot;raise&quot;;</span>
+
+<span class="nc bnc" id="L108" title="All 4 branches missed.">            } else if (choice.equals(&quot;check&quot;) &amp;&amp; open_bet == 0) {</span>
+<span class="nc" id="L109">                isChecked=true;</span>
+<span class="nc" id="L110">                return &quot;check&quot;;</span>
+            }
+
+<span class="nc" id="L113">        }</span>
+    }
+
+
+
+
+    public static void main(String[] args)
+    {
+<span class="nc" id="L121">        Player p1 = new Player(&quot;Christoph&quot;);</span>
+<span class="nc" id="L122">        Player p2 = new Player(&quot;Alex&quot;);</span>
+<span class="nc" id="L123">        Deck deck = new Deck();</span>
+<span class="nc" id="L124">        deck.shuffleDeck();</span>
+<span class="nc" id="L125">        System.out.println(deck.getDeck());</span>
+<span class="nc" id="L126">        p1.addToPlayerHand(deck.dealCard());</span>
+<span class="nc" id="L127">        p1.addToPlayerHand(deck.dealCard());</span>
+<span class="nc" id="L128">        System.out.println(p1);</span>
+<span class="nc" id="L129">        p2.addToPlayerHand(deck.dealCard());</span>
+<span class="nc" id="L130">        p2.addToPlayerHand(deck.dealCard());</span>
+<span class="nc" id="L131">        System.out.println(p2);</span>
+<span class="nc" id="L132">        p2.getPlayerChoice(40);</span>
+<span class="nc" id="L133">        System.out.println(p2.getBalance());</span>
+<span class="nc" id="L134">        System.out.println(p2.totalRoundBet);</span>
+<span class="nc" id="L135">        p2.getPlayerChoice(40);</span>
+<span class="nc" id="L136">        System.out.println(p2.getBalance());</span>
+<span class="nc" id="L137">        System.out.println(p2.totalRoundBet);</span>
+<span class="nc" id="L138">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

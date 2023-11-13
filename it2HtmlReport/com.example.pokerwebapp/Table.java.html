@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Table.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.example.pokerwebapp</a> &gt; <span class="el_source">Table.java</span></div><h1>Table.java</h1><pre class="source lang-java linenums">package com.example.pokerwebapp;
+
+/*import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;*/
+
+import java.util.ArrayList;
+import java.util.List;
+public class Table{
+
+    /*@Id @Column(name=&quot;id_account&quot;) @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer ID = null;*/
+    private String name;
+    private Deck deck;
+    private List&lt;Card&gt; gameCards;
+    private List&lt;Player&gt; playerList;
+    private int pot; // this is the total money in the pot
+    private int openBet; //this is the highest bet in the current round
+<span class="fc" id="L20">    private final int BIGBLINDBET = 5;</span>
+<span class="fc" id="L21">    private final int SMALLBLINDBET = 2;</span>
+
+<span class="fc" id="L23">    public Table(List&lt;Player&gt; playerList ) {</span>
+<span class="fc" id="L24">        name = &quot;&quot;;</span>
+<span class="fc" id="L25">        deck = new Deck();</span>
+<span class="fc" id="L26">        deck.shuffleDeck();</span>
+<span class="fc" id="L27">        gameCards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L28">        this.playerList = playerList;</span>
+<span class="fc" id="L29">        this.pot = 0;</span>
+<span class="fc" id="L30">        this.openBet = 0;</span>
+<span class="fc" id="L31">    }</span>
+
+<span class="nc" id="L33">    public String getName(String name) {return name;}</span>
+
+<span class="nc" id="L35">    public void setName(String name) {this.name = name;}</span>
+
+    public List&lt;Card&gt; getGameCards() {
+<span class="fc" id="L38">        return gameCards;</span>
+    }
+
+    public List&lt;Player&gt; getPlayerList() {
+<span class="fc" id="L42">        return playerList;</span>
+    }
+
+    public int getOpenBet() {
+<span class="fc" id="L46">        return openBet;</span>
+    }
+
+    public void setOpenBet(int openBet) {
+<span class="fc" id="L50">        this.openBet = openBet;</span>
+<span class="fc" id="L51">    }</span>
+
+    public void incOpenBet( int increment ) {
+<span class="fc" id="L54">        this.openBet += increment;</span>
+<span class="fc" id="L55">    }</span>
+
+    public int getPot() {
+<span class="fc" id="L58">        return pot;</span>
+    }
+
+    public void setPot(int pot) {
+<span class="fc" id="L62">        this.pot = pot;</span>
+<span class="fc" id="L63">    }</span>
+
+    public void incPot( int increment ) {
+<span class="fc" id="L66">        this.pot += increment;</span>
+<span class="fc" id="L67">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L71">        String str = &quot;Table cards: &quot;;</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        for( Card c : gameCards )</span>
+<span class="nc" id="L73">            str = str + c + &quot;, &quot;;</span>
+<span class="nc" id="L74">        str = str + &quot;\n&quot; + &quot;Pot: &quot; + pot + &quot;\tOpen Bet: &quot; + openBet + &quot;\n&quot;;</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        for( Player p : playerList ) {</span>
+<span class="nc" id="L76">            str = str + p;</span>
+<span class="nc" id="L77">            str = str + &quot;\n&quot;;</span>
+<span class="nc" id="L78">        }</span>
+<span class="nc" id="L79">        return str;</span>
+    }
+
+    /**
+     * purpose: get the number of players who have not folded yet
+     * @return an int, the number of players who have not folded yet
+     */
+    public int countActivePlayers() {
+<span class="fc" id="L87">        int count = 0;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        for( Player p : playerList ) {</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">            if( !p.getFold() )</span>
+<span class="fc" id="L90">                count++;</span>
+<span class="fc" id="L91">        }</span>
+<span class="fc" id="L92">        return count;</span>
+    }
+
+    /**
+     * purpose: if there is only one player left, return them so they can be given the pot
+     * @return a com.example.pokerwebapp.Player, the last un-folded player, or null if incorrectly called with more than 1 active player
+     */
+    public Player findLastPlayer() {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if( countActivePlayers() != 1)</span>
+<span class="nc" id="L101">            return null;</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        for( Player p : playerList ) {</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            if( !p.getFold() )</span>
+<span class="nc" id="L104">                return p;</span>
+<span class="nc" id="L105">        }</span>
+<span class="nc" id="L106">        return null;</span>
+    }
+
+    /**
+     * purpose: give the winning player the pot
+     * @param p a com.example.pokerwebapp.Player, the winner of the hand
+     */
+    public void win( Player p ) {
+<span class="nc" id="L114">        p.addBalance(this.pot);</span>
+<span class="nc" id="L115">        this.pot = 0;</span>
+<span class="nc" id="L116">        this.openBet = 0;</span>
+<span class="nc" id="L117">    }</span>
+
+    /**
+     * Initial three cards drawn on table for everyone to use in their hand
+     */
+    public void dealFlop() {
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        for (int i = 0; i &lt; 3; i++) {</span>
+<span class="fc" id="L124">            gameCards.add(deck.dealCard());</span>
+        }
+<span class="fc" id="L126">    }</span>
+
+
+    /**
+     * During a round, draw new card on table for everyone to use in their hand
+     */
+    public void dealTurn() {
+<span class="fc" id="L133">        gameCards.add(deck.dealCard());</span>
+<span class="fc" id="L134">    }</span>
+
+
+    /**
+     * During the last round, draw new card on table for everyone to use in their hand
+     */
+    public void dealRiver() {
+<span class="fc" id="L141">        gameCards.add(deck.dealCard());</span>
+<span class="fc" id="L142">    }</span>
+
+
+
+    /**
+     * purpose: find the closest player to the left of the Big Blind
+     * that has not yet folded
+     * @param bigBlind an int, the index of the big blind
+     * @return
+     */
+    protected int getNextLeft( int bigBlind ) {
+        Player p;
+<span class="nc" id="L154">        int next = bigBlind+1;</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">        while( next != bigBlind )</span>
+        {
+<span class="nc bnc" id="L157" title="All 2 branches missed.">            if( next &gt;= playerList.size() )</span>
+<span class="nc" id="L158">                next = 0;</span>
+
+<span class="nc bnc" id="L160" title="All 2 branches missed.">            if( !playerList.get(next).getFold() )</span>
+<span class="nc" id="L161">                return next;</span>
+
+<span class="nc" id="L163">            next++;</span>
+        }
+<span class="nc" id="L165">        return -1; // the big blind is the only player left</span>
+    }
+
+    /**
+     * purpose: reset the state of the table to be ready for a new round
+     */
+    protected void resetTable() {
+<span class="nc" id="L172">        this.pot = 0;</span>
+<span class="nc" id="L173">        this.openBet = 0;</span>
+<span class="nc" id="L174">        this.gameCards = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L175">        this.deck.resetDeck();</span>
+<span class="nc" id="L176">        resetPlayerCheckStatus();</span>
+<span class="nc" id="L177">        resetPlayerFoldStatus();</span>
+        // consider handling players with no money left here
+<span class="nc" id="L179">    }</span>
+
+    /**
+     * purpose: reset the fold status of every player
+     */
+    public void resetPlayerFoldStatus()
+    {
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        for(Player p : playerList)</span>
+        {
+<span class="nc" id="L188">            p.setFold(false);</span>
+<span class="nc" id="L189">        }</span>
+<span class="nc" id="L190">    }</span>
+    public void resetPlayerCheckStatus()
+    {
+<span class="nc bnc" id="L193" title="All 2 branches missed.">        for(Player p : playerList)</span>
+        {
+<span class="nc" id="L195">            p.setChecked(false);</span>
+<span class="nc" id="L196">        }</span>
+<span class="nc" id="L197">    }</span>
+
+    public void resetTotalRoundBet()
+    {
+<span class="nc bnc" id="L201" title="All 2 branches missed.">        for(Player p : playerList)</span>
+        {
+<span class="nc" id="L203">            p.setTotalRoundBet(0);</span>
+<span class="nc" id="L204">        }</span>
+
+<span class="nc" id="L206">    }</span>
+
+    /**
+     * purpose: do a round of betting
+     * players can check if they're equal to the open bet,
+     *      call if they're less than the open bet,
+     *      raise,
+     *      or fold.
+     */
+    protected void roundOfBetting( int roundNumber, int bigBlind ) {
+        int better;
+        int smallBlind;
+<span class="nc" id="L218">        boolean passedAll = false; //a boolean to measure whether everyone's had a chance to bet or not</span>
+<span class="nc" id="L219">        String choice = &quot;&quot;;</span>
+
+<span class="nc bnc" id="L221" title="All 2 branches missed.">        if( bigBlind &gt;= playerList.size() )</span>
+<span class="nc" id="L222">            smallBlind = 0;</span>
+        else
+<span class="nc" id="L224">            smallBlind = bigBlind+1;</span>
+
+<span class="nc" id="L226">        Player turn = playerList.get( getNextLeft( bigBlind ) );</span>
+
+<span class="nc bnc" id="L228" title="All 2 branches missed.">        if( roundNumber == 1 ) { // it is the first round, so the BB and SB must put in some money</span>
+<span class="nc" id="L229">            playerList.get(bigBlind).subBalance(BIGBLINDBET);</span>
+<span class="nc" id="L230">            this.pot += BIGBLINDBET;</span>
+<span class="nc" id="L231">            playerList.get(smallBlind).subBalance(SMALLBLINDBET);</span>
+<span class="nc" id="L232">            this.pot += SMALLBLINDBET;</span>
+<span class="nc" id="L233">            this.openBet = BIGBLINDBET;</span>
+
+<span class="nc bnc" id="L235" title="All 2 branches missed.">            for( Player p : playerList ) {</span>
+<span class="nc" id="L236">                p.addToPlayerHand( deck.dealCard() );</span>
+<span class="nc" id="L237">                p.addToPlayerHand( deck.dealCard() );</span>
+<span class="nc" id="L238">            }</span>
+
+<span class="nc" id="L240">            better = getNextLeft( bigBlind );</span>
+
+            // Fixed? Do betting here
+<span class="nc bnc" id="L243" title="All 4 branches missed.">            for(; !passedAll || playerList.get(better).getTotalRoundBet() != this.openBet; better++ ) {</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">                if( better &gt;= playerList.size() )</span>
+<span class="nc" id="L245">                    better = 0;</span>
+
+                //don't ask for a choice from player who has already folded in the round
+<span class="nc bnc" id="L248" title="All 2 branches missed.">                if(!playerList.get(better).getFold()) {</span>
+<span class="nc" id="L249">                    choice = playerList.get(better).getPlayerChoice(openBet);</span>
+                }
+                //fold, skip the players turn
+<span class="nc bnc" id="L252" title="All 2 branches missed.">                if (playerList.get(better).getFold())</span>
+                {
+<span class="nc" id="L254">                    continue;</span>
+                }
+<span class="nc bnc" id="L256" title="All 2 branches missed.">                else if(choice.equals(&quot;call&quot;))</span>
+                {
+<span class="nc" id="L258">                    this.pot+=openBet;</span>
+                }
+<span class="nc bnc" id="L260" title="All 2 branches missed.">                else if(choice.equals(&quot;raise&quot;))</span>
+                {
+<span class="nc" id="L262">                    int raiseAmount = playerList.get(better).getRaiseAmount();</span>
+<span class="nc" id="L263">                    this.pot+=raiseAmount;</span>
+<span class="nc" id="L264">                    openBet = playerList.get(better).getTotalRoundBet() + raiseAmount;</span>
+                }
+
+<span class="nc bnc" id="L267" title="All 2 branches missed.">                if( better == bigBlind )</span>
+<span class="nc" id="L268">                    passedAll = true;</span>
+                //System.out.println(&quot;better: &quot; + better + &quot;\tbig blind: &quot; + bigBlind +&quot;\n&quot;);
+            }
+            //after a round completes reset the openBet to 0 and every players totalroundbet
+<span class="nc" id="L272">            this.openBet = 0;</span>
+<span class="nc" id="L273">            resetTotalRoundBet();</span>
+        }
+
+        // it is not the first round
+<span class="nc bnc" id="L277" title="All 4 branches missed.">        else if( roundNumber &gt; 1 &amp;&amp; roundNumber &lt; 5 ) {</span>
+<span class="nc" id="L278">            better = getNextLeft( bigBlind );</span>
+
+            // loop through all players until everyone has had a chance to bet once, and everyone still in play
+            // is equal to the open bet
+<span class="nc bnc" id="L282" title="All 4 branches missed.">            for(; !passedAll || playerList.get(better).getTotalRoundBet() != this.openBet; better++ ) {</span>
+                //don't ask for a choice from player who has already folded or checked in the round
+<span class="nc bnc" id="L284" title="All 4 branches missed.">                if(!playerList.get(better).getFold() &amp;&amp; !playerList.get(better).getCheckedStatus()) {</span>
+<span class="nc" id="L285">                    choice = playerList.get(better).getPlayerChoice(openBet);</span>
+                }
+                //fold
+<span class="nc bnc" id="L288" title="All 2 branches missed.">                if (playerList.get(better).getFold())</span>
+                {
+<span class="nc" id="L290">                    continue;</span>
+                }
+<span class="nc bnc" id="L292" title="All 2 branches missed.">                else if(choice.equals(&quot;call&quot;))</span>
+                {
+<span class="nc" id="L294">                    this.pot+=openBet;</span>
+                }
+<span class="nc bnc" id="L296" title="All 2 branches missed.">                else if(choice.equals(&quot;raise&quot;))</span>
+                {
+<span class="nc" id="L298">                    int raiseAmount = playerList.get(better).getRaiseAmount();</span>
+<span class="nc" id="L299">                    this.pot+=raiseAmount;</span>
+<span class="nc" id="L300">                    openBet = playerList.get(better).getTotalRoundBet() + raiseAmount;</span>
+<span class="nc" id="L301">                }</span>
+                //if a player checks and
+<span class="nc bnc" id="L303" title="All 2 branches missed.">                else if(playerList.get(better).getCheckedStatus())</span>
+                {
+<span class="nc" id="L305">                    continue;</span>
+                }
+
+<span class="nc bnc" id="L308" title="All 2 branches missed.">                if( countActivePlayers() == 1 ) {</span>
+<span class="nc" id="L309">                        return;</span>
+                    }
+<span class="nc bnc" id="L311" title="All 2 branches missed.">                if( better == bigBlind )</span>
+<span class="nc" id="L312">                    passedAll = true;</span>
+                }
+            //after a round is completed reset check status, openbet, and totalroundbet of players
+<span class="nc" id="L315">            resetPlayerCheckStatus();</span>
+<span class="nc" id="L316">            resetTotalRoundBet();</span>
+<span class="nc" id="L317">            this.openBet = 0;</span>
+        }
+        //after the 4 rounds complete, reset a players fold status
+<span class="nc" id="L320">        resetPlayerFoldStatus();</span>
+
+<span class="nc" id="L322">    }</span>
+
+
+
+
+    public static void main(String[] args)
+    {
+<span class="nc" id="L329">        Deck deck = new Deck();</span>
+
+<span class="nc" id="L331">        deck.shuffleDeck();</span>
+<span class="nc" id="L332">        System.out.println(deck.getDeck());</span>
+<span class="nc" id="L333">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
