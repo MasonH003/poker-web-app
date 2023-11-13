@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoundControllerTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">RoundControllerTest.java</span></div><h1>RoundControllerTest.java</h1><pre class="source lang-java linenums">
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import com.example.pokerwebapp.*;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
+
+
+<span class="fc" id="L12">public class RoundControllerTest {</span>
+
+
+    @Test
+    public void testShowdown() {
+<span class="fc" id="L17">        Player p1 = new Player( &quot;player one&quot; );</span>
+<span class="fc" id="L18">        Player p2 = new Player( &quot;player two&quot; );</span>
+<span class="fc" id="L19">        Player p3 = new Player( &quot;player three&quot; );</span>
+<span class="fc" id="L20">        ArrayList&lt;Player&gt; pList = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L22">        Deck deck = new Deck();</span>
+
+
+<span class="fc" id="L25">        pList.add( p1 );</span>
+<span class="fc" id="L26">        pList.add( p2 );</span>
+<span class="fc" id="L27">        pList.add( p3 );</span>
+
+
+<span class="fc" id="L30">        Table table = new Table( pList );</span>
+
+<span class="fc" id="L32">        table.dealFlop();</span>
+<span class="fc" id="L33">        table.dealTurn();</span>
+<span class="fc" id="L34">        table.dealRiver(); // table has ace, two, three, four, five</span>
+<span class="fc" id="L35">        p1.addToPlayerHand( deck.dealCard() );</span>
+<span class="fc" id="L36">        p1.addToPlayerHand( deck.dealCard() ); // player1 has six, seven, straight flush</span>
+<span class="fc" id="L37">        p2.addToPlayerHand( deck.dealCard() );</span>
+<span class="fc" id="L38">        p2.addToPlayerHand( deck.dealCard() ); // player2 has eight, nine, flush</span>
+<span class="fc" id="L39">        p3.addToPlayerHand( deck.dealCard() );</span>
+<span class="fc" id="L40">        p3.addToPlayerHand( deck.dealCard() ); // player3 has ten, jack, flush</span>
+
+<span class="fc" id="L42">        RoundController rc = new RoundController( table );</span>
+<span class="nc" id="L43">        assertEquals( p1, rc.showdown() );</span>
+
+<span class="nc" id="L45">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

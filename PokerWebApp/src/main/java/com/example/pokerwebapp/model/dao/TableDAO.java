@@ -1,4 +1,4 @@
-package com.example.pokerwebapp.model.dao;
+/*package com.example.pokerwebapp.model.dao;
 
 import com.example.pokerwebapp.model.entity.Account;
 import com.example.pokerwebapp.model.entity.BaseEntity;
@@ -29,4 +29,4 @@ public abstract class TableDAO extends GenericDAO<Table> {
         }
         return found;
     }
-}
+}*/

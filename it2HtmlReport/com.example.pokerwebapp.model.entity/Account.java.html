@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Account.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.example.pokerwebapp.model.entity</a> &gt; <span class="el_source">Account.java</span></div><h1>Account.java</h1><pre class="source lang-java linenums">// SPDX-License-Identifier: MIT
+package com.example.pokerwebapp.model.entity;
+
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+public class Account extends BaseEntity {
+<span class="fc" id="L11">    @Id @Column(name=&quot;id_account&quot;) @GeneratedValue(strategy = GenerationType.IDENTITY)</span>
+    private Integer ID = null;
+    private int is_admin;
+    @Column(unique=true) //Login must be unique for each record in DB
+    private String username;
+    private String password;
+    private int money;
+
+    // bidirectional relationship
+<span class="fc" id="L20">    @ManyToMany(fetch = FetchType.EAGER)</span>
+    @JoinTable(
+            name = &quot;user_friend&quot;,
+            joinColumns = @JoinColumn(name = &quot;id_account&quot;),
+            inverseJoinColumns = @JoinColumn(name = &quot;id_friend&quot;)
+    )
+
+    private Set&lt;Account&gt; friends = new HashSet&lt;&gt;();
+
+<span class="fc" id="L29">    @ManyToMany(mappedBy = &quot;friends&quot; ,fetch = FetchType.EAGER)</span>
+    private Set&lt;Account&gt; friendOf = new HashSet&lt;&gt;();
+
+    // unidirectional relationship
+<span class="fc" id="L33">    @ManyToMany</span>
+    @JoinTable(
+            name = &quot;user_block&quot;,
+            joinColumns = @JoinColumn(name = &quot;id_account&quot;),
+            inverseJoinColumns = @JoinColumn(name = &quot;id_blocked&quot;)
+    )
+    private Set&lt;Account&gt; blockedAccounts = new HashSet&lt;&gt;();
+
+
+
+    public transient static final int NORMAL_PERMISSION = 0;
+    public transient static final int ADMIN_PERMISSION = 1;
+
+<span class="fc" id="L46">    public Account(){</span>
+<span class="fc" id="L47">        this.is_admin = NORMAL_PERMISSION;</span>
+<span class="fc" id="L48">    }</span>
+
+<span class="fc" id="L50">    public Account(Integer ID, String username, String password, int is_admin) {</span>
+<span class="fc" id="L51">        this.ID = ID;</span>
+<span class="fc" id="L52">        this.username = username;</span>
+<span class="fc" id="L53">        this.password = password;</span>
+<span class="fc" id="L54">        this.is_admin = is_admin;</span>
+<span class="fc" id="L55">    }</span>
+
+    /*public Account(String username, String password ) {
+        this.username = username;
+        this.password = password;
+        this.money = 500;
+        this.is_admin = NORMAL_PERMISSION;
+    }*/
+
+    public Integer getID() {
+<span class="fc" id="L65">        return ID;</span>
+    }
+    public void setID(Integer ID) {
+<span class="nc" id="L68">        this.ID = ID;</span>
+<span class="nc" id="L69">    }</span>
+
+    public String getUsername() {
+<span class="fc" id="L72">        return username;</span>
+    }
+
+    public void setUsername(String username) {
+<span class="fc" id="L76">        this.username = username;</span>
+<span class="fc" id="L77">    }</span>
+
+    /***
+     * Returns the email which should be same as the Login
+     *
+     * @return
+     */
+<span class="fc" id="L84">    public String getEmail(){ return getUsername(); }</span>
+
+    /***
+     * Sets the Email which should be same as Login
+     */
+    public void setEmail(String email){
+<span class="fc" id="L90">        setUsername(email);</span>
+<span class="fc" id="L91">    }</span>
+
+    public String getPassword() {
+<span class="fc" id="L94">        return password;</span>
+    }
+
+    public void setPassword(String password) {
+<span class="fc" id="L98">        this.password = password;</span>
+<span class="fc" id="L99">    }</span>
+
+    public int getPermission() {
+<span class="fc" id="L102">        return is_admin;</span>
+    }
+
+    public void setPermission(int permission) {
+<span class="fc" id="L106">        this.is_admin = permission;</span>
+<span class="fc" id="L107">    }</span>
+
+    public String getPermissionAsString(){
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        if(is_admin ==NORMAL_PERMISSION) return &quot;Normal&quot;;</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        else if(is_admin ==ADMIN_PERMISSION) return &quot;Admin&quot;;</span>
+<span class="fc" id="L112">        else return &quot;Unknown&quot;;</span>
+    }
+
+    public void setMoney(int money) {
+<span class="fc" id="L116">        this.money = money;</span>
+<span class="fc" id="L117">    }</span>
+
+    public int getMoney() {
+<span class="nc" id="L120">        return this.money;</span>
+    }
+
+    public Set&lt;Account&gt; getFriends() {
+<span class="nc" id="L124">        return friends;</span>
+    }
+
+    public void setFriends(Set&lt;Account&gt; friends) {
+<span class="nc" id="L128">        this.friends = friends;</span>
+<span class="nc" id="L129">    }</span>
+
+    public Set&lt;Account&gt; getFriendOf() {
+<span class="nc" id="L132">        return friendOf;</span>
+    }
+
+    public void setFriendOf(Set&lt;Account&gt; friendOf) {
+<span class="nc" id="L136">        this.friendOf = friendOf;</span>
+<span class="nc" id="L137">    }</span>
+
+    public Set&lt;Account&gt; getBlockedAccounts() {
+<span class="nc" id="L140">        return blockedAccounts;</span>
+    }
+
+    public void setBlockedAccounts(Set&lt;Account&gt; blockedAccounts) {
+<span class="nc" id="L144">        this.blockedAccounts = blockedAccounts;</span>
+<span class="nc" id="L145">    }</span>
+
+    //move this to the service layer eventually
+    public void addFriend(Account toAdd)
+    {
+<span class="nc" id="L150">        this.friends.add(toAdd);</span>
+<span class="nc" id="L151">        toAdd.getFriendOf().add(this);</span>
+<span class="nc" id="L152">    }</span>
+    //move to service layer eventually
+    public void deleteFriend(Account toRemove)
+    {
+<span class="nc" id="L156">        this.friends.remove(toRemove);</span>
+<span class="nc" id="L157">        toRemove.getFriendOf().remove(this);</span>
+
+<span class="nc" id="L159">    }</span>
+
+    //move to service layer
+    public void blockAccount(Account toBlock)
+    {
+<span class="nc" id="L164">        this.blockedAccounts.add(toBlock);</span>
+<span class="nc" id="L165">    }</span>
+
+    //move to service layer
+    public void unblockAccount(Account toUnblock)
+    {
+<span class="nc" id="L170">        this.blockedAccounts.remove(toUnblock);</span>
+<span class="nc" id="L171">    }</span>
+}
+
+/**
+ create table account(
+ id_account int not null auto_increment,
+ is_admin int not null default 0,
+ username varchar(50) not null,
+ password varchar(5000) not null,
+ money int not null default 500,
+
+ constraint account_pk primary key(id_account),
+ constraint account_username_uk unique key(username)
+ );
+ */
+
+
+/**
+ CREATE TABLE user_friend (
+ id_account INT,
+ id_friend INT,
+ PRIMARY KEY (id_account, id_friend),
+ FOREIGN KEY (id_account) REFERENCES account(id_account),
+ FOREIGN KEY (id_friend) REFERENCES account(id_account)
+ );
+ */
+
+/**
+ CREATE TABLE user_block (
+ id_account INT,
+ id_blocked INT,
+ PRIMARY KEY (id_account, id_blocked),
+ FOREIGN KEY (id_account) REFERENCES account(id_account),
+ FOREIGN KEY (id_blocked) REFERENCES account(id_account)
+ );
+ */
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
