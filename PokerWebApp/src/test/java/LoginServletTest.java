@@ -21,8 +21,8 @@ public class LoginServletTest {
     public void testDoPostNormalPath() throws IOException, ServletException {
         Account answer = new Account();
         answer.setID(1);
-        answer.setUsername("test@test.test");
-        answer.setPassword("test");
+        answer.setUsername("hashtest@hashtest");
+        answer.setPassword("hashtest");
 
         //Servlets always have two main parameters request & repost which we need to mock
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -30,8 +30,8 @@ public class LoginServletTest {
         HttpSession sessionMock = mock(HttpSession.class); //In this case, also Session
 
         //Setup the mock "inputs" on request
-        when(request.getParameter("txt_login")).thenReturn("test@test.test");
-        when(request.getParameter("txt_pass")).thenReturn("test");
+        when(request.getParameter("txt_login")).thenReturn("hashtest@hash");
+        when(request.getParameter("txt_pass")).thenReturn("hashtest");
         when(request.getSession()).thenReturn(sessionMock);
 
         //Also need to mock UserService, since it is static method, the mocking is different
@@ -44,8 +44,8 @@ public class LoginServletTest {
 
             assertAll("LoginAccountServlet - Logged Account Path Assertions",
                     () -> assertDoesNotThrow(
-                            () -> verify(response).sendRedirect("play-poker"),
-                            "LoginServlet should called sendRedirect(\"play-poker\")"),
+                            () -> verify(response).sendRedirect("index.jsp"),
+                            "LoginServlet should called sendRedirect(\"index.jsp\")"),
                     () -> assertDoesNotThrow(
                             () -> verify(sessionMock).setAttribute(eq("Account"), any(Account.class)),
                             "LoginServlet should called session.setAttribute(\"Account\",logged); ")
@@ -61,8 +61,8 @@ public class LoginServletTest {
         HttpSession sessionMock = mock(HttpSession.class); //In this case, also Session
 
         //Setup the mock "inputs" on request
-        when(request.getParameter("txt_login")).thenReturn("test@test.test");
-        when(request.getParameter("txt_pass")).thenReturn("test");
+        when(request.getParameter("txt_login")).thenReturn("hashtest@hashtest");
+        when(request.getParameter("txt_pass")).thenReturn("hashtest");
         when(request.getSession()).thenReturn(sessionMock);
 
         //Also need to mock AccountService, since it is static method, the mocking is different
@@ -75,8 +75,8 @@ public class LoginServletTest {
 
             assertAll("LoginUserServlet - Incorrect Login User Path Assertions",
                     () -> assertDoesNotThrow(
-                            () -> verify(response).sendRedirect("play-poker?msg=1"),
-                            "LoginServlet should called sendRedirect(\"play-poker?msg=1\")"),
+                            () -> verify(response).sendRedirect("login.jsp?msg=1"),
+                            "LoginServlet should called sendRedirect(\"login.jsp?msg=1\")"),
                     () -> assertDoesNotThrow(
                             () -> verify(sessionMock, never()).setAttribute(eq("Account"), any(Account.class)),
                             "LoginServlet should never call session.setAttribute(...); ")
@@ -91,7 +91,7 @@ public class LoginServletTest {
         HttpSession sessionMock = mock(HttpSession.class); //In this case, also Session
 
         //Setup the mock "inputs" on request
-        when(request.getParameter("txt_pass")).thenReturn("test");
+        when(request.getParameter("txt_pass")).thenReturn("hashtest");
         when(request.getSession()).thenReturn(sessionMock);
 
         LoginServlet servlet = new LoginServlet();
@@ -99,8 +99,8 @@ public class LoginServletTest {
 
         assertAll("LoginUserServlet - doGet Assertions",
                 () -> assertDoesNotThrow(
-                        () -> verify(response).sendRedirect("play-poker"),
-                        "LoginServlet.doGet should called sendRedirect(\"play-poker\")"),
+                        () -> verify(response).sendRedirect("index.jsp"),
+                        "LoginServlet.doGet should called sendRedirect(\"index.jsp\")"),
                 () -> assertDoesNotThrow(
                         () -> verify(request,never()).getSession(),
                         "LoginServlet.doGet should never called request.getSession()"),
