@@ -35,7 +35,7 @@ public class AddFriendServletTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
         HttpSession sessionMock = mock(HttpSession.class);
 
-        when(request.getParameter("friend")).thenReturn("test@test.com");
+        when(request.getParameter("txt_id")).thenReturn("201");
 
 
 

@@ -19,27 +19,18 @@ public class AddFriendServlet extends HttpServlet {
         this.dao = newdao;
     }
 
-    public void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException{
-
-
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //Account of the currently logged-in user
         Account logged = (Account) request.getSession().getAttribute("Account");
 
-        String accountUsernameToAdd = request.getParameter("friend");
+        String accountUsernameToAdd = request.getParameter("friendname");
 
         //Account of the person you want to add
         Account toAdd = dao.findUserByUsername(accountUsernameToAdd);
 
         AccountService.addFriend(logged,toAdd);
 
-        response.sendRedirect("testfriendaction.jsp");
-    }
-
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        processRequest(request,response);
-    }
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        processRequest(request,response);
+        response.sendRedirect("index.jsp");
     }
 
 }

@@ -30,7 +30,7 @@ public class Account extends BaseEntity {
     private Set<Account> friendOf = new HashSet<>();
 
     // unidirectional relationship
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_block",
             joinColumns = @JoinColumn(name = "id_account"),
