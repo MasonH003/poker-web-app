@@ -26,7 +26,7 @@
 <html>
 <head>
     <title>Register New Account</title>
-    <jsp:include page="styling.jsp"/>
+    <jsp:include page="components/styling.jsp"/>
 </head>
 <body>
 <%-- Here you put the content for this page --%>

@@ -16,7 +16,7 @@
 %>
 <html>
 <head>
-    <jsp:include page="styling.jsp"/>
+    <jsp:include page="components/styling.jsp"/>
 </head>
 <body>
 

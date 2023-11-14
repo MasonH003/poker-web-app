@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>Registration Successful</title>
-    <jsp:include page="styling.jsp"/>
+    <jsp:include page="components/styling.jsp"/>
 </head>
 <body>
 
