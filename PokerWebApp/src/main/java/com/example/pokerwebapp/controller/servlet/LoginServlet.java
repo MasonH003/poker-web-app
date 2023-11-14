@@ -1,7 +1,3 @@
-//package edu.loyola.cs.se.parkinglotexample.controller.servlet;
-//import edu.loyola.cs.se.parkinglotexample.controller.service.UserService;
-//import edu.loyola.cs.se.parkinglotexample.model.entity.User;
-
 package com.example.pokerwebapp.controller.servlet;
 import com.example.pokerwebapp.controller.service.AccountService;
 import com.example.pokerwebapp.model.entity.Account;

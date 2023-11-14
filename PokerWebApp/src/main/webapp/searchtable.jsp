@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>Search Table</title>
-    <jsp:include page="styling.jsp"/>
+    <jsp:include page="components/styling.jsp"/>
 </head>
 <body>
 
