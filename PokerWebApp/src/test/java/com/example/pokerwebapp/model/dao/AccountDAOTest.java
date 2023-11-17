@@ -90,7 +90,7 @@ public class AccountDAOTest {
         dao.create(u1);
         dao.create(u2);
         dao.create(u3);
-        java.util.List<Account> lstUser = dao.list("login");
+        java.util.List<Account> lstUser = dao.list("username");
         assertAll("Grouped Assertions for List User",
                 () -> assertEquals(lstUser.size(), 3),
                 () -> assertEquals(lstUser.get(0).getUsername(),"AA"),
