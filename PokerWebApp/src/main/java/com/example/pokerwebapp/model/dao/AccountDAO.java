@@ -41,29 +41,6 @@ public class AccountDAO extends GenericDAO<Account> {
         return found;
     }
 
-//    public List<Account> findFriendsByUsername(String username) {
-//        EntityManager em = getEntityManager();
-//        List<Friends> friendsList = em.createQuery("SELECT f FROM "+ getTableName() +" f WHERE f.owner.id = :userId", Friends.class)
-//
-//        String query = "SELECT f FROM"+getTableName()+"f WHERE f.user"
-//        List<Account> friends = null;
-//
-//        try {
-//            friends = em.createQuery(query, Account.class).setParameter("username", username).getResultList();
-//        } catch (NoResultException ex) {
-//            friends = null;
-//        } finally {
-//            em.close();
-//        }
-//        return friends;
-//    }
-
-
-
-
-
-
-
 
 }
 

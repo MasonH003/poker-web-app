@@ -16,29 +16,6 @@ public class Account extends BaseEntity {
     private String password;
     private int money;
 
-    // bidirectional relationship
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_friend",
-            joinColumns = @JoinColumn(name = "id_account"),
-            inverseJoinColumns = @JoinColumn(name = "id_friend")
-    )
-
-    private Set<Account> friends = new HashSet<>();
-
-    @ManyToMany(mappedBy = "friends" ,fetch = FetchType.EAGER)
-    private Set<Account> friendOf = new HashSet<>();
-
-    // unidirectional relationship
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_block",
-            joinColumns = @JoinColumn(name = "id_account"),
-            inverseJoinColumns = @JoinColumn(name = "id_blocked")
-    )
-    private Set<Account> blockedAccounts = new HashSet<>();
-
-
 
     public transient static final int NORMAL_PERMISSION = 0;
     public transient static final int ADMIN_PERMISSION = 1;
@@ -120,55 +97,7 @@ public class Account extends BaseEntity {
         return this.money;
     }
 
-    public Set<Account> getFriends() {
-        return friends;
-    }
 
-    public void setFriends(Set<Account> friends) {
-        this.friends = friends;
-    }
-
-    public Set<Account> getFriendOf() {
-        return friendOf;
-    }
-
-    public void setFriendOf(Set<Account> friendOf) {
-        this.friendOf = friendOf;
-    }
-
-    public Set<Account> getBlockedAccounts() {
-        return blockedAccounts;
-    }
-
-    public void setBlockedAccounts(Set<Account> blockedAccounts) {
-        this.blockedAccounts = blockedAccounts;
-    }
-
-    //move this to the service layer eventually
-    public void addFriend(Account toAdd)
-    {
-        this.friends.add(toAdd);
-        toAdd.getFriendOf().add(this);
-    }
-    //move to service layer eventually
-    public void deleteFriend(Account toRemove)
-    {
-        this.friends.remove(toRemove);
-        toRemove.getFriendOf().remove(this);
-
-    }
-
-    //move to service layer
-    public void blockAccount(Account toBlock)
-    {
-        this.blockedAccounts.add(toBlock);
-    }
-
-    //move to service layer
-    public void unblockAccount(Account toUnblock)
-    {
-        this.blockedAccounts.remove(toUnblock);
-    }
 }
 
 /**
