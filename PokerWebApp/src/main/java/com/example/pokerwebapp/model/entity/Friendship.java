@@ -6,24 +6,23 @@ public class Friendship extends BaseEntity{
 
     @Id @Column(name="id_friendship") @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID = null;
-
-    @Enumerated(EnumType.STRING)
-    private FriendshipStatus status;
-
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Account user;
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @ManyToOne
     @JoinColumn(name = "friend_id")
     private Account friend;
 
+    @Enumerated(EnumType.STRING)
+    private FriendshipStatus status;
+
+
     public Friendship() {
-        // Initialization or leave empty if not needed
     }
-    public Friendship(Account user, Account friend)
+    public Friendship(Account account, Account friend)
     {
-        this.user = user;
+        this.account = account;
         this.friend = friend;
         this.status = FriendshipStatus.PENDING;
     }
@@ -36,12 +35,12 @@ public class Friendship extends BaseEntity{
         this.status = status;
     }
 
-    public Account getUser() {
-        return user;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setUser(Account user) {
-        this.user = user;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Account getFriend() {
@@ -63,9 +62,9 @@ public class Friendship extends BaseEntity{
  CREATE TABLE Friendship (
  id_friendship INT AUTO_INCREMENT PRIMARY KEY,
  status VARCHAR(255),
- user_id INT,
+ account_id INT,
  friend_id INT,
- FOREIGN KEY (user_id) REFERENCES account(id_account),
- FOREIGN KEY (friend_id) REFERENCES account(id_account)
+ FOREIGN KEY (account_id) REFERENCES Account(id_account),
+ FOREIGN KEY (friend_id) REFERENCES Account(id_account)
  );
  */
