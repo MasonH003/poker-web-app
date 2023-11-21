@@ -3,8 +3,7 @@ package com.example.pokerwebapp.model.entity;
 
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+
 
 @Entity
 public class Account extends BaseEntity {
@@ -113,23 +112,3 @@ public class Account extends BaseEntity {
  );
  */
 
-
-/**
- CREATE TABLE user_friend (
- id_account INT,
- id_friend INT,
- PRIMARY KEY (id_account, id_friend),
- FOREIGN KEY (id_account) REFERENCES account(id_account),
- FOREIGN KEY (id_friend) REFERENCES account(id_account)
- );
- */
-
-/**
- CREATE TABLE user_block (
- id_account INT,
- id_blocked INT,
- PRIMARY KEY (id_account, id_blocked),
- FOREIGN KEY (id_account) REFERENCES account(id_account),
- FOREIGN KEY (id_blocked) REFERENCES account(id_account)
- );
- */
