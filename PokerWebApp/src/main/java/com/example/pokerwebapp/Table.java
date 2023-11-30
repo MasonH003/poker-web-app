@@ -1,16 +1,9 @@
 package com.example.pokerwebapp;
 
-/*import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;*/
-
 import java.util.ArrayList;
 import java.util.List;
 public class Table{
 
-    /*@Id @Column(name="id_account") @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer ID = null;*/
     private String name;
     private Deck deck;
     private List<Card> gameCards;

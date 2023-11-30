@@ -1,32 +1,18 @@
-/*package com.example.pokerwebapp.model.dao;
+package com.example.pokerwebapp.model.dao;
 
-import com.example.pokerwebapp.model.entity.Account;
-import com.example.pokerwebapp.model.entity.BaseEntity;
-import com.example.pokerwebapp.util.Table;
+import com.example.pokerwebapp.model.entity.TableEntity;
+
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 
-public abstract class TableDAO extends GenericDAO<Table> {
+public class TableDAO extends GenericDAO<TableEntity> {
     public TableDAO(){
-        super(Table.class);
+        super(TableEntity.class);
     }
 
-    public Table findTable(String find){
-        EntityManager em = getEntityManager();
-
-        String query = "SELECT u FROM "+getTableName()+" u WHERE u.username = :table_name"; // :email is a parameter, to avoid SQL Injection
-        Table found = null;
-
-        try
-        {
-            found = em.createQuery(query, Table.class).setParameter("table_name", find).getResultList();
-        }
-        catch(NoResultException ex){
-            found = null;
-        }
-        finally{
-            em.close();
-        }
-        return found;
+    public TableEntity read(String name){
+        EntityManager em = this.getEntityManager();
+        TableEntity entity = em.find(EntityClass, name);
+        em.close();
+        return entity;
     }
-}*/
+}
