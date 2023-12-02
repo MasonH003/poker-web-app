@@ -142,6 +142,11 @@ public class Deck  {
         cards.sort( Comparator.naturalOrder() );
     }
 
+    /**
+     * purpose: evaluate a hand
+     * input: n/a
+     * @return a HandType, the highest value of this deck/hand
+     */
     public HandType evaluateHand() {
         sortDeckByRank();
         if( hasRoyalFlush() )
