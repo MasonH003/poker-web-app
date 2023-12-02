@@ -214,6 +214,29 @@ public class Deck  {
         return false;
     }
     public boolean hasFullHouse() {
+        boolean triple = false, pair = false;
+        Card.Rank firstSet = null;
+        for( Card c : cards ) { // pick one card in the deck
+            int counter = 0;
+            if( c.getCardRank() == firstSet ) // dont pick up a pair of the same rank
+                continue;
+            for( Card check : cards ) { //compare the one card to the whole deck and see how many there are
+                if( c.getCardRank() == check.getCardRank() )
+                    counter++;
+            }
+            if( counter == 2 && !pair || counter >= 2 && triple )
+            {
+                pair = true;
+                firstSet = c.getCardRank();
+            }
+            else if( counter >= 3 && !triple ) {
+                triple = true;
+                firstSet = c.getCardRank();
+            }
+            if( pair && triple )
+                return true;
+        }
+
         return false;
     }
     public boolean hasFlush() {

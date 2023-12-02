@@ -94,6 +94,97 @@ public class DeckTest {
         assertFalse( d.hasRoyalFlush() );
     }
 
+
+    @Test
+    public void testFullHouse() {
+        Deck d1 = new Deck( true );
+        ArrayList<Card> cards1 = new ArrayList<>();
+        cards1.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards1.add( new Card( Card.Rank.ACE, Card.Suit.HEARTS ));
+        cards1.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ));
+        cards1.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards1.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        cards1.add( new Card( Card.Rank.TEN, Card.Suit.CLUBS ));
+        cards1.add( new Card( Card.Rank.TEN, Card.Suit.HEARTS ));
+        d1.setCards( cards1 );
+
+        Deck d2 = new Deck( true );
+        ArrayList<Card> cards2 = new ArrayList<>();
+        cards2.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards2.add( new Card( Card.Rank.ACE, Card.Suit.HEARTS ));
+        cards2.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ));
+        cards2.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards2.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        cards2.add( new Card( Card.Rank.NINE, Card.Suit.CLUBS ));
+        cards2.add( new Card( Card.Rank.TEN, Card.Suit.HEARTS ));
+        d2.setCards( cards2 );
+
+        Deck d3 = new Deck( true );
+        ArrayList<Card> cards3 = new ArrayList<>();
+        cards3.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards3.add( new Card( Card.Rank.ACE, Card.Suit.HEARTS ));
+        cards3.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ));
+        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.CLUBS ));
+        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        d3.setCards( cards3 );
+
+        d1.sortDeckByRank();
+        d2.sortDeckByRank();
+        d3.sortDeckByRank();
+        assertAll(
+                ()->assertTrue( d1.hasFullHouse() ),
+                ()->assertTrue( d2.hasFullHouse() ),
+                ()->assertTrue( d3.hasFullHouse() )
+        );
+    }
+
+    @Test
+    public void testNotFullHouse() {
+        Deck d1 = new Deck( true );
+        ArrayList<Card> cards1 = new ArrayList<>();
+        cards1.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards1.add( new Card( Card.Rank.ACE, Card.Suit.HEARTS ));
+        cards1.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ));
+        cards1.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards1.add( new Card( Card.Rank.JACK, Card.Suit.HEARTS ));
+        cards1.add( new Card( Card.Rank.TEN, Card.Suit.CLUBS ));
+        cards1.add( new Card( Card.Rank.KING, Card.Suit.HEARTS ));
+        d1.setCards( cards1 );
+
+        Deck d2 = new Deck( true );
+        ArrayList<Card> cards2 = new ArrayList<>();
+        cards2.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards2.add( new Card( Card.Rank.ACE, Card.Suit.HEARTS ));
+        cards2.add( new Card( Card.Rank.JACK, Card.Suit.DIAMONDS ));
+        cards2.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards2.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        cards2.add( new Card( Card.Rank.NINE, Card.Suit.CLUBS ));
+        cards2.add( new Card( Card.Rank.NINE, Card.Suit.HEARTS ));
+        d2.setCards( cards2 );
+
+        Deck d3 = new Deck( true );
+        ArrayList<Card> cards3 = new ArrayList<>();
+        cards3.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards3.add( new Card( Card.Rank.ACE, Card.Suit.HEARTS ));
+        cards3.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ));
+        cards3.add( new Card( Card.Rank.ACE, Card.Suit.CLUBS ));
+        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        cards3.add( new Card( Card.Rank.TWO, Card.Suit.CLUBS ));
+        cards3.add( new Card( Card.Rank.FOUR, Card.Suit.HEARTS ));
+        d3.setCards( cards3 );
+
+        d1.sortDeckByRank();
+        d2.sortDeckByRank();
+        d3.sortDeckByRank();
+        assertAll(
+                ()->assertFalse( d1.hasFullHouse() ),
+                ()->assertFalse( d2.hasFullHouse() ),
+                ()->assertFalse( d3.hasFullHouse() )
+        );
+    }
+
     @Test
     public void testFourOfAKind() {
         Deck d = new Deck( true );
