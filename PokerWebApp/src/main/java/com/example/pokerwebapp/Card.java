@@ -1,6 +1,6 @@
 package com.example.pokerwebapp;
 
-//A simple com.example.pokerwebapp.Card class
+//A simple card class
 public class Card implements Comparable<Card>{
     public enum Suit {
         SPADES, HEARTS, DIAMONDS, CLUBS

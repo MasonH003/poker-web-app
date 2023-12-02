@@ -2,6 +2,10 @@ import com.example.pokerwebapp.Card;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.pokerwebapp.Deck;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class DeckTest {
 
 
@@ -10,6 +14,110 @@ public class DeckTest {
     {
         Deck d = new Deck();
         assertEquals(52, d.remainingDeckSize());
+    }
+
+    @Test
+    public void deckSizeWhenEmptyConstructorUsed()
+    {
+        Deck d = new Deck( true );
+        assertEquals( 0, d.remainingDeckSize() );
+    }
+
+    @Test
+    public void deckSortTest()
+    {
+        Deck d = new Deck( true );
+        ArrayList<Card> cards = new ArrayList<Card>();
+        cards.add( new Card( Card.Rank.TWO, Card.Suit.SPADES ) );
+        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );
+        cards.add( new Card( Card.Rank.THREE, Card.Suit.HEARTS ) );
+        d.setCards( cards );
+        d.sortDeckByRank();
+        //System.out.println( d.getDeck() );
+        assertAll(
+                ()->assertEquals( Card.Rank.ACE, d.getDeck().get(0).getCardRank() ),
+                ()->assertEquals( Card.Rank.TWO, d.getDeck().get(1).getCardRank() ),
+                ()->assertEquals( Card.Rank.THREE, d.getDeck().get(2).getCardRank() )
+        );
+    }
+
+    @Test
+    public void testCombineDecks() {
+        Deck d1 = new Deck( true );
+        Deck d2 = new Deck( true );
+
+        ArrayList<Card> c1 = new ArrayList<>();
+        ArrayList<Card> c2 = new ArrayList<>();
+
+        c1.add( new Card( Card.Rank.TWO, Card.Suit.SPADES ) );
+        c1.add( new Card( Card.Rank.FOUR, Card.Suit.DIAMONDS ));
+        c2.add( new Card( Card.Rank.THREE, Card.Suit.HEARTS ));
+        c2.add( new Card( Card.Rank.KING, Card.Suit.CLUBS ) );
+
+        d1.setCards( c1 );
+        d2.setCards( c2 );
+
+        Deck d3 = Deck.combineDecks( d1, d2 );
+        assertAll(
+                ()->assertEquals( Card.Rank.TWO, d3.getDeck().get(0).getCardRank() ),
+                ()->assertEquals( Card.Rank.FOUR, d3.getDeck().get(1).getCardRank() ),
+                ()->assertEquals( Card.Rank.THREE, d3.getDeck().get(2).getCardRank() ),
+                ()->assertEquals( Card.Rank.KING, d3.getDeck().get(3).getCardRank() ),
+                ()->assertEquals( 4, d3.remainingDeckSize())
+        );
+
+    }
+
+    @Test
+    public void testRoyalFlush() {
+        Deck d = new Deck( true );
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));
+        d.setCards( cards );
+        assertTrue( d.hasRoyalFlush() );
+    }
+
+    @Test
+    public void testNotRoyalFlush() {
+        Deck d = new Deck( true );
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );
+        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));
+        d.setCards( cards );
+        assertFalse( d.hasRoyalFlush() );
+    }
+
+    @Test
+    public void testThreeOfAKind() {
+        Deck d = new Deck( true );
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.DIAMONDS ));
+        d.setCards( cards );
+        assertTrue( d.hasThreeOfAKind() );
+    }
+
+    @Test
+    public void testNotThreeOfAKind() {
+        Deck d = new Deck( true );
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.DIAMONDS ));
+        d.setCards( cards );
+        assertFalse( d.hasThreeOfAKind() );
     }
 
     //Assure that the card that is dealt is equal to the first card of the deck
