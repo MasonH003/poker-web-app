@@ -120,6 +120,94 @@ public class DeckTest {
         assertFalse( d.hasThreeOfAKind() );
     }
 
+    @Test
+    public void testStraight() {
+        Deck d1 = new Deck( true );
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );
+        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));
+        d1.setCards( cards );
+
+        Deck d2 = new Deck( true );
+        ArrayList<Card> cards2 = new ArrayList<>();
+        cards2.add( new Card( Card.Rank.TWO, Card.Suit.DIAMONDS ) );
+        cards2.add( new Card( Card.Rank.FOUR, Card.Suit.SPADES ));
+        cards2.add( new Card( Card.Rank.FOUR, Card.Suit.DIAMONDS ) );
+        cards2.add( new Card( Card.Rank.FIVE, Card.Suit.SPADES ));
+        cards2.add( new Card( Card.Rank.SIX, Card.Suit.SPADES ));
+        cards2.add( new Card( Card.Rank.SIX, Card.Suit.DIAMONDS ));
+        cards2.add( new Card( Card.Rank.SEVEN, Card.Suit.SPADES ));
+        cards2.add( new Card( Card.Rank.EIGHT, Card.Suit.SPADES ));
+        d2.setCards( cards2 );
+
+        Deck d3 = new Deck( true );
+        ArrayList<Card> cards3 = new ArrayList<>();
+        cards3.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );
+        cards3.add( new Card( Card.Rank.TWO, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.THREE, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.FOUR, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.FIVE, Card.Suit.SPADES ));
+        d3.setCards( cards3 );
+
+        d1.sortDeckByRank();
+        d2.sortDeckByRank();
+        d3.sortDeckByRank();
+
+        assertAll(
+                ()->assertTrue( d1.hasStraight() ),
+                ()->assertTrue( d2.hasStraight() ),
+                ()->assertTrue( d3.hasStraight() )
+        );
+    }
+
+    @Test
+    public void testNotStraight() {
+        Deck d1 = new Deck( true );
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );
+        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.NINE, Card.Suit.SPADES ));
+        d1.setCards( cards );
+
+        Deck d2 = new Deck( true );
+        ArrayList<Card> cards2 = new ArrayList<>();
+        cards2.add( new Card( Card.Rank.THREE, Card.Suit.DIAMONDS ) );
+        cards2.add( new Card( Card.Rank.FOUR, Card.Suit.SPADES ));
+        cards2.add( new Card( Card.Rank.FOUR, Card.Suit.DIAMONDS ) );
+        cards2.add( new Card( Card.Rank.FOUR, Card.Suit.HEARTS ));
+        cards2.add( new Card( Card.Rank.SIX, Card.Suit.SPADES ));
+        cards2.add( new Card( Card.Rank.SIX, Card.Suit.DIAMONDS ));
+        cards2.add( new Card( Card.Rank.SEVEN, Card.Suit.SPADES ));
+        cards2.add( new Card( Card.Rank.EIGHT, Card.Suit.SPADES ));
+        d2.setCards( cards2 );
+
+        Deck d3 = new Deck( true );
+        ArrayList<Card> cards3 = new ArrayList<>();
+        cards3.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );
+        cards3.add( new Card( Card.Rank.TWO, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.THREE, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.FOUR, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.FOUR, Card.Suit.HEARTS ));
+        cards3.add( new Card( Card.Rank.SIX, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.SEVEN, Card.Suit.HEARTS ));
+        d3.setCards( cards3 );
+
+        d1.sortDeckByRank();
+        d2.sortDeckByRank();
+        d3.sortDeckByRank();
+
+        assertAll(
+                ()->assertFalse( d1.hasStraight() ),
+                ()->assertFalse( d2.hasStraight() ),
+                ()->assertFalse( d3.hasStraight() )
+        );
+    }
+
     //Assure that the card that is dealt is equal to the first card of the deck
     @Test
     public void dealCard()

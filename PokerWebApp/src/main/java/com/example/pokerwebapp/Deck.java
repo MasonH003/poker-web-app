@@ -114,6 +114,15 @@ public class Deck  {
         return false;
     }
 
+    public boolean findCardByRank( Card.Rank rank ) {
+        for( Card c : cards )
+        {
+            if( c.getCardRank() == rank )
+                return true;
+        }
+        return false;
+    }
+
     public boolean findCard( Card needle ) {
         for( Card c : cards )
         {
@@ -214,6 +223,26 @@ public class Deck  {
         return (diamonds >= 5 || hearts >= 5 || clubs >= 5 || spades >= 5);
     }
     public boolean hasStraight() {
+        int counter = 0;
+        int old = -1;
+        for( Card c : cards )
+        {
+            if( old == -1 ) // if it's the first card in the deck
+                counter = 1;
+            // if we have a duplicate, this doesnt necessarily mean the straight is broken so continue
+            else if( c.getRankValue() == old )
+                continue;
+            else if( c.getRankValue() == old+1 )
+                counter++;
+            else
+                counter = 1;
+            old = c.getRankValue();
+            // pick up the edge case of an ACE acting as the end of a straight after a King
+            if( counter == 4 && old == 13 && this.findCardByRank(Card.Rank.ACE) )
+                return true;
+            if( counter >= 5 )
+                return true;
+        }
         return false;
     }
     public boolean hasThreeOfAKind() {
