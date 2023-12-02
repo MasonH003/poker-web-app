@@ -95,6 +95,32 @@ public class DeckTest {
     }
 
     @Test
+    public void testFourOfAKind() {
+        Deck d = new Deck( true );
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.CLUBS ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.DIAMONDS ));
+        d.setCards( cards );
+        assertTrue( d.hasFourOfAKind() );
+    }
+
+    @Test
+    public void testNotFourOfAKind() {
+        Deck d = new Deck( true );
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.DIAMONDS ));
+        d.setCards( cards );
+        assertFalse( d.hasFourOfAKind() );
+    }
+
+    @Test
     public void testThreeOfAKind() {
         Deck d = new Deck( true );
         ArrayList<Card> cards = new ArrayList<>();
@@ -118,6 +144,32 @@ public class DeckTest {
         cards.add( new Card( Card.Rank.QUEEN, Card.Suit.DIAMONDS ));
         d.setCards( cards );
         assertFalse( d.hasThreeOfAKind() );
+    }
+
+    @Test
+    public void testPair() {
+        Deck d = new Deck( true );
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.DIAMONDS ));
+        d.setCards( cards );
+        assertTrue( d.hasPair() );
+    }
+
+    @Test
+    public void testNotPair() {
+        Deck d = new Deck( true );
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.TEN, Card.Suit.DIAMONDS ));
+        d.setCards( cards );
+        assertFalse( d.hasPair() );
     }
 
     @Test

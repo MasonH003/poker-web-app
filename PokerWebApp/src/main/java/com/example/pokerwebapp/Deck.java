@@ -201,6 +201,16 @@ public class Deck  {
         return false;
     }
     public boolean hasFourOfAKind() {
+        for( Card c : cards ) { // pick one card in the deck
+            int counter = 0;
+            for( Card check : cards ) { //compare the one card to the whole deck and see how many there are
+                if( c.getCardRank() == check.getCardRank() )
+                    counter++;
+            }
+            if( counter >= 4 )
+                return true;
+        }
+
         return false;
     }
     public boolean hasFullHouse() {
@@ -262,9 +272,16 @@ public class Deck  {
         return false;
     }
     public boolean hasPair() {
-        for( Card c : cards ) {
-
+        for( Card c : cards ) { // pick one card in the deck
+            int counter = 0;
+            for( Card check : cards ) { //compare the one card to the whole deck and see how many there are
+                if( c.getCardRank() == check.getCardRank() )
+                    counter++;
+            }
+            if( counter >= 2 )
+                return true;
         }
+
         return false;
     }
 
