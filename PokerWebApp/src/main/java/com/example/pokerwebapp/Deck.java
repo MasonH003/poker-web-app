@@ -198,7 +198,64 @@ public class Deck  {
             return false;
     }
     public boolean hasStraightFlush() {
-        return false;
+        int counter = 0;
+        int old = -1;
+
+        ArrayList<Card> diamonds = new ArrayList<>(), hearts = new ArrayList<>(), clubs = new ArrayList<>(), spades = new ArrayList<>();
+        for( Card c : cards )
+        {
+            if( c.getCardSuit() == Card.Suit.DIAMONDS )
+                diamonds.add( c );
+            else if( c.getCardSuit() == Card.Suit.HEARTS )
+                hearts.add( c );
+            else if( c.getCardSuit() == Card.Suit.CLUBS )
+                clubs.add( c );
+            else if( c.getCardSuit() == Card.Suit.SPADES )
+                spades.add( c );
+        }
+
+        Deck diamondDeck = new Deck( true );
+        diamondDeck.setCards( diamonds );
+        Deck heartDeck = new Deck( true );
+        heartDeck.setCards( hearts );
+        Deck spadeDeck = new Deck( true );
+        spadeDeck.setCards( spades );
+        Deck clubDeck = new Deck( true );
+        clubDeck.setCards( clubs );
+
+        return diamondDeck.hasStraight() || heartDeck.hasStraight() || spadeDeck.hasStraight() || clubDeck.hasStraight();
+
+
+        /*for( Card c : cards ) {
+            Card.Suit suit = c.getCardSuit();
+            for( int i = cards.indexOf( c ); i < cards.size(); i++ ) {
+                if( cards.get(i).getCardSuit() != suit )
+                    continue;
+                if( old == -1 ) { // if it's the first card in the deck
+                    counter = 1;
+                    old = cards.get(i).getRankValue();
+                }
+                // if we have a duplicate, this doesnt necessarily mean the straight is broken so continue
+                else if( cards.get(i).getRankValue() == old )
+                    continue;
+                else if( cards.get(i).getRankValue() == old+1 ) {
+                    counter++;
+                    old = cards.get(i).getRankValue();
+                }
+                else {
+                    counter = 0;
+                    old = -1;
+                    break;
+                }
+                // pick up the edge case of an ACE acting as the end of a straight after a King
+                if( counter == 4 && old == 13 && this.findCard( suit, Card.Rank.ACE) )
+                    return true;
+                if( counter >= 5 )
+                    return true;
+            }
+        }*/
+
+
     }
     public boolean hasFourOfAKind() {
         for( Card c : cards ) { // pick one card in the deck

@@ -94,6 +94,96 @@ public class DeckTest {
         assertFalse( d.hasRoyalFlush() );
     }
 
+    @Test
+    public void testStraightFlush() {
+        Deck d1 = new Deck( true );
+        ArrayList<Card> cards1 = new ArrayList<>();
+        cards1.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards1.add( new Card( Card.Rank.TWO, Card.Suit.SPADES ));
+        cards1.add( new Card( Card.Rank.TWO, Card.Suit.DIAMONDS ));
+        cards1.add( new Card( Card.Rank.THREE, Card.Suit.HEARTS ));
+        cards1.add( new Card( Card.Rank.THREE, Card.Suit.SPADES ));
+        cards1.add( new Card( Card.Rank.FOUR, Card.Suit.SPADES ));
+        cards1.add( new Card( Card.Rank.FIVE, Card.Suit.SPADES ));
+        d1.setCards( cards1 );
+
+        Deck d2 = new Deck( true );
+        ArrayList<Card> cards2 = new ArrayList<>();
+        cards2.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards2.add( new Card( Card.Rank.TWO, Card.Suit.HEARTS ));
+        cards2.add( new Card( Card.Rank.FIVE, Card.Suit.DIAMONDS ));
+        cards2.add( new Card( Card.Rank.SIX, Card.Suit.DIAMONDS ));
+        cards2.add( new Card( Card.Rank.SEVEN, Card.Suit.DIAMONDS ));
+        cards2.add( new Card( Card.Rank.EIGHT, Card.Suit.DIAMONDS ));
+        cards2.add( new Card( Card.Rank.NINE, Card.Suit.DIAMONDS ));
+        d2.setCards( cards2 );
+
+        Deck d3 = new Deck( true );
+        ArrayList<Card> cards3 = new ArrayList<>();
+        cards3.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards3.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.CLUBS ));
+        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        d3.setCards( cards3 );
+
+        d1.sortDeckByRank();
+        d2.sortDeckByRank();
+        d3.sortDeckByRank();
+        assertAll(
+                ()->assertTrue( d1.hasStraightFlush() ),
+                ()->assertTrue( d2.hasStraightFlush() ),
+                ()->assertTrue( d3.hasStraightFlush() )
+        );
+    }
+
+    @Test
+    public void testNotStraightFlush() {
+        Deck d1 = new Deck( true );
+        ArrayList<Card> cards1 = new ArrayList<>();
+        cards1.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards1.add( new Card( Card.Rank.TWO, Card.Suit.SPADES ));
+        cards1.add( new Card( Card.Rank.TWO, Card.Suit.DIAMONDS ));
+        cards1.add( new Card( Card.Rank.THREE, Card.Suit.HEARTS ));
+        cards1.add( new Card( Card.Rank.THREE, Card.Suit.SPADES ));
+        cards1.add( new Card( Card.Rank.FOUR, Card.Suit.DIAMONDS ));
+        cards1.add( new Card( Card.Rank.FIVE, Card.Suit.SPADES ));
+        d1.setCards( cards1 );
+
+        Deck d2 = new Deck( true );
+        ArrayList<Card> cards2 = new ArrayList<>();
+        cards2.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards2.add( new Card( Card.Rank.TWO, Card.Suit.DIAMONDS ));
+        cards2.add( new Card( Card.Rank.FIVE, Card.Suit.DIAMONDS ));
+        cards2.add( new Card( Card.Rank.SIX, Card.Suit.DIAMONDS ));
+        cards2.add( new Card( Card.Rank.SEVEN, Card.Suit.HEARTS ));
+        cards2.add( new Card( Card.Rank.EIGHT, Card.Suit.DIAMONDS ));
+        cards2.add( new Card( Card.Rank.NINE, Card.Suit.DIAMONDS ));
+        d2.setCards( cards2 );
+
+        Deck d3 = new Deck( true );
+        ArrayList<Card> cards3 = new ArrayList<>();
+        cards3.add( new Card( Card.Rank.ACE, Card.Suit.HEARTS ) );
+        cards3.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.CLUBS ));
+        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        d3.setCards( cards3 );
+
+        d1.sortDeckByRank();
+        d2.sortDeckByRank();
+        d3.sortDeckByRank();
+        assertAll(
+                ()->assertFalse( d1.hasStraightFlush() ),
+                ()->assertFalse( d2.hasStraightFlush() ),
+                ()->assertFalse( d3.hasStraightFlush() )
+        );
+    }
+
 
     @Test
     public void testFullHouse() {
@@ -322,6 +412,7 @@ public class DeckTest {
         cards3.add( new Card( Card.Rank.THREE, Card.Suit.SPADES ));
         cards3.add( new Card( Card.Rank.FOUR, Card.Suit.SPADES ));
         cards3.add( new Card( Card.Rank.FIVE, Card.Suit.SPADES ));
+        cards3.add( new Card( Card.Rank.SEVEN, Card.Suit.SPADES ));
         d3.setCards( cards3 );
 
         d1.sortDeckByRank();
