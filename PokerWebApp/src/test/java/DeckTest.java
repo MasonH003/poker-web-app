@@ -208,6 +208,33 @@ public class DeckTest {
         );
     }
 
+    @Test
+    public void testFlush() {
+        Deck d = new Deck( true );
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));
+        d.setCards( cards );
+        assertTrue( d.hasFlush() );
+    }
+
+    @Test
+    public void testNotFlush() {
+        Deck d = new Deck( true );
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.KING, Card.Suit.HEARTS ));
+        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));
+        d.setCards( cards );
+        assertFalse( d.hasFlush() );
+    }
+
     //Assure that the card that is dealt is equal to the first card of the deck
     @Test
     public void dealCard()
