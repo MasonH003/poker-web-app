@@ -69,6 +69,20 @@ public class DeckTest {
     }
 
     @Test
+    public void testEvaluateHandHighCard() {
+        Deck d = new Deck( true );
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );
+        cards.add( new Card( Card.Rank.TWO, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.KING, Card.Suit.HEARTS ));
+        cards.add( new Card( Card.Rank.FOUR, Card.Suit.SPADES ));
+        cards.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));
+        d.setCards( cards );
+
+        assertEquals( Deck.HandType.HIGH_CARD, d.evaluateHand() );
+    }
+
+    @Test
     public void testRoyalFlush() {
         Deck d = new Deck( true );
         ArrayList<Card> cards = new ArrayList<>();
