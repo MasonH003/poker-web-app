@@ -86,34 +86,4 @@ public class AccountService {
 
         return dao.update(u);
     }
-
-
-    public static void addFriend(Account account, Account accountToAdd)
-    {
-        account.getFriends().add(accountToAdd);
-        accountToAdd.getFriendOf().add(account);
-        dao.update(account);
-        dao.update(accountToAdd);
-    }
-
-    public static void removeFriend(Account account, Account accountToRemove)
-    {
-        account.getFriends().remove(accountToRemove);
-        accountToRemove.getFriendOf().remove(account);
-        dao.update(account);
-        dao.update(accountToRemove);
-
-    }
-    public static void blockAccount(Account account, Account toBlock)
-    {
-        account.getBlockedAccounts().add(toBlock);
-        dao.update(account);
-    }
-
-    public static void unblockAccount(Account account, Account toBlock)
-    {
-        account.getBlockedAccounts().remove(toBlock);
-        dao.update(account);
-    }
-
 }

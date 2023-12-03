@@ -15,11 +15,11 @@ import java.io.IOException;
 public class RemoveFriendServlet extends HttpServlet {
     protected AccountDAO dao = new AccountDAO();
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Account logged = (Account) request.getSession().getAttribute("Account");
-        String accountUsernameToRemove = request.getParameter("removename");
-        Account toRemove = dao.findUserByUsername(accountUsernameToRemove);
-        AccountService.removeFriend(logged,toRemove);
-        response.sendRedirect("index.jsp");
+//        Account logged = (Account) request.getSession().getAttribute("Account");
+//        String accountUsernameToRemove = request.getParameter("removename");
+//        Account toRemove = dao.findUserByUsername(accountUsernameToRemove);
+//        AccountService.removeFriend(logged,toRemove);
+//        response.sendRedirect("index.jsp");
     }
 
 }

@@ -15,18 +15,23 @@ import java.io.IOException;
 public class AddFriendServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Account sender = (Account) request.getSession().getAttribute("Account");
-        String friend = request.getParameter("friendname");
+        String friend = request.getParameter("friend");
         Account receiver = AccountService.dao.findUserByUsername(friend);
-        Friendship newFriendship = new Friendship(sender, receiver);
-
-        Friendship created = FriendshipService.createFriendship(newFriendship);
-        if (created == null) {
-            response.sendRedirect("index.jsp?msg=1");
-        } else
+        if(receiver != null && friend != "")
         {
-            response.sendRedirect("index.jsp");
+            Friendship newFriendship = new Friendship(sender, receiver);
+            Friendship created = FriendshipService.createFriendship(newFriendship);
+            if (created == null) {
+                response.sendRedirect("index.jsp?msg=1");
+            } else
+            {
+                response.sendRedirect("index.jsp");
+            }
         }
-
+        else
+        {
+            response.sendRedirect("index.jsp?msg=2");
+        }
 
     }
 

@@ -13,14 +13,11 @@ import java.io.IOException;
 
 @WebServlet(name = "blockAccountServlet", value = "/blockAccountServlet")
 public class BlockAccountServlet extends HttpServlet {
-    protected AccountDAO dao = new AccountDAO();
+    //protected AccountDAO dao = new AccountDAO();
 
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Account logged = (Account) request.getSession().getAttribute("Account");
-        String accountUsernameToBlock = request.getParameter("blockname");
-        Account toBlock = dao.findUserByUsername(accountUsernameToBlock);
-        AccountService.blockAccount(logged,toBlock);
-        response.sendRedirect("index.jsp");    }
-
+//    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//
+//
+//}
 }
