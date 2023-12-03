@@ -44,7 +44,7 @@ public class Block extends BaseEntity{
 }
 
 /**
- CREATE TABLE Friendship (
+ CREATE TABLE Block (
  id_block INT AUTO_INCREMENT PRIMARY KEY,
  account_id INT,
  block_id INT,
