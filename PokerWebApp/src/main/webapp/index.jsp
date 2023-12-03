@@ -48,8 +48,9 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
 <% if(logged==null ){ %>
 
 <div class="container">
+  <center>
   <h1>Welcome to Futuretech Poker</h1>
-    <center>
+
       <img src = "images/FuturetechLogo.jpg" width="125" height="100"/>
     </center>
 </div>
@@ -57,13 +58,13 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
 <!-- <a href="play-poker" class="blue-button">PLAY</a> -->
 
 <br>
-
+<center>
 <a href="login.jsp" class="blue-button">LOG IN</a>
-
+</center>
 <br>
-
+<center>
 <a href="registernewaccount.jsp" class="blue-button">REGISTER</a>
-
+</center>
 <% } else { %>
 <button type="button" class="btn btn-success mt-3 ms-3" data-bs-toggle="modal" data-bs-target="#addFriendModal">
   Add Friend <i class="bi bi-person-add"></i>
