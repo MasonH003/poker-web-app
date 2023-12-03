@@ -54,7 +54,7 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
     </center>
 </div>
 
-<a href="play-poker" class="blue-button">PLAY</a>
+<!-- <a href="play-poker" class="blue-button">PLAY</a> -->
 
 <br>
 

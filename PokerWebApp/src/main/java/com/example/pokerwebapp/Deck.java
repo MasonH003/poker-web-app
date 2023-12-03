@@ -1,14 +1,41 @@
 package com.example.pokerwebapp;
 
+import java.lang.reflect.Array;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 public class Deck  {
-    private List<Card> cards;
 
-    public Deck() {
+    public enum HandType {
+        UNRANKED(0), HIGH_CARD(1), PAIR(2), TWO_PAIR(3), THREE_OF_A_KIND(4), STRAIGHT(5),
+        FLUSH(6), FULL_HOUSE(7), FOUR_OF_A_KIND(8), STRAIGHT_FLUSH(9), ROYAL_FLUSH(10);
+        private final int handValue;
+
+        HandType(int handValue)
+        {
+            this.handValue=handValue;
+        }
+    }
+    public int getHandAsNumber()
+    {
+        return handType.handValue;
+    }
+    private List<Card> cards;
+    private HandType handType;
+
+    public Deck( ) {
         cards = new ArrayList<Card>();
         populateDeck();
+        handType = HandType.UNRANKED;
+    }
+
+
+    public Deck( boolean emptyDeck ) {
+        cards = new ArrayList<Card>();
+        if( !emptyDeck )
+            populateDeck();
+        handType = HandType.UNRANKED;
     }
 
     @Override
@@ -61,6 +88,308 @@ public class Deck  {
     {
         return cards.size();
     }
+
+    public static Deck combineDecks( Deck d1, Deck d2 ) {
+        ArrayList<Card> cards = new ArrayList<Card>();
+        for( Card c : d1.getDeck() )
+            cards.add(c);
+        for( Card c : d2.getDeck() )
+            cards.add(c);
+        Deck d = new Deck(true);
+        d.setCards( cards );
+        return d;
+    }
+
+    public void setCards( ArrayList<Card> cards ) {
+        this.cards = cards;
+    }
+
+
+    public boolean findCard( Card.Suit suit, Card.Rank rank ) {
+        for( Card c : cards )
+        {
+            if( c.getCardSuit() == suit && c.getCardRank() == rank )
+                return true;
+        }
+        return false;
+    }
+
+    public boolean findCardByRank( Card.Rank rank ) {
+        for( Card c : cards )
+        {
+            if( c.getCardRank() == rank )
+                return true;
+        }
+        return false;
+    }
+
+    public boolean findCard( Card needle ) {
+        for( Card c : cards )
+        {
+            if( c.getCardSuit() == needle.getCardSuit() && c.getCardRank() == needle.getCardRank() )
+                return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * purpose: Sorts deck according to rank
+     * inputs: n/a
+     * outputs: the deck is sorted
+     */
+    public void sortDeckByRank() {
+        cards.sort( Comparator.naturalOrder() );
+    }
+
+    /**
+     * purpose: evaluate a hand
+     * input: n/a
+     * @return a HandType, the highest value of this deck/hand
+     */
+    public HandType evaluateHand() {
+        sortDeckByRank();
+        if( hasRoyalFlush() )
+            return HandType.ROYAL_FLUSH;
+        else if( hasStraightFlush() )
+            return HandType.STRAIGHT_FLUSH;
+        else if( hasFourOfAKind() )
+            return HandType.FOUR_OF_A_KIND;
+        else if( hasFullHouse() )
+            return HandType.FULL_HOUSE;
+        else if( hasFlush() )
+            return HandType.FLUSH;
+        else if( hasStraight() )
+            return HandType.STRAIGHT;
+        else if( hasThreeOfAKind() )
+            return HandType.THREE_OF_A_KIND;
+        else if( hasTwoPair() )
+            return HandType.TWO_PAIR;
+        else if( hasPair() )
+            return HandType.PAIR;
+        else if( !cards.isEmpty() )
+            return HandType.HIGH_CARD;
+        else
+            return HandType.UNRANKED;
+    }
+
+
+    /**
+     * Below are nine helper methods to evaluate a hand
+     * Each determines if the hand meets the conditions of
+     * the handtype in its name
+     * NOTE: These methods assume that the deck is sorted according to rank.
+     * input: n/a
+     * @return a boolean, false if it is not this kind of hand, true if it is
+     */
+    public boolean hasRoyalFlush() {
+        if( findCard( Card.Suit.DIAMONDS, Card.Rank.ACE ) && findCard( Card.Suit.DIAMONDS, Card.Rank.TEN )
+                && findCard( Card.Suit.DIAMONDS, Card.Rank.JACK ) && findCard( Card.Suit.DIAMONDS, Card.Rank.QUEEN )
+                && findCard( Card.Suit.DIAMONDS, Card.Rank.KING ) )
+            return true;
+        else if( findCard( Card.Suit.HEARTS, Card.Rank.ACE ) && findCard( Card.Suit.HEARTS, Card.Rank.TEN )
+                && findCard( Card.Suit.HEARTS, Card.Rank.JACK ) && findCard( Card.Suit.HEARTS, Card.Rank.QUEEN )
+                && findCard( Card.Suit.HEARTS, Card.Rank.KING ) )
+            return true;
+        else if( findCard( Card.Suit.SPADES, Card.Rank.ACE ) && findCard( Card.Suit.SPADES, Card.Rank.TEN )
+                && findCard( Card.Suit.SPADES, Card.Rank.JACK ) && findCard( Card.Suit.SPADES, Card.Rank.QUEEN )
+                && findCard( Card.Suit.SPADES, Card.Rank.KING ) )
+            return true;
+        else if( findCard( Card.Suit.DIAMONDS, Card.Rank.ACE ) && findCard( Card.Suit.DIAMONDS, Card.Rank.TEN )
+                && findCard( Card.Suit.DIAMONDS, Card.Rank.JACK ) && findCard( Card.Suit.DIAMONDS, Card.Rank.QUEEN )
+                && findCard( Card.Suit.DIAMONDS, Card.Rank.KING ) )
+            return true;
+        else
+            return false;
+    }
+    public boolean hasStraightFlush() {
+        int counter = 0;
+        int old = -1;
+
+        ArrayList<Card> diamonds = new ArrayList<>(), hearts = new ArrayList<>(), clubs = new ArrayList<>(), spades = new ArrayList<>();
+        for( Card c : cards )
+        {
+            if( c.getCardSuit() == Card.Suit.DIAMONDS )
+                diamonds.add( c );
+            else if( c.getCardSuit() == Card.Suit.HEARTS )
+                hearts.add( c );
+            else if( c.getCardSuit() == Card.Suit.CLUBS )
+                clubs.add( c );
+            else if( c.getCardSuit() == Card.Suit.SPADES )
+                spades.add( c );
+        }
+
+        Deck diamondDeck = new Deck( true );
+        diamondDeck.setCards( diamonds );
+        Deck heartDeck = new Deck( true );
+        heartDeck.setCards( hearts );
+        Deck spadeDeck = new Deck( true );
+        spadeDeck.setCards( spades );
+        Deck clubDeck = new Deck( true );
+        clubDeck.setCards( clubs );
+
+        return diamondDeck.hasStraight() || heartDeck.hasStraight() || spadeDeck.hasStraight() || clubDeck.hasStraight();
+
+
+        /*for( Card c : cards ) {
+            Card.Suit suit = c.getCardSuit();
+            for( int i = cards.indexOf( c ); i < cards.size(); i++ ) {
+                if( cards.get(i).getCardSuit() != suit )
+                    continue;
+                if( old == -1 ) { // if it's the first card in the deck
+                    counter = 1;
+                    old = cards.get(i).getRankValue();
+                }
+                // if we have a duplicate, this doesnt necessarily mean the straight is broken so continue
+                else if( cards.get(i).getRankValue() == old )
+                    continue;
+                else if( cards.get(i).getRankValue() == old+1 ) {
+                    counter++;
+                    old = cards.get(i).getRankValue();
+                }
+                else {
+                    counter = 0;
+                    old = -1;
+                    break;
+                }
+                // pick up the edge case of an ACE acting as the end of a straight after a King
+                if( counter == 4 && old == 13 && this.findCard( suit, Card.Rank.ACE) )
+                    return true;
+                if( counter >= 5 )
+                    return true;
+            }
+        }*/
+
+
+    }
+    public boolean hasFourOfAKind() {
+        for( Card c : cards ) { // pick one card in the deck
+            int counter = 0;
+            for( Card check : cards ) { //compare the one card to the whole deck and see how many there are
+                if( c.getCardRank() == check.getCardRank() )
+                    counter++;
+            }
+            if( counter >= 4 )
+                return true;
+        }
+
+        return false;
+    }
+    public boolean hasFullHouse() {
+        boolean triple = false, pair = false;
+        Card.Rank firstSet = null;
+        for( Card c : cards ) { // pick one card in the deck
+            int counter = 0;
+            if( c.getCardRank() == firstSet ) // dont pick up a pair of the same rank
+                continue;
+            for( Card check : cards ) { //compare the one card to the whole deck and see how many there are
+                if( c.getCardRank() == check.getCardRank() )
+                    counter++;
+            }
+            if( counter == 2 && !pair || counter >= 2 && triple )
+            {
+                pair = true;
+                firstSet = c.getCardRank();
+            }
+            else if( counter >= 3 && !triple ) {
+                triple = true;
+                firstSet = c.getCardRank();
+            }
+            if( pair && triple )
+                return true;
+        }
+
+        return false;
+    }
+    public boolean hasFlush() {
+        int diamonds=0, hearts=0, clubs=0, spades=0;
+        for( Card c : cards )
+        {
+            if( c.getCardSuit() == Card.Suit.DIAMONDS )
+                diamonds++;
+            else if( c.getCardSuit() == Card.Suit.HEARTS )
+                hearts++;
+            else if( c.getCardSuit() == Card.Suit.CLUBS )
+                clubs++;
+            else if( c.getCardSuit() == Card.Suit.SPADES )
+                spades++;
+        }
+
+        return (diamonds >= 5 || hearts >= 5 || clubs >= 5 || spades >= 5);
+    }
+    public boolean hasStraight() {
+        int counter = 0;
+        int old = -1;
+        for( Card c : cards )
+        {
+            if( old == -1 ) // if it's the first card in the deck
+                counter = 1;
+            // if we have a duplicate, this doesnt necessarily mean the straight is broken so continue
+            else if( c.getRankValue() == old )
+                continue;
+            else if( c.getRankValue() == old+1 )
+                counter++;
+            else
+                counter = 1;
+            old = c.getRankValue();
+            // pick up the edge case of an ACE acting as the end of a straight after a King
+            if( counter == 4 && old == 13 && this.findCardByRank(Card.Rank.ACE) )
+                return true;
+            if( counter >= 5 )
+                return true;
+        }
+        return false;
+    }
+    public boolean hasThreeOfAKind() {
+        for( Card c : cards ) { // pick one card in the deck
+            int counter = 0;
+            for( Card check : cards ) { //compare the one card to the whole deck and see how many there are
+                if( c.getCardRank() == check.getCardRank() )
+                    counter++;
+            }
+            if( counter >= 3 )
+                return true;
+        }
+
+        return false;
+    }
+    public boolean hasTwoPair() {
+        int pairs = 0;
+        Card.Rank firstPair = null;
+        for( Card c : cards ) { // pick one card in the deck
+            int counter = 0;
+            if( c.getCardRank() == firstPair ) // dont pick up a pair of the same rank
+                continue;
+            for( Card check : cards ) { //compare the one card to the whole deck and see how many there are
+                if( c.getCardRank() == check.getCardRank() )
+                    counter++;
+            }
+            if( counter >= 2 )
+            {
+                pairs++;
+                firstPair = c.getCardRank();
+            }
+            if( pairs >= 2 )
+                return true;
+        }
+
+        return false;
+    }
+    public boolean hasPair() {
+        for( Card c : cards ) { // pick one card in the deck
+            int counter = 0;
+            for( Card check : cards ) { //compare the one card to the whole deck and see how many there are
+                if( c.getCardRank() == check.getCardRank() )
+                    counter++;
+            }
+            if( counter >= 2 )
+                return true;
+        }
+
+        return false;
+    }
+
+
 //    public static void main(String[] args) {
 //        Deck deck = new Deck();
 //        System.out.println(deck);
@@ -74,7 +403,5 @@ public class Deck  {
 //    }
 
 }
-
-
 
 
