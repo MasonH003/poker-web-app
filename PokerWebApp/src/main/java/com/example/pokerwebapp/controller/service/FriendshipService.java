@@ -46,28 +46,11 @@ public class FriendshipService {
         dao.update(f);
     }
 
-
-//    public static List<Friendship> pendingFriendships()
-//    {
-//
-//    }
-
-
-
-    public static List<Friendship> sentFriendRequests(Account logged)
+    public static void removeFriend(int friendship_id)
     {
-        return dao.findSentPendingFriendRequests(logged);
+         dao.delete(friendship_id);
     }
 
-    public static List<Friendship> incoming(Account user)
-    {
-        return dao.findIncomingFriendRequests(user);
-    }
-//    public static void acceptFriendRequest(Friendship f)
-//    {
-//        f.setStatus(FriendshipStatus.ACCEPTED);
-//        dao.update(f);
-//    }
 
 
 }

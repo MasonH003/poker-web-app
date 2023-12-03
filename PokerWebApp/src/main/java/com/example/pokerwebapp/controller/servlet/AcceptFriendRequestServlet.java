@@ -17,7 +17,6 @@ import java.io.IOException;
 @WebServlet(name = "acceptFriendRequestServlet", value = "/acceptFriendRequestServlet")
 public class AcceptFriendRequestServlet extends HttpServlet {
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            Account logged = (Account) request.getSession().getAttribute("Account");
             int friendship_id = Integer.parseInt(request.getParameter("friendship_ID"));
             FriendshipService.acceptFriendRequest(friendship_id);
             response.sendRedirect("index.jsp");
