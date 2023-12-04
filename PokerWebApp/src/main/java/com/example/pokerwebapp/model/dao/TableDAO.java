@@ -5,6 +5,7 @@ import com.example.pokerwebapp.model.entity.TableEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 import java.sql.ResultSet;
 import java.util.List;
 
@@ -27,11 +28,11 @@ public class TableDAO extends GenericDAO<TableEntity> {
 
 
     public List<TableEntity> find(String table_name){
-        String query = "SELECT u FROM "+getTableName()+" u WHERE u.table_name CONTAINS :name";
         List<TableEntity> results;
         EntityManager em = this.getEntityManager();
         try {
-            results = em.createQuery(query, TableEntity.class).setParameter("name", table_name).getResultList();
+            String query = "SELECT u FROM "+getTableName()+" u WHERE u.table_name =:name";
+            results=em.createQuery(query,TableEntity.class).setParameter("name", table_name).getResultList();
         } catch(NoResultException ex){
             results = null;
         } finally{

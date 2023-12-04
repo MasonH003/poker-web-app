@@ -3,6 +3,8 @@ import com.example.pokerwebapp.model.dao.TableDAO;
 import com.example.pokerwebapp.model.entity.TableEntity;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 public class TableEntityTest {
     TableDAO dao = new TableDAO();
@@ -55,6 +57,7 @@ public class TableEntityTest {
         t3.setName("test_table3");
         dao.create(t2);
         dao.create(t3);
+        List<TableEntity> t4;
         assertNotNull(dao.find("test_table2"));
         dao.deleteAll();
     }
