@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">TableTest.java</span></div><h1>TableTest.java</h1><pre class="source lang-java linenums">import com.example.pokerwebapp.Deck;
+import com.example.pokerwebapp.Player;
+import com.example.pokerwebapp.Table;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+<span class="fc" id="L12">class TableTest {</span>
+
+    private Table pokerTable;
+    private List&lt;Player&gt; playerList;
+
+    @BeforeEach
+    public void gameTest() {
+<span class="fc" id="L19">        playerList = new ArrayList();</span>
+<span class="fc" id="L20">        Player p1 = new Player(&quot;Barry&quot;);</span>
+<span class="fc" id="L21">        Player p2 = new Player(&quot;Harriot&quot;);</span>
+<span class="fc" id="L22">        playerList.add(p1);</span>
+<span class="fc" id="L23">        playerList.add(p2);</span>
+
+<span class="fc" id="L25">        pokerTable = new Table(playerList);</span>
+<span class="fc" id="L26">    }</span>
+
+    @Test
+    public void testGetOpenBet() {
+<span class="fc" id="L30">        assertEquals( 0, pokerTable.getOpenBet());</span>
+<span class="fc" id="L31">    }</span>
+
+    @Test
+    public void testSetOpenBet() {
+<span class="fc" id="L35">        pokerTable.setOpenBet( 24 );</span>
+<span class="fc" id="L36">        assertEquals( 24, pokerTable.getOpenBet());</span>
+<span class="fc" id="L37">    }</span>
+
+    @Test
+    public void testIncOpenBet() {
+<span class="fc" id="L41">        pokerTable.setOpenBet( 24 );</span>
+<span class="fc" id="L42">        pokerTable.incOpenBet( 10 );</span>
+<span class="fc" id="L43">        assertEquals( 34, pokerTable.getOpenBet());</span>
+<span class="fc" id="L44">    }</span>
+
+    @Test
+    public void testGetPot() {
+<span class="fc" id="L48">        assertEquals( 0, pokerTable.getPot());</span>
+<span class="fc" id="L49">    }</span>
+
+    @Test
+    public void testSetPot() {
+<span class="fc" id="L53">        pokerTable.setPot( 200 );</span>
+<span class="fc" id="L54">        assertEquals( 200, pokerTable.getPot());</span>
+<span class="fc" id="L55">    }</span>
+
+    @Test
+    public void testIncPot() {
+<span class="fc" id="L59">        pokerTable.setPot( 200 );</span>
+<span class="fc" id="L60">        pokerTable.incPot( 300 );</span>
+<span class="fc" id="L61">        assertEquals( 500, pokerTable.getPot());</span>
+<span class="fc" id="L62">    }</span>
+
+    @Test
+    public void testGetPlayerList() {
+<span class="fc" id="L66">        assertEquals( playerList, pokerTable.getPlayerList());</span>
+<span class="fc" id="L67">    }</span>
+
+    @Test
+    public void testGetGameCards() {
+<span class="fc" id="L71">        pokerTable.dealFlop();</span>
+<span class="fc" id="L72">        assertEquals( 3, pokerTable.getGameCards().size());</span>
+<span class="fc" id="L73">    }</span>
+
+    @Test
+    public void testCountActivePlayers() {
+<span class="fc" id="L77">        assertEquals( 2, pokerTable.countActivePlayers());</span>
+<span class="fc" id="L78">    }</span>
+
+    public void testCountActivePlayersWhenFold() {
+<span class="nc" id="L81">        pokerTable.getPlayerList().get(0).setFold( true );</span>
+<span class="nc" id="L82">        assertEquals( 1, pokerTable.countActivePlayers());</span>
+<span class="nc" id="L83">    }</span>
+
+    @Test
+    public void testDealhand() {
+
+        // New player and deck:
+<span class="fc" id="L89">        Player p1 = new Player(&quot;Barry&quot;);</span>
+<span class="fc" id="L90">        Deck deck = new Deck();</span>
+        // Deal Barry a hand:
+<span class="fc" id="L92">        p1.addToPlayerHand(deck.dealCard());</span>
+<span class="fc" id="L93">        p1.addToPlayerHand(deck.dealCard());</span>
+        // Assert Barry's hand has 2 cards:
+<span class="fc" id="L95">        assertEquals(2, p1.getPlayerHand().size());</span>
+<span class="fc" id="L96">    }</span>
+
+    @Test
+    public void testShuffleDeck() {
+
+        // Create two decks:
+<span class="fc" id="L102">        Deck deck = new Deck();</span>
+<span class="fc" id="L103">        Deck shuffledDeck = new Deck();</span>
+        // Shuffle one of them:
+<span class="fc" id="L105">        shuffledDeck.shuffleDeck();</span>
+        // Check to see if they are equal/the same:
+<span class="fc" id="L107">        assertNotEquals(deck, shuffledDeck);</span>
+<span class="fc" id="L108">    }</span>
+
+    @Test
+    public void testDealFlop() {
+
+        // Deal flop:
+<span class="fc" id="L114">        pokerTable.dealFlop();</span>
+        // Assert equals size of community cards == 3
+<span class="fc" id="L116">        assertEquals(3, pokerTable.getGameCards().size());</span>
+<span class="fc" id="L117">    }</span>
+
+    @Test
+    public void testDealTurn() {
+
+        // Deal initial flop: 3 cards
+<span class="fc" id="L123">        pokerTable.dealFlop();</span>
+        // Deal turn: 4 cards
+<span class="fc" id="L125">        pokerTable.dealTurn();</span>
+        // Assert equals size of community cards == 4
+<span class="fc" id="L127">        assertEquals(4, pokerTable.getGameCards().size());</span>
+<span class="fc" id="L128">    }</span>
+
+    @Test
+    public void testDealRiver() {
+
+        // Deal initial flop: 3 cards
+<span class="fc" id="L134">        pokerTable.dealFlop();</span>
+        // Deal turn: 4 cards
+<span class="fc" id="L136">        pokerTable.dealTurn();</span>
+        // Deal river: 5 cards
+<span class="fc" id="L138">        pokerTable.dealRiver();</span>
+        // Assert equals size of community cards == 5
+<span class="fc" id="L140">        assertEquals(5, pokerTable.getGameCards().size());</span>
+<span class="fc" id="L141">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

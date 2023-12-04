@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RegisterAccountServletTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.example.pokerwebapp.controller.servlet</a> &gt; <span class="el_source">RegisterAccountServletTest.java</span></div><h1>RegisterAccountServletTest.java</h1><pre class="source lang-java linenums">package com.example.pokerwebapp.controller.servlet;
+
+import com.example.pokerwebapp.model.entity.Account;
+import com.example.pokerwebapp.controller.service.AccountService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+
+import java.io.IOException;
+
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+<span class="fc" id="L17">public class RegisterAccountServletTest {</span>
+
+    @Test public void testDoPostSuccessfulRegister() throws IOException, ServletException {
+<span class="fc" id="L20">        HttpServletRequest request = mock(HttpServletRequest.class);</span>
+<span class="fc" id="L21">        HttpServletResponse response = mock(HttpServletResponse.class);</span>
+<span class="fc" id="L22">        HttpSession sessionMock = mock(HttpSession.class);</span>
+
+<span class="fc" id="L24">        when(request.getParameter(&quot;txt_reg_username&quot;)).thenReturn(&quot;test@test&quot;);</span>
+<span class="fc" id="L25">        when(request.getParameter(&quot;txt_reg_pw&quot;)).thenReturn(&quot;testpw&quot;);</span>
+<span class="fc" id="L26">        when(request.getSession()).thenReturn(sessionMock);</span>
+
+
+<span class="fc" id="L29">        try (MockedStatic&lt;AccountService&gt; service = mockStatic(AccountService.class)) {</span>
+
+<span class="fc" id="L31">            service.when(() -&gt; AccountService.registerUser(any()) ).thenReturn(new Account());</span>
+
+<span class="fc" id="L33">            RegisterAccountServlet servlet = new RegisterAccountServlet();</span>
+<span class="fc" id="L34">            servlet.doPost(request,response);</span>
+
+<span class="fc" id="L36">            assertAll(&quot;Register User Successfully assertions&quot;,</span>
+<span class="fc" id="L37">                    ()-&gt; assertDoesNotThrow(</span>
+<span class="fc" id="L38">                            () -&gt; verify(sessionMock).setAttribute(eq(&quot;User&quot;),any(Account.class)),</span>
+                            &quot;RegisterAccountServlet should called session.setAttribute(\&quot;User\&quot;,userobject)&quot;),
+<span class="fc" id="L40">                    ()-&gt; assertDoesNotThrow(</span>
+<span class="fc" id="L41">                            () -&gt; verify(response).sendRedirect(&quot;registrationsuccess.jsp&quot;),</span>
+                            &quot;RegisterAccountServlet should called sendRedirect(\&quot;registrationsuccess.jsp\&quot;)&quot;)
+            );
+        }
+<span class="fc" id="L45">    }</span>
+
+    @Test public void testDoPostNotRegister() throws IOException, ServletException {
+<span class="fc" id="L48">        HttpServletRequest request = mock(HttpServletRequest.class);</span>
+<span class="fc" id="L49">        HttpServletResponse response = mock(HttpServletResponse.class);</span>
+<span class="fc" id="L50">        HttpSession sessionMock = mock(HttpSession.class);</span>
+
+<span class="fc" id="L52">        when(request.getParameter(&quot;txt_reg_username&quot;)).thenReturn(&quot;test@test.com&quot;);</span>
+<span class="fc" id="L53">        when(request.getParameter(&quot;txt_reg_pw&quot;)).thenReturn(&quot;123456&quot;);</span>
+<span class="fc" id="L54">        when(request.getSession()).thenReturn(sessionMock);</span>
+
+
+<span class="fc" id="L57">        try (MockedStatic&lt;AccountService&gt; service = mockStatic(AccountService.class)) {</span>
+
+<span class="fc" id="L59">            service.when(() -&gt; AccountService.registerUser(any()) ).thenReturn(null);</span>
+
+<span class="fc" id="L61">            RegisterAccountServlet servlet = new RegisterAccountServlet();</span>
+<span class="fc" id="L62">            servlet.doPost(request,response);</span>
+
+<span class="fc" id="L64">            assertAll(&quot;Register user - User not register assertions&quot;,</span>
+<span class="fc" id="L65">                    ()-&gt; assertDoesNotThrow(</span>
+<span class="fc" id="L66">                            () -&gt; verify(sessionMock, never()).setAttribute(eq(&quot;User&quot;),any(Account.class)),</span>
+                            &quot;RegisterUserServlet should never called session.setAttribute(...) when user is not register.&quot;),
+<span class="fc" id="L68">                    ()-&gt; assertDoesNotThrow(</span>
+<span class="fc" id="L69">                            () -&gt; verify(response).sendRedirect(&quot;registernewaccount.jsp?error=1&quot;),</span>
+                            &quot;RegisterUserServlet should called sendRedirect(\&quot;registernewaccount.jsp?error=1\&quot;)&quot;)
+            );
+        }
+<span class="fc" id="L73">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

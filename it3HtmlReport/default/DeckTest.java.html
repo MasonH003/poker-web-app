@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeckTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">DeckTest.java</span></div><h1>DeckTest.java</h1><pre class="source lang-java linenums">import com.example.pokerwebapp.Card;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import com.example.pokerwebapp.Deck;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+<span class="fc" id="L9">public class DeckTest {</span>
+
+
+    @Test
+    public void properDeckSize()
+    {
+<span class="fc" id="L15">        Deck d = new Deck();</span>
+<span class="fc" id="L16">        assertEquals(52, d.remainingDeckSize());</span>
+<span class="fc" id="L17">    }</span>
+
+    @Test
+    public void deckSizeWhenEmptyConstructorUsed()
+    {
+<span class="fc" id="L22">        Deck d = new Deck( true );</span>
+<span class="fc" id="L23">        assertEquals( 0, d.remainingDeckSize() );</span>
+<span class="fc" id="L24">    }</span>
+
+    @Test
+    public void deckSortTest()
+    {
+<span class="fc" id="L29">        Deck d = new Deck( true );</span>
+<span class="fc" id="L30">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;Card&gt;();</span>
+<span class="fc" id="L31">        cards.add( new Card( Card.Rank.TWO, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L32">        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L33">        cards.add( new Card( Card.Rank.THREE, Card.Suit.HEARTS ) );</span>
+<span class="fc" id="L34">        d.setCards( cards );</span>
+<span class="fc" id="L35">        d.sortDeckByRank();</span>
+        //System.out.println( d.getDeck() );
+<span class="fc" id="L37">        assertAll(</span>
+<span class="fc" id="L38">                ()-&gt;assertEquals( Card.Rank.ACE, d.getDeck().get(0).getCardRank() ),</span>
+<span class="fc" id="L39">                ()-&gt;assertEquals( Card.Rank.TWO, d.getDeck().get(1).getCardRank() ),</span>
+<span class="fc" id="L40">                ()-&gt;assertEquals( Card.Rank.THREE, d.getDeck().get(2).getCardRank() )</span>
+        );
+<span class="fc" id="L42">    }</span>
+
+    @Test
+    public void testCombineDecks() {
+<span class="fc" id="L46">        Deck d1 = new Deck( true );</span>
+<span class="fc" id="L47">        Deck d2 = new Deck( true );</span>
+
+<span class="fc" id="L49">        ArrayList&lt;Card&gt; c1 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L50">        ArrayList&lt;Card&gt; c2 = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L52">        c1.add( new Card( Card.Rank.TWO, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L53">        c1.add( new Card( Card.Rank.FOUR, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L54">        c2.add( new Card( Card.Rank.THREE, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L55">        c2.add( new Card( Card.Rank.KING, Card.Suit.CLUBS ) );</span>
+
+<span class="fc" id="L57">        d1.setCards( c1 );</span>
+<span class="fc" id="L58">        d2.setCards( c2 );</span>
+
+<span class="fc" id="L60">        Deck d3 = Deck.combineDecks( d1, d2 );</span>
+<span class="fc" id="L61">        assertAll(</span>
+<span class="fc" id="L62">                ()-&gt;assertEquals( Card.Rank.TWO, d3.getDeck().get(0).getCardRank() ),</span>
+<span class="fc" id="L63">                ()-&gt;assertEquals( Card.Rank.FOUR, d3.getDeck().get(1).getCardRank() ),</span>
+<span class="fc" id="L64">                ()-&gt;assertEquals( Card.Rank.THREE, d3.getDeck().get(2).getCardRank() ),</span>
+<span class="fc" id="L65">                ()-&gt;assertEquals( Card.Rank.KING, d3.getDeck().get(3).getCardRank() ),</span>
+<span class="fc" id="L66">                ()-&gt;assertEquals( 4, d3.remainingDeckSize())</span>
+        );
+
+<span class="fc" id="L69">    }</span>
+
+    @Test
+    public void testEvaluateHandHighCard() {
+<span class="fc" id="L73">        Deck d = new Deck( true );</span>
+<span class="fc" id="L74">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L75">        cards.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L76">        cards.add( new Card( Card.Rank.TWO, Card.Suit.SPADES ));</span>
+<span class="fc" id="L77">        cards.add( new Card( Card.Rank.KING, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L78">        cards.add( new Card( Card.Rank.FOUR, Card.Suit.SPADES ));</span>
+<span class="fc" id="L79">        cards.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L80">        d.setCards( cards );</span>
+
+<span class="fc" id="L82">        assertEquals( Deck.HandType.HIGH_CARD, d.evaluateHand() );</span>
+<span class="fc" id="L83">    }</span>
+
+    @Test
+    public void testRoyalFlush() {
+<span class="fc" id="L87">        Deck d = new Deck( true );</span>
+<span class="fc" id="L88">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L89">        cards.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L90">        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));</span>
+<span class="fc" id="L91">        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));</span>
+<span class="fc" id="L92">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L93">        cards.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L94">        d.setCards( cards );</span>
+<span class="fc" id="L95">        assertTrue( d.hasRoyalFlush() );</span>
+<span class="fc" id="L96">    }</span>
+
+    @Test
+    public void testNotRoyalFlush() {
+<span class="fc" id="L100">        Deck d = new Deck( true );</span>
+<span class="fc" id="L101">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L102">        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L103">        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));</span>
+<span class="fc" id="L104">        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));</span>
+<span class="fc" id="L105">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L106">        cards.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L107">        d.setCards( cards );</span>
+<span class="fc" id="L108">        assertFalse( d.hasRoyalFlush() );</span>
+<span class="fc" id="L109">    }</span>
+
+    @Test
+    public void testStraightFlush() {
+<span class="fc" id="L113">        Deck d1 = new Deck( true );</span>
+<span class="fc" id="L114">        ArrayList&lt;Card&gt; cards1 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L115">        cards1.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L116">        cards1.add( new Card( Card.Rank.TWO, Card.Suit.SPADES ));</span>
+<span class="fc" id="L117">        cards1.add( new Card( Card.Rank.TWO, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L118">        cards1.add( new Card( Card.Rank.THREE, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L119">        cards1.add( new Card( Card.Rank.THREE, Card.Suit.SPADES ));</span>
+<span class="fc" id="L120">        cards1.add( new Card( Card.Rank.FOUR, Card.Suit.SPADES ));</span>
+<span class="fc" id="L121">        cards1.add( new Card( Card.Rank.FIVE, Card.Suit.SPADES ));</span>
+<span class="fc" id="L122">        d1.setCards( cards1 );</span>
+
+<span class="fc" id="L124">        Deck d2 = new Deck( true );</span>
+<span class="fc" id="L125">        ArrayList&lt;Card&gt; cards2 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L126">        cards2.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L127">        cards2.add( new Card( Card.Rank.TWO, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L128">        cards2.add( new Card( Card.Rank.FIVE, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L129">        cards2.add( new Card( Card.Rank.SIX, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L130">        cards2.add( new Card( Card.Rank.SEVEN, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L131">        cards2.add( new Card( Card.Rank.EIGHT, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L132">        cards2.add( new Card( Card.Rank.NINE, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L133">        d2.setCards( cards2 );</span>
+
+<span class="fc" id="L135">        Deck d3 = new Deck( true );</span>
+<span class="fc" id="L136">        ArrayList&lt;Card&gt; cards3 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L137">        cards3.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L138">        cards3.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L139">        cards3.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));</span>
+<span class="fc" id="L140">        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L141">        cards3.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));</span>
+<span class="fc" id="L142">        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.CLUBS ));</span>
+<span class="fc" id="L143">        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L144">        d3.setCards( cards3 );</span>
+
+<span class="fc" id="L146">        d1.sortDeckByRank();</span>
+<span class="fc" id="L147">        d2.sortDeckByRank();</span>
+<span class="fc" id="L148">        d3.sortDeckByRank();</span>
+<span class="fc" id="L149">        assertAll(</span>
+<span class="fc" id="L150">                ()-&gt;assertTrue( d1.hasStraightFlush() ),</span>
+<span class="fc" id="L151">                ()-&gt;assertTrue( d2.hasStraightFlush() ),</span>
+<span class="fc" id="L152">                ()-&gt;assertTrue( d3.hasStraightFlush() )</span>
+        );
+<span class="fc" id="L154">    }</span>
+
+    @Test
+    public void testNotStraightFlush() {
+<span class="fc" id="L158">        Deck d1 = new Deck( true );</span>
+<span class="fc" id="L159">        ArrayList&lt;Card&gt; cards1 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L160">        cards1.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L161">        cards1.add( new Card( Card.Rank.TWO, Card.Suit.SPADES ));</span>
+<span class="fc" id="L162">        cards1.add( new Card( Card.Rank.TWO, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L163">        cards1.add( new Card( Card.Rank.THREE, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L164">        cards1.add( new Card( Card.Rank.THREE, Card.Suit.SPADES ));</span>
+<span class="fc" id="L165">        cards1.add( new Card( Card.Rank.FOUR, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L166">        cards1.add( new Card( Card.Rank.FIVE, Card.Suit.SPADES ));</span>
+<span class="fc" id="L167">        d1.setCards( cards1 );</span>
+
+<span class="fc" id="L169">        Deck d2 = new Deck( true );</span>
+<span class="fc" id="L170">        ArrayList&lt;Card&gt; cards2 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L171">        cards2.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L172">        cards2.add( new Card( Card.Rank.TWO, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L173">        cards2.add( new Card( Card.Rank.FIVE, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L174">        cards2.add( new Card( Card.Rank.SIX, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L175">        cards2.add( new Card( Card.Rank.SEVEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L176">        cards2.add( new Card( Card.Rank.EIGHT, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L177">        cards2.add( new Card( Card.Rank.NINE, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L178">        d2.setCards( cards2 );</span>
+
+<span class="fc" id="L180">        Deck d3 = new Deck( true );</span>
+<span class="fc" id="L181">        ArrayList&lt;Card&gt; cards3 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L182">        cards3.add( new Card( Card.Rank.ACE, Card.Suit.HEARTS ) );</span>
+<span class="fc" id="L183">        cards3.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L184">        cards3.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));</span>
+<span class="fc" id="L185">        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L186">        cards3.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));</span>
+<span class="fc" id="L187">        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.CLUBS ));</span>
+<span class="fc" id="L188">        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L189">        d3.setCards( cards3 );</span>
+
+<span class="fc" id="L191">        d1.sortDeckByRank();</span>
+<span class="fc" id="L192">        d2.sortDeckByRank();</span>
+<span class="fc" id="L193">        d3.sortDeckByRank();</span>
+<span class="fc" id="L194">        assertAll(</span>
+<span class="fc" id="L195">                ()-&gt;assertFalse( d1.hasStraightFlush() ),</span>
+<span class="fc" id="L196">                ()-&gt;assertFalse( d2.hasStraightFlush() ),</span>
+<span class="fc" id="L197">                ()-&gt;assertFalse( d3.hasStraightFlush() )</span>
+        );
+<span class="fc" id="L199">    }</span>
+
+
+    @Test
+    public void testFullHouse() {
+<span class="fc" id="L204">        Deck d1 = new Deck( true );</span>
+<span class="fc" id="L205">        ArrayList&lt;Card&gt; cards1 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L206">        cards1.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L207">        cards1.add( new Card( Card.Rank.ACE, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L208">        cards1.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L209">        cards1.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L210">        cards1.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L211">        cards1.add( new Card( Card.Rank.TEN, Card.Suit.CLUBS ));</span>
+<span class="fc" id="L212">        cards1.add( new Card( Card.Rank.TEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L213">        d1.setCards( cards1 );</span>
+
+<span class="fc" id="L215">        Deck d2 = new Deck( true );</span>
+<span class="fc" id="L216">        ArrayList&lt;Card&gt; cards2 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L217">        cards2.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L218">        cards2.add( new Card( Card.Rank.ACE, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L219">        cards2.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L220">        cards2.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L221">        cards2.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L222">        cards2.add( new Card( Card.Rank.NINE, Card.Suit.CLUBS ));</span>
+<span class="fc" id="L223">        cards2.add( new Card( Card.Rank.TEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L224">        d2.setCards( cards2 );</span>
+
+<span class="fc" id="L226">        Deck d3 = new Deck( true );</span>
+<span class="fc" id="L227">        ArrayList&lt;Card&gt; cards3 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L228">        cards3.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L229">        cards3.add( new Card( Card.Rank.ACE, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L230">        cards3.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L231">        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L232">        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L233">        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.CLUBS ));</span>
+<span class="fc" id="L234">        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L235">        d3.setCards( cards3 );</span>
+
+<span class="fc" id="L237">        d1.sortDeckByRank();</span>
+<span class="fc" id="L238">        d2.sortDeckByRank();</span>
+<span class="fc" id="L239">        d3.sortDeckByRank();</span>
+<span class="fc" id="L240">        assertAll(</span>
+<span class="fc" id="L241">                ()-&gt;assertTrue( d1.hasFullHouse() ),</span>
+<span class="fc" id="L242">                ()-&gt;assertTrue( d2.hasFullHouse() ),</span>
+<span class="fc" id="L243">                ()-&gt;assertTrue( d3.hasFullHouse() )</span>
+        );
+<span class="fc" id="L245">    }</span>
+
+    @Test
+    public void testNotFullHouse() {
+<span class="fc" id="L249">        Deck d1 = new Deck( true );</span>
+<span class="fc" id="L250">        ArrayList&lt;Card&gt; cards1 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L251">        cards1.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L252">        cards1.add( new Card( Card.Rank.ACE, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L253">        cards1.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L254">        cards1.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L255">        cards1.add( new Card( Card.Rank.JACK, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L256">        cards1.add( new Card( Card.Rank.TEN, Card.Suit.CLUBS ));</span>
+<span class="fc" id="L257">        cards1.add( new Card( Card.Rank.KING, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L258">        d1.setCards( cards1 );</span>
+
+<span class="fc" id="L260">        Deck d2 = new Deck( true );</span>
+<span class="fc" id="L261">        ArrayList&lt;Card&gt; cards2 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L262">        cards2.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L263">        cards2.add( new Card( Card.Rank.ACE, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L264">        cards2.add( new Card( Card.Rank.JACK, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L265">        cards2.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L266">        cards2.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L267">        cards2.add( new Card( Card.Rank.NINE, Card.Suit.CLUBS ));</span>
+<span class="fc" id="L268">        cards2.add( new Card( Card.Rank.NINE, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L269">        d2.setCards( cards2 );</span>
+
+<span class="fc" id="L271">        Deck d3 = new Deck( true );</span>
+<span class="fc" id="L272">        ArrayList&lt;Card&gt; cards3 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L273">        cards3.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L274">        cards3.add( new Card( Card.Rank.ACE, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L275">        cards3.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L276">        cards3.add( new Card( Card.Rank.ACE, Card.Suit.CLUBS ));</span>
+<span class="fc" id="L277">        cards3.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L278">        cards3.add( new Card( Card.Rank.TWO, Card.Suit.CLUBS ));</span>
+<span class="fc" id="L279">        cards3.add( new Card( Card.Rank.FOUR, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L280">        d3.setCards( cards3 );</span>
+
+<span class="fc" id="L282">        d1.sortDeckByRank();</span>
+<span class="fc" id="L283">        d2.sortDeckByRank();</span>
+<span class="fc" id="L284">        d3.sortDeckByRank();</span>
+<span class="fc" id="L285">        assertAll(</span>
+<span class="fc" id="L286">                ()-&gt;assertFalse( d1.hasFullHouse() ),</span>
+<span class="fc" id="L287">                ()-&gt;assertFalse( d2.hasFullHouse() ),</span>
+<span class="fc" id="L288">                ()-&gt;assertFalse( d3.hasFullHouse() )</span>
+        );
+<span class="fc" id="L290">    }</span>
+
+    @Test
+    public void testFourOfAKind() {
+<span class="fc" id="L294">        Deck d = new Deck( true );</span>
+<span class="fc" id="L295">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L296">        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L297">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L298">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.CLUBS ));</span>
+<span class="fc" id="L299">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L300">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L301">        d.setCards( cards );</span>
+<span class="fc" id="L302">        assertTrue( d.hasFourOfAKind() );</span>
+<span class="fc" id="L303">    }</span>
+
+    @Test
+    public void testNotFourOfAKind() {
+<span class="fc" id="L307">        Deck d = new Deck( true );</span>
+<span class="fc" id="L308">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L309">        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L310">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L311">        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));</span>
+<span class="fc" id="L312">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L313">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L314">        d.setCards( cards );</span>
+<span class="fc" id="L315">        assertFalse( d.hasFourOfAKind() );</span>
+<span class="fc" id="L316">    }</span>
+
+    @Test
+    public void testThreeOfAKind() {
+<span class="fc" id="L320">        Deck d = new Deck( true );</span>
+<span class="fc" id="L321">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L322">        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L323">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L324">        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));</span>
+<span class="fc" id="L325">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L326">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L327">        d.setCards( cards );</span>
+<span class="fc" id="L328">        assertTrue( d.hasThreeOfAKind() );</span>
+<span class="fc" id="L329">    }</span>
+
+    @Test
+    public void testNotThreeOfAKind() {
+<span class="fc" id="L333">        Deck d = new Deck( true );</span>
+<span class="fc" id="L334">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L335">        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L336">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L337">        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));</span>
+<span class="fc" id="L338">        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));</span>
+<span class="fc" id="L339">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L340">        d.setCards( cards );</span>
+<span class="fc" id="L341">        assertFalse( d.hasThreeOfAKind() );</span>
+<span class="fc" id="L342">    }</span>
+
+    @Test
+    public void testTwoPair() {
+<span class="fc" id="L346">        Deck d = new Deck( true );</span>
+<span class="fc" id="L347">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L348">        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L349">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L350">        cards.add( new Card( Card.Rank.JACK, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L351">        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));</span>
+<span class="fc" id="L352">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L353">        d.setCards( cards );</span>
+<span class="fc" id="L354">        assertTrue( d.hasTwoPair() );</span>
+<span class="fc" id="L355">    }</span>
+
+    @Test
+    public void testNotTwoPair() {
+<span class="fc" id="L359">        Deck d = new Deck( true );</span>
+<span class="fc" id="L360">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L361">        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L362">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L363">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L364">        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));</span>
+<span class="fc" id="L365">        cards.add( new Card( Card.Rank.TEN, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L366">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.CLUBS ));</span>
+<span class="fc" id="L367">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L368">        d.setCards( cards );</span>
+<span class="fc" id="L369">        assertFalse( d.hasTwoPair() );</span>
+<span class="fc" id="L370">    }</span>
+
+
+    @Test
+    public void testPair() {
+<span class="fc" id="L375">        Deck d = new Deck( true );</span>
+<span class="fc" id="L376">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L377">        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L378">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L379">        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));</span>
+<span class="fc" id="L380">        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));</span>
+<span class="fc" id="L381">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L382">        d.setCards( cards );</span>
+<span class="fc" id="L383">        assertTrue( d.hasPair() );</span>
+<span class="fc" id="L384">    }</span>
+
+    @Test
+    public void testNotPair() {
+<span class="fc" id="L388">        Deck d = new Deck( true );</span>
+<span class="fc" id="L389">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L390">        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L391">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L392">        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));</span>
+<span class="fc" id="L393">        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));</span>
+<span class="fc" id="L394">        cards.add( new Card( Card.Rank.TEN, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L395">        d.setCards( cards );</span>
+<span class="fc" id="L396">        assertFalse( d.hasPair() );</span>
+<span class="fc" id="L397">    }</span>
+
+    @Test
+    public void testStraight() {
+<span class="fc" id="L401">        Deck d1 = new Deck( true );</span>
+<span class="fc" id="L402">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L403">        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L404">        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));</span>
+<span class="fc" id="L405">        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));</span>
+<span class="fc" id="L406">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L407">        cards.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L408">        d1.setCards( cards );</span>
+
+<span class="fc" id="L410">        Deck d2 = new Deck( true );</span>
+<span class="fc" id="L411">        ArrayList&lt;Card&gt; cards2 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L412">        cards2.add( new Card( Card.Rank.TWO, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L413">        cards2.add( new Card( Card.Rank.FOUR, Card.Suit.SPADES ));</span>
+<span class="fc" id="L414">        cards2.add( new Card( Card.Rank.FOUR, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L415">        cards2.add( new Card( Card.Rank.FIVE, Card.Suit.SPADES ));</span>
+<span class="fc" id="L416">        cards2.add( new Card( Card.Rank.SIX, Card.Suit.SPADES ));</span>
+<span class="fc" id="L417">        cards2.add( new Card( Card.Rank.SIX, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L418">        cards2.add( new Card( Card.Rank.SEVEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L419">        cards2.add( new Card( Card.Rank.EIGHT, Card.Suit.SPADES ));</span>
+<span class="fc" id="L420">        d2.setCards( cards2 );</span>
+
+<span class="fc" id="L422">        Deck d3 = new Deck( true );</span>
+<span class="fc" id="L423">        ArrayList&lt;Card&gt; cards3 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L424">        cards3.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L425">        cards3.add( new Card( Card.Rank.TWO, Card.Suit.SPADES ));</span>
+<span class="fc" id="L426">        cards3.add( new Card( Card.Rank.THREE, Card.Suit.SPADES ));</span>
+<span class="fc" id="L427">        cards3.add( new Card( Card.Rank.FOUR, Card.Suit.SPADES ));</span>
+<span class="fc" id="L428">        cards3.add( new Card( Card.Rank.FIVE, Card.Suit.SPADES ));</span>
+<span class="fc" id="L429">        cards3.add( new Card( Card.Rank.SEVEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L430">        d3.setCards( cards3 );</span>
+
+<span class="fc" id="L432">        d1.sortDeckByRank();</span>
+<span class="fc" id="L433">        d2.sortDeckByRank();</span>
+<span class="fc" id="L434">        d3.sortDeckByRank();</span>
+
+<span class="fc" id="L436">        assertAll(</span>
+<span class="fc" id="L437">                ()-&gt;assertTrue( d1.hasStraight() ),</span>
+<span class="fc" id="L438">                ()-&gt;assertTrue( d2.hasStraight() ),</span>
+<span class="fc" id="L439">                ()-&gt;assertTrue( d3.hasStraight() )</span>
+        );
+<span class="fc" id="L441">    }</span>
+
+    @Test
+    public void testNotStraight() {
+<span class="fc" id="L445">        Deck d1 = new Deck( true );</span>
+<span class="fc" id="L446">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L447">        cards.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L448">        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));</span>
+<span class="fc" id="L449">        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));</span>
+<span class="fc" id="L450">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L451">        cards.add( new Card( Card.Rank.NINE, Card.Suit.SPADES ));</span>
+<span class="fc" id="L452">        d1.setCards( cards );</span>
+
+<span class="fc" id="L454">        Deck d2 = new Deck( true );</span>
+<span class="fc" id="L455">        ArrayList&lt;Card&gt; cards2 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L456">        cards2.add( new Card( Card.Rank.THREE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L457">        cards2.add( new Card( Card.Rank.FOUR, Card.Suit.SPADES ));</span>
+<span class="fc" id="L458">        cards2.add( new Card( Card.Rank.FOUR, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L459">        cards2.add( new Card( Card.Rank.FOUR, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L460">        cards2.add( new Card( Card.Rank.SIX, Card.Suit.SPADES ));</span>
+<span class="fc" id="L461">        cards2.add( new Card( Card.Rank.SIX, Card.Suit.DIAMONDS ));</span>
+<span class="fc" id="L462">        cards2.add( new Card( Card.Rank.SEVEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L463">        cards2.add( new Card( Card.Rank.EIGHT, Card.Suit.SPADES ));</span>
+<span class="fc" id="L464">        d2.setCards( cards2 );</span>
+
+<span class="fc" id="L466">        Deck d3 = new Deck( true );</span>
+<span class="fc" id="L467">        ArrayList&lt;Card&gt; cards3 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L468">        cards3.add( new Card( Card.Rank.ACE, Card.Suit.DIAMONDS ) );</span>
+<span class="fc" id="L469">        cards3.add( new Card( Card.Rank.TWO, Card.Suit.SPADES ));</span>
+<span class="fc" id="L470">        cards3.add( new Card( Card.Rank.THREE, Card.Suit.SPADES ));</span>
+<span class="fc" id="L471">        cards3.add( new Card( Card.Rank.FOUR, Card.Suit.SPADES ));</span>
+<span class="fc" id="L472">        cards3.add( new Card( Card.Rank.FOUR, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L473">        cards3.add( new Card( Card.Rank.SIX, Card.Suit.SPADES ));</span>
+<span class="fc" id="L474">        cards3.add( new Card( Card.Rank.SEVEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L475">        d3.setCards( cards3 );</span>
+
+<span class="fc" id="L477">        d1.sortDeckByRank();</span>
+<span class="fc" id="L478">        d2.sortDeckByRank();</span>
+<span class="fc" id="L479">        d3.sortDeckByRank();</span>
+
+<span class="fc" id="L481">        assertAll(</span>
+<span class="fc" id="L482">                ()-&gt;assertFalse( d1.hasStraight() ),</span>
+<span class="fc" id="L483">                ()-&gt;assertFalse( d2.hasStraight() ),</span>
+<span class="fc" id="L484">                ()-&gt;assertFalse( d3.hasStraight() )</span>
+        );
+<span class="fc" id="L486">    }</span>
+
+    @Test
+    public void testFlush() {
+<span class="fc" id="L490">        Deck d = new Deck( true );</span>
+<span class="fc" id="L491">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L492">        cards.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L493">        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));</span>
+<span class="fc" id="L494">        cards.add( new Card( Card.Rank.KING, Card.Suit.SPADES ));</span>
+<span class="fc" id="L495">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L496">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L497">        cards.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L498">        d.setCards( cards );</span>
+<span class="fc" id="L499">        assertTrue( d.hasFlush() );</span>
+<span class="fc" id="L500">    }</span>
+
+    @Test
+    public void testNotFlush() {
+<span class="fc" id="L504">        Deck d = new Deck( true );</span>
+<span class="fc" id="L505">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L506">        cards.add( new Card( Card.Rank.ACE, Card.Suit.SPADES ) );</span>
+<span class="fc" id="L507">        cards.add( new Card( Card.Rank.JACK, Card.Suit.SPADES ));</span>
+<span class="fc" id="L508">        cards.add( new Card( Card.Rank.KING, Card.Suit.HEARTS ));</span>
+<span class="fc" id="L509">        cards.add( new Card( Card.Rank.QUEEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L510">        cards.add( new Card( Card.Rank.TEN, Card.Suit.SPADES ));</span>
+<span class="fc" id="L511">        d.setCards( cards );</span>
+<span class="fc" id="L512">        assertFalse( d.hasFlush() );</span>
+<span class="fc" id="L513">    }</span>
+
+    //Assure that the card that is dealt is equal to the first card of the deck
+    @Test
+    public void dealCard()
+    {
+<span class="fc" id="L519">        Deck d = new Deck();</span>
+<span class="fc" id="L520">        d.dealCard();</span>
+<span class="fc" id="L521">        assertEquals(d.getDeck().get(0), d.dealCard());</span>
+<span class="fc" id="L522">    }</span>
+
+
+    //weird bug in this test, assertEquals is not properly comparing the decks
+    @Test
+    public void shuffledDeck()
+    {
+<span class="fc" id="L529">        Deck d = new Deck();</span>
+
+<span class="fc" id="L531">        Deck shuffled = new Deck();</span>
+<span class="fc" id="L532">        shuffled.shuffleDeck();</span>
+<span class="fc" id="L533">        assertNotEquals(d, shuffled);</span>
+<span class="fc" id="L534">    }</span>
+    @Test
+    public void resetDeckTest()
+    {
+<span class="fc" id="L538">        Deck d = new Deck();</span>
+<span class="fc" id="L539">        Deck d1 = new Deck();</span>
+<span class="fc" id="L540">        d1.resetDeck();</span>
+<span class="fc" id="L541">        assertNotEquals(d, d1);</span>
+
+
+<span class="fc" id="L544">    }</span>
+
+
+    //test to test the toString method on a non shuffled deck
+    @Test
+    public void testToString()
+    {
+<span class="fc" id="L551">        Deck d = new Deck();</span>
+<span class="fc" id="L552">        String expectedString = &quot;ACE OF SPADES TWO OF SPADES THREE OF SPADES FOUR OF SPADES FIVE OF SPADES SIX OF SPADES SEVEN OF SPADES EIGHT OF SPADES NINE OF SPADES TEN OF SPADES JACK OF SPADES QUEEN OF SPADES KING OF SPADES ACE OF HEARTS TWO OF HEARTS THREE OF HEARTS FOUR OF HEARTS FIVE OF HEARTS SIX OF HEARTS SEVEN OF HEARTS EIGHT OF HEARTS NINE OF HEARTS TEN OF HEARTS JACK OF HEARTS QUEEN OF HEARTS KING OF HEARTS ACE OF DIAMONDS TWO OF DIAMONDS THREE OF DIAMONDS FOUR OF DIAMONDS FIVE OF DIAMONDS SIX OF DIAMONDS SEVEN OF DIAMONDS EIGHT OF DIAMONDS NINE OF DIAMONDS TEN OF DIAMONDS JACK OF DIAMONDS QUEEN OF DIAMONDS KING OF DIAMONDS ACE OF CLUBS TWO OF CLUBS THREE OF CLUBS FOUR OF CLUBS FIVE OF CLUBS SIX OF CLUBS SEVEN OF CLUBS EIGHT OF CLUBS NINE OF CLUBS TEN OF CLUBS JACK OF CLUBS QUEEN OF CLUBS KING OF CLUBS &quot;;</span>
+<span class="fc" id="L553">        String actual = d.toString();</span>
+<span class="fc" id="L554">        assertEquals(expectedString, actual);</span>
+<span class="fc" id="L555">    }</span>
+
+
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

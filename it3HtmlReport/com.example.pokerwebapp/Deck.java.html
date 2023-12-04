@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Deck.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.example.pokerwebapp</a> &gt; <span class="el_source">Deck.java</span></div><h1>Deck.java</h1><pre class="source lang-java linenums">package com.example.pokerwebapp;
+
+import java.lang.reflect.Array;
+import java.util.Comparator;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+public class Deck  {
+
+<span class="fc" id="L10">    public enum HandType {</span>
+<span class="fc" id="L11">        UNRANKED(0), HIGH_CARD(1), PAIR(2), TWO_PAIR(3), THREE_OF_A_KIND(4), STRAIGHT(5),</span>
+<span class="fc" id="L12">        FLUSH(6), FULL_HOUSE(7), FOUR_OF_A_KIND(8), STRAIGHT_FLUSH(9), ROYAL_FLUSH(10);</span>
+        private final int handValue;
+
+        HandType(int handValue)
+<span class="fc" id="L16">        {</span>
+<span class="fc" id="L17">            this.handValue=handValue;</span>
+<span class="fc" id="L18">        }</span>
+    }
+    public int getHandAsNumber()
+    {
+<span class="nc" id="L22">        return handType.handValue;</span>
+    }
+    private List&lt;Card&gt; cards;
+    private HandType handType;
+
+<span class="fc" id="L27">    public Deck( ) {</span>
+<span class="fc" id="L28">        cards = new ArrayList&lt;Card&gt;();</span>
+<span class="fc" id="L29">        populateDeck();</span>
+<span class="fc" id="L30">        handType = HandType.UNRANKED;</span>
+<span class="fc" id="L31">    }</span>
+
+
+<span class="fc" id="L34">    public Deck( boolean emptyDeck ) {</span>
+<span class="fc" id="L35">        cards = new ArrayList&lt;Card&gt;();</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">        if( !emptyDeck )</span>
+<span class="nc" id="L37">            populateDeck();</span>
+<span class="fc" id="L38">        handType = HandType.UNRANKED;</span>
+<span class="fc" id="L39">    }</span>
+
+    @Override
+    public String toString() {
+<span class="fc" id="L43">        String str = &quot;&quot;;</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        for( Card c : cards )</span>
+<span class="fc" id="L45">            str = str + c.toString() + &quot; &quot;;</span>
+<span class="fc" id="L46">        return str;</span>
+    }
+    private void populateDeck() {
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        for (Card.Suit suit : Card.Suit.values())</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">            for (Card.Rank rank : Card.Rank.values()) {</span>
+<span class="fc" id="L51">                cards.add(new Card(rank, suit));</span>
+            }
+<span class="fc" id="L53">    }</span>
+    public void shuffleDeck()
+    {
+<span class="fc" id="L56">        Collections.shuffle(cards);</span>
+<span class="fc" id="L57">    }</span>
+
+//    public List&lt;com.example.pokerwebapp.Card&gt; deal(int numCards)
+//    {
+//        List&lt;com.example.pokerwebapp.Card&gt; dealtCards = new ArrayList&lt;com.example.pokerwebapp.Card&gt;();
+//        for(int i = 0; i &lt; numCards; i++)
+//        {
+//            dealtCards.add(cards.remove(0));
+//        }
+//        return dealtCards;
+//    }
+
+    public Card dealCard()
+    {
+<span class="fc" id="L71">        return cards.remove(0);</span>
+    }
+    //fix getter to return a copy not a reference
+    public List&lt;Card&gt; getDeck()
+    {
+<span class="fc" id="L76">        return cards;</span>
+    }
+
+    /**
+     * purpose: reset the deck with all cards, shuffled
+     */
+    public void resetDeck() {
+<span class="fc" id="L83">        this.cards = new ArrayList&lt;Card&gt;();</span>
+<span class="fc" id="L84">        populateDeck();</span>
+<span class="fc" id="L85">        shuffleDeck();</span>
+<span class="fc" id="L86">    }</span>
+    public int remainingDeckSize()
+    {
+<span class="fc" id="L89">        return cards.size();</span>
+    }
+
+    public static Deck combineDecks( Deck d1, Deck d2 ) {
+<span class="fc" id="L93">        ArrayList&lt;Card&gt; cards = new ArrayList&lt;Card&gt;();</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        for( Card c : d1.getDeck() )</span>
+<span class="fc" id="L95">            cards.add(c);</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        for( Card c : d2.getDeck() )</span>
+<span class="fc" id="L97">            cards.add(c);</span>
+<span class="fc" id="L98">        Deck d = new Deck(true);</span>
+<span class="fc" id="L99">        d.setCards( cards );</span>
+<span class="fc" id="L100">        return d;</span>
+    }
+
+    public void setCards( ArrayList&lt;Card&gt; cards ) {
+<span class="fc" id="L104">        this.cards = cards;</span>
+<span class="fc" id="L105">    }</span>
+
+
+    public boolean findCard( Card.Suit suit, Card.Rank rank ) {
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        for( Card c : cards )</span>
+        {
+<span class="fc bfc" id="L111" title="All 4 branches covered.">            if( c.getCardSuit() == suit &amp;&amp; c.getCardRank() == rank )</span>
+<span class="fc" id="L112">                return true;</span>
+<span class="fc" id="L113">        }</span>
+<span class="fc" id="L114">        return false;</span>
+    }
+
+    public boolean findCardByRank( Card.Rank rank ) {
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        for( Card c : cards )</span>
+        {
+<span class="fc bfc" id="L120" title="All 2 branches covered.">            if( c.getCardRank() == rank )</span>
+<span class="fc" id="L121">                return true;</span>
+<span class="fc" id="L122">        }</span>
+<span class="fc" id="L123">        return false;</span>
+    }
+
+    public boolean findCard( Card needle ) {
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        for( Card c : cards )</span>
+        {
+<span class="nc bnc" id="L129" title="All 4 branches missed.">            if( c.getCardSuit() == needle.getCardSuit() &amp;&amp; c.getCardRank() == needle.getCardRank() )</span>
+<span class="nc" id="L130">                return true;</span>
+<span class="nc" id="L131">        }</span>
+<span class="nc" id="L132">        return false;</span>
+    }
+
+
+    /**
+     * purpose: Sorts deck according to rank
+     * inputs: n/a
+     * outputs: the deck is sorted
+     */
+    public void sortDeckByRank() {
+<span class="fc" id="L142">        cards.sort( Comparator.naturalOrder() );</span>
+<span class="fc" id="L143">    }</span>
+
+    /**
+     * purpose: evaluate a hand
+     * input: n/a
+     * @return a HandType, the highest value of this deck/hand
+     */
+    public HandType evaluateHand() {
+<span class="fc" id="L151">        sortDeckByRank();</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">        if( hasRoyalFlush() )</span>
+<span class="nc" id="L153">            return HandType.ROYAL_FLUSH;</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">        else if( hasStraightFlush() )</span>
+<span class="nc" id="L155">            return HandType.STRAIGHT_FLUSH;</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">        else if( hasFourOfAKind() )</span>
+<span class="nc" id="L157">            return HandType.FOUR_OF_A_KIND;</span>
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">        else if( hasFullHouse() )</span>
+<span class="nc" id="L159">            return HandType.FULL_HOUSE;</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">        else if( hasFlush() )</span>
+<span class="nc" id="L161">            return HandType.FLUSH;</span>
+<span class="pc bpc" id="L162" title="1 of 2 branches missed.">        else if( hasStraight() )</span>
+<span class="nc" id="L163">            return HandType.STRAIGHT;</span>
+<span class="pc bpc" id="L164" title="1 of 2 branches missed.">        else if( hasThreeOfAKind() )</span>
+<span class="nc" id="L165">            return HandType.THREE_OF_A_KIND;</span>
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">        else if( hasTwoPair() )</span>
+<span class="nc" id="L167">            return HandType.TWO_PAIR;</span>
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">        else if( hasPair() )</span>
+<span class="nc" id="L169">            return HandType.PAIR;</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">        else if( !cards.isEmpty() )</span>
+<span class="fc" id="L171">            return HandType.HIGH_CARD;</span>
+        else
+<span class="nc" id="L173">            return HandType.UNRANKED;</span>
+    }
+
+
+    /**
+     * Below are nine helper methods to evaluate a hand
+     * Each determines if the hand meets the conditions of
+     * the handtype in its name
+     * NOTE: These methods assume that the deck is sorted according to rank.
+     * input: n/a
+     * @return a boolean, false if it is not this kind of hand, true if it is
+     */
+    public boolean hasRoyalFlush() {
+<span class="pc bpc" id="L186" title="1 of 4 branches missed.">        if( findCard( Card.Suit.DIAMONDS, Card.Rank.ACE ) &amp;&amp; findCard( Card.Suit.DIAMONDS, Card.Rank.TEN )</span>
+<span class="nc bnc" id="L187" title="All 4 branches missed.">                &amp;&amp; findCard( Card.Suit.DIAMONDS, Card.Rank.JACK ) &amp;&amp; findCard( Card.Suit.DIAMONDS, Card.Rank.QUEEN )</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">                &amp;&amp; findCard( Card.Suit.DIAMONDS, Card.Rank.KING ) )</span>
+<span class="nc" id="L189">            return true;</span>
+<span class="pc bpc" id="L190" title="3 of 4 branches missed.">        else if( findCard( Card.Suit.HEARTS, Card.Rank.ACE ) &amp;&amp; findCard( Card.Suit.HEARTS, Card.Rank.TEN )</span>
+<span class="nc bnc" id="L191" title="All 4 branches missed.">                &amp;&amp; findCard( Card.Suit.HEARTS, Card.Rank.JACK ) &amp;&amp; findCard( Card.Suit.HEARTS, Card.Rank.QUEEN )</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">                &amp;&amp; findCard( Card.Suit.HEARTS, Card.Rank.KING ) )</span>
+<span class="nc" id="L193">            return true;</span>
+<span class="pc bpc" id="L194" title="1 of 4 branches missed.">        else if( findCard( Card.Suit.SPADES, Card.Rank.ACE ) &amp;&amp; findCard( Card.Suit.SPADES, Card.Rank.TEN )</span>
+<span class="pc bpc" id="L195" title="1 of 4 branches missed.">                &amp;&amp; findCard( Card.Suit.SPADES, Card.Rank.JACK ) &amp;&amp; findCard( Card.Suit.SPADES, Card.Rank.QUEEN )</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">                &amp;&amp; findCard( Card.Suit.SPADES, Card.Rank.KING ) )</span>
+<span class="fc" id="L197">            return true;</span>
+<span class="pc bpc" id="L198" title="1 of 4 branches missed.">        else if( findCard( Card.Suit.DIAMONDS, Card.Rank.ACE ) &amp;&amp; findCard( Card.Suit.DIAMONDS, Card.Rank.TEN )</span>
+<span class="nc bnc" id="L199" title="All 4 branches missed.">                &amp;&amp; findCard( Card.Suit.DIAMONDS, Card.Rank.JACK ) &amp;&amp; findCard( Card.Suit.DIAMONDS, Card.Rank.QUEEN )</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">                &amp;&amp; findCard( Card.Suit.DIAMONDS, Card.Rank.KING ) )</span>
+<span class="nc" id="L201">            return true;</span>
+        else
+<span class="fc" id="L203">            return false;</span>
+    }
+    public boolean hasStraightFlush() {
+<span class="fc" id="L206">        int counter = 0;</span>
+<span class="fc" id="L207">        int old = -1;</span>
+
+<span class="fc" id="L209">        ArrayList&lt;Card&gt; diamonds = new ArrayList&lt;&gt;(), hearts = new ArrayList&lt;&gt;(), clubs = new ArrayList&lt;&gt;(), spades = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">        for( Card c : cards )</span>
+        {
+<span class="fc bfc" id="L212" title="All 2 branches covered.">            if( c.getCardSuit() == Card.Suit.DIAMONDS )</span>
+<span class="fc" id="L213">                diamonds.add( c );</span>
+<span class="fc bfc" id="L214" title="All 2 branches covered.">            else if( c.getCardSuit() == Card.Suit.HEARTS )</span>
+<span class="fc" id="L215">                hearts.add( c );</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">            else if( c.getCardSuit() == Card.Suit.CLUBS )</span>
+<span class="fc" id="L217">                clubs.add( c );</span>
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">            else if( c.getCardSuit() == Card.Suit.SPADES )</span>
+<span class="fc" id="L219">                spades.add( c );</span>
+<span class="fc" id="L220">        }</span>
+
+<span class="fc" id="L222">        Deck diamondDeck = new Deck( true );</span>
+<span class="fc" id="L223">        diamondDeck.setCards( diamonds );</span>
+<span class="fc" id="L224">        Deck heartDeck = new Deck( true );</span>
+<span class="fc" id="L225">        heartDeck.setCards( hearts );</span>
+<span class="fc" id="L226">        Deck spadeDeck = new Deck( true );</span>
+<span class="fc" id="L227">        spadeDeck.setCards( spades );</span>
+<span class="fc" id="L228">        Deck clubDeck = new Deck( true );</span>
+<span class="fc" id="L229">        clubDeck.setCards( clubs );</span>
+
+<span class="pc bpc" id="L231" title="2 of 8 branches missed.">        return diamondDeck.hasStraight() || heartDeck.hasStraight() || spadeDeck.hasStraight() || clubDeck.hasStraight();</span>
+
+
+        /*for( Card c : cards ) {
+            Card.Suit suit = c.getCardSuit();
+            for( int i = cards.indexOf( c ); i &lt; cards.size(); i++ ) {
+                if( cards.get(i).getCardSuit() != suit )
+                    continue;
+                if( old == -1 ) { // if it's the first card in the deck
+                    counter = 1;
+                    old = cards.get(i).getRankValue();
+                }
+                // if we have a duplicate, this doesnt necessarily mean the straight is broken so continue
+                else if( cards.get(i).getRankValue() == old )
+                    continue;
+                else if( cards.get(i).getRankValue() == old+1 ) {
+                    counter++;
+                    old = cards.get(i).getRankValue();
+                }
+                else {
+                    counter = 0;
+                    old = -1;
+                    break;
+                }
+                // pick up the edge case of an ACE acting as the end of a straight after a King
+                if( counter == 4 &amp;&amp; old == 13 &amp;&amp; this.findCard( suit, Card.Rank.ACE) )
+                    return true;
+                if( counter &gt;= 5 )
+                    return true;
+            }
+        }*/
+
+
+    }
+    public boolean hasFourOfAKind() {
+<span class="fc bfc" id="L266" title="All 2 branches covered.">        for( Card c : cards ) { // pick one card in the deck</span>
+<span class="fc" id="L267">            int counter = 0;</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">            for( Card check : cards ) { //compare the one card to the whole deck and see how many there are</span>
+<span class="fc bfc" id="L269" title="All 2 branches covered.">                if( c.getCardRank() == check.getCardRank() )</span>
+<span class="fc" id="L270">                    counter++;</span>
+<span class="fc" id="L271">            }</span>
+<span class="fc bfc" id="L272" title="All 2 branches covered.">            if( counter &gt;= 4 )</span>
+<span class="fc" id="L273">                return true;</span>
+<span class="fc" id="L274">        }</span>
+
+<span class="fc" id="L276">        return false;</span>
+    }
+    public boolean hasFullHouse() {
+<span class="fc" id="L279">        boolean triple = false, pair = false;</span>
+<span class="fc" id="L280">        Card.Rank firstSet = null;</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">        for( Card c : cards ) { // pick one card in the deck</span>
+<span class="fc" id="L282">            int counter = 0;</span>
+<span class="fc bfc" id="L283" title="All 2 branches covered.">            if( c.getCardRank() == firstSet ) // dont pick up a pair of the same rank</span>
+<span class="fc" id="L284">                continue;</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">            for( Card check : cards ) { //compare the one card to the whole deck and see how many there are</span>
+<span class="fc bfc" id="L286" title="All 2 branches covered.">                if( c.getCardRank() == check.getCardRank() )</span>
+<span class="fc" id="L287">                    counter++;</span>
+<span class="fc" id="L288">            }</span>
+<span class="fc bfc" id="L289" title="All 8 branches covered.">            if( counter == 2 &amp;&amp; !pair || counter &gt;= 2 &amp;&amp; triple )</span>
+            {
+<span class="fc" id="L291">                pair = true;</span>
+<span class="fc" id="L292">                firstSet = c.getCardRank();</span>
+            }
+<span class="pc bpc" id="L294" title="1 of 4 branches missed.">            else if( counter &gt;= 3 &amp;&amp; !triple ) {</span>
+<span class="fc" id="L295">                triple = true;</span>
+<span class="fc" id="L296">                firstSet = c.getCardRank();</span>
+            }
+<span class="fc bfc" id="L298" title="All 4 branches covered.">            if( pair &amp;&amp; triple )</span>
+<span class="fc" id="L299">                return true;</span>
+<span class="fc" id="L300">        }</span>
+
+<span class="fc" id="L302">        return false;</span>
+    }
+    public boolean hasFlush() {
+<span class="fc" id="L305">        int diamonds=0, hearts=0, clubs=0, spades=0;</span>
+<span class="fc bfc" id="L306" title="All 2 branches covered.">        for( Card c : cards )</span>
+        {
+<span class="pc bpc" id="L308" title="1 of 2 branches missed.">            if( c.getCardSuit() == Card.Suit.DIAMONDS )</span>
+<span class="nc" id="L309">                diamonds++;</span>
+<span class="fc bfc" id="L310" title="All 2 branches covered.">            else if( c.getCardSuit() == Card.Suit.HEARTS )</span>
+<span class="fc" id="L311">                hearts++;</span>
+<span class="pc bpc" id="L312" title="1 of 2 branches missed.">            else if( c.getCardSuit() == Card.Suit.CLUBS )</span>
+<span class="nc" id="L313">                clubs++;</span>
+<span class="pc bpc" id="L314" title="1 of 2 branches missed.">            else if( c.getCardSuit() == Card.Suit.SPADES )</span>
+<span class="fc" id="L315">                spades++;</span>
+<span class="fc" id="L316">        }</span>
+
+<span class="pc bpc" id="L318" title="3 of 8 branches missed.">        return (diamonds &gt;= 5 || hearts &gt;= 5 || clubs &gt;= 5 || spades &gt;= 5);</span>
+    }
+    public boolean hasStraight() {
+<span class="fc" id="L321">        int counter = 0;</span>
+<span class="fc" id="L322">        int old = -1;</span>
+<span class="fc bfc" id="L323" title="All 2 branches covered.">        for( Card c : cards )</span>
+        {
+<span class="fc bfc" id="L325" title="All 2 branches covered.">            if( old == -1 ) // if it's the first card in the deck</span>
+<span class="fc" id="L326">                counter = 1;</span>
+            // if we have a duplicate, this doesnt necessarily mean the straight is broken so continue
+<span class="fc bfc" id="L328" title="All 2 branches covered.">            else if( c.getRankValue() == old )</span>
+<span class="fc" id="L329">                continue;</span>
+<span class="fc bfc" id="L330" title="All 2 branches covered.">            else if( c.getRankValue() == old+1 )</span>
+<span class="fc" id="L331">                counter++;</span>
+            else
+<span class="fc" id="L333">                counter = 1;</span>
+<span class="fc" id="L334">            old = c.getRankValue();</span>
+            // pick up the edge case of an ACE acting as the end of a straight after a King
+<span class="fc bfc" id="L336" title="All 6 branches covered.">            if( counter == 4 &amp;&amp; old == 13 &amp;&amp; this.findCardByRank(Card.Rank.ACE) )</span>
+<span class="fc" id="L337">                return true;</span>
+<span class="fc bfc" id="L338" title="All 2 branches covered.">            if( counter &gt;= 5 )</span>
+<span class="fc" id="L339">                return true;</span>
+<span class="fc" id="L340">        }</span>
+<span class="fc" id="L341">        return false;</span>
+    }
+    public boolean hasThreeOfAKind() {
+<span class="fc bfc" id="L344" title="All 2 branches covered.">        for( Card c : cards ) { // pick one card in the deck</span>
+<span class="fc" id="L345">            int counter = 0;</span>
+<span class="fc bfc" id="L346" title="All 2 branches covered.">            for( Card check : cards ) { //compare the one card to the whole deck and see how many there are</span>
+<span class="fc bfc" id="L347" title="All 2 branches covered.">                if( c.getCardRank() == check.getCardRank() )</span>
+<span class="fc" id="L348">                    counter++;</span>
+<span class="fc" id="L349">            }</span>
+<span class="fc bfc" id="L350" title="All 2 branches covered.">            if( counter &gt;= 3 )</span>
+<span class="fc" id="L351">                return true;</span>
+<span class="fc" id="L352">        }</span>
+
+<span class="fc" id="L354">        return false;</span>
+    }
+    public boolean hasTwoPair() {
+<span class="fc" id="L357">        int pairs = 0;</span>
+<span class="fc" id="L358">        Card.Rank firstPair = null;</span>
+<span class="fc bfc" id="L359" title="All 2 branches covered.">        for( Card c : cards ) { // pick one card in the deck</span>
+<span class="fc" id="L360">            int counter = 0;</span>
+<span class="fc bfc" id="L361" title="All 2 branches covered.">            if( c.getCardRank() == firstPair ) // dont pick up a pair of the same rank</span>
+<span class="fc" id="L362">                continue;</span>
+<span class="fc bfc" id="L363" title="All 2 branches covered.">            for( Card check : cards ) { //compare the one card to the whole deck and see how many there are</span>
+<span class="fc bfc" id="L364" title="All 2 branches covered.">                if( c.getCardRank() == check.getCardRank() )</span>
+<span class="fc" id="L365">                    counter++;</span>
+<span class="fc" id="L366">            }</span>
+<span class="fc bfc" id="L367" title="All 2 branches covered.">            if( counter &gt;= 2 )</span>
+            {
+<span class="fc" id="L369">                pairs++;</span>
+<span class="fc" id="L370">                firstPair = c.getCardRank();</span>
+            }
+<span class="fc bfc" id="L372" title="All 2 branches covered.">            if( pairs &gt;= 2 )</span>
+<span class="fc" id="L373">                return true;</span>
+<span class="fc" id="L374">        }</span>
+
+<span class="fc" id="L376">        return false;</span>
+    }
+    public boolean hasPair() {
+<span class="fc bfc" id="L379" title="All 2 branches covered.">        for( Card c : cards ) { // pick one card in the deck</span>
+<span class="fc" id="L380">            int counter = 0;</span>
+<span class="fc bfc" id="L381" title="All 2 branches covered.">            for( Card check : cards ) { //compare the one card to the whole deck and see how many there are</span>
+<span class="fc bfc" id="L382" title="All 2 branches covered.">                if( c.getCardRank() == check.getCardRank() )</span>
+<span class="fc" id="L383">                    counter++;</span>
+<span class="fc" id="L384">            }</span>
+<span class="fc bfc" id="L385" title="All 2 branches covered.">            if( counter &gt;= 2 )</span>
+<span class="fc" id="L386">                return true;</span>
+<span class="fc" id="L387">        }</span>
+
+<span class="fc" id="L389">        return false;</span>
+    }
+
+
+//    public static void main(String[] args) {
+//        Deck deck = new Deck();
+//        System.out.println(deck);
+//        Card dealtCard = deck.dealCard();
+//        System.out.println(dealtCard);
+//        System.out.println(deck.remainingDeckSize());
+//        System.out.println(deck.getDeck());
+//        System.out.println(deck.dealCard());
+//        System.out.println(deck.dealCard());
+//        System.out.println(deck.dealCard());
+//    }
+
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

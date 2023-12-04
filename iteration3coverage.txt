@@ -1,0 +1,7 @@
+Sprint 3 Coverage
+Classes: 72% (26/36)	
+Method: 63% (126/200)	
+Line: 56% (570/1005)	
+Branch: 39% (218/401)
+
+JaCoCo auto-generated coverage report in /it3HtmlReport

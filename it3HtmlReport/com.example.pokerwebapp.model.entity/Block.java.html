@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Block.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.example.pokerwebapp.model.entity</a> &gt; <span class="el_source">Block.java</span></div><h1>Block.java</h1><pre class="source lang-java linenums">package com.example.pokerwebapp.model.entity;
+import javax.persistence.*;
+
+@Entity
+public class Block extends BaseEntity{
+<span class="pc" id="L6">    @Id @Column(name=&quot;id_blocked&quot;) @GeneratedValue(strategy = GenerationType.IDENTITY)</span>
+    private Integer ID = null;
+
+    @ManyToOne
+    @JoinColumn(name = &quot;account_id&quot;)
+    private Account account;
+    @ManyToOne
+    @JoinColumn(name = &quot;blocked_id&quot;)
+    private Account blocked;
+
+    public Block()
+<span class="fc" id="L17">    {</span>
+<span class="fc" id="L18">    }</span>
+
+    public Block(Account account, Account blocked)
+<span class="nc" id="L21">    {</span>
+<span class="nc" id="L22">        this.account = account;</span>
+<span class="nc" id="L23">        this.blocked = blocked;</span>
+<span class="nc" id="L24">    }</span>
+
+    public Integer getID() {
+<span class="nc" id="L27">        return ID;</span>
+    }
+
+    public void setID(Integer ID) {
+<span class="nc" id="L31">        this.ID = ID;</span>
+<span class="nc" id="L32">    }</span>
+
+    public Account getAccount() {
+<span class="nc" id="L35">        return account;</span>
+    }
+
+    public void setAccount(Account account) {
+<span class="nc" id="L39">        this.account = account;</span>
+<span class="nc" id="L40">    }</span>
+
+    public Account getBlocked() {
+<span class="nc" id="L43">        return blocked;</span>
+    }
+
+    public void setBlocked(Account blocked) {
+<span class="nc" id="L47">        this.blocked = blocked;</span>
+<span class="nc" id="L48">    }</span>
+}
+
+/**
+ CREATE TABLE block (
+ id_block INT AUTO_INCREMENT PRIMARY KEY,
+ account_id INT,
+ block_id INT,
+ FOREIGN KEY (account_id) REFERENCES Account(id_account),
+ FOREIGN KEY (block_id) REFERENCES Account(id_account)
+ );
+ */
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

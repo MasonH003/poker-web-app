@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenericDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.example.pokerwebapp.model.dao</a> &gt; <span class="el_source">GenericDAO.java</span></div><h1>GenericDAO.java</h1><pre class="source lang-java linenums">// SPDX-License-Identifier: MIT
+
+package com.example.pokerwebapp.model.dao;
+
+import com.example.pokerwebapp.model.entity.BaseEntity;
+// import com.example.pokerwebapp.model.entity.Account;
+
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import java.lang.annotation.Annotation;
+import java.util.List;
+
+/***
+ * GenricDAO (Database Access Object) with basic DB operations:
+ * Create, Read, Update, Delete, and List.
+ * Be sure to use the DbType.TEST to run on the test DB.
+ *
+ * @param &lt;E&gt; The Entity (subclass of BaseEntity) and annotated with @javax.persistence.Entity
+ */
+public abstract class GenericDAO&lt;E extends BaseEntity&gt; {
+<span class="fc" id="L23">    public enum DbType {STANDARD, TEST};</span>
+<span class="fc" id="L24">    protected static EntityManagerFactory standardEMF = null; //Factory for Normal DB</span>
+<span class="fc" id="L25">    protected static EntityManagerFactory testEMF = null; //Factory for Test DB</span>
+
+<span class="fc" id="L27">    protected DbType DbTypeOutput = DbType.STANDARD; //Sets standard DAO output to Normal DB</span>
+    protected Class&lt;E&gt; EntityClass; //Necessary to use some functions
+
+    /***
+     * Default Constructor, it requires a BaseEntity subclass as Entity.class
+     * Since GenericDAO is an abstract class you cannot instantiate by itself (this is by design and not a bug)
+     * the goal is to enforce developers to create a subclass of GenericDAO
+     * @param entityclass
+     */
+<span class="fc" id="L36">    public GenericDAO(Class&lt;E&gt; entityclass){</span>
+<span class="fc" id="L37">        this.EntityClass = entityclass;</span>
+<span class="fc" id="L38">    }</span>
+
+    /***
+     * Sets up the DAO outputs to a different DB
+     * Mostly used to set the output to the Test DB
+     * @param output
+     */
+    public void setDbTypeOutput(DbType output){
+<span class="fc" id="L46">        this.DbTypeOutput = output;</span>
+<span class="fc" id="L47">    }</span>
+
+    /***
+     * Creates the EntityManagerFactory if it does not exist,
+     * and uses it to return a reference to EntityManager.
+     * EntityManager is the JPA class to communicate with the DB.
+     *
+     * @return the appropriate EntityManager (for Production or Test DB)
+     */
+    protected EntityManager getEntityManager(){
+<span class="fc" id="L57">        EntityManagerFactory fac = null;</span>
+<span class="pc bpc" id="L58" title="2 of 3 branches missed.">        switch (DbTypeOutput){</span>
+            case STANDARD:
+<span class="nc bnc" id="L60" title="All 2 branches missed.">                if(standardEMF == null) standardEMF = Persistence.createEntityManagerFactory(&quot;standardPersistenceUnit&quot;);</span>
+<span class="nc" id="L61">                fac = standardEMF;</span>
+<span class="nc" id="L62">                break;</span>
+            case TEST:
+<span class="fc bfc" id="L64" title="All 2 branches covered.">                if(testEMF == null) testEMF = Persistence.createEntityManagerFactory(&quot;testPersistenceUnit&quot;);</span>
+<span class="fc" id="L65">                fac = testEMF;</span>
+                break;
+        }
+<span class="fc" id="L68">        return fac.createEntityManager();</span>
+    }
+
+    /***
+     * Creates (Saves/Inserts) a new entity into the DB.
+     * @param entity A BaseEntity subclass object to be saved in the DB.
+     */
+    public E create(E entity){
+<span class="fc" id="L76">        EntityManager em = this.getEntityManager();</span>
+        try {
+<span class="fc" id="L78">            em.getTransaction().begin();</span>
+<span class="fc" id="L79">            em.persist(entity);</span>
+<span class="fc" id="L80">            em.getTransaction().commit();</span>
+<span class="fc" id="L81">            em.close();</span>
+<span class="fc" id="L82">        }catch(Exception ex){</span>
+            //Something went wrong (like duplicate unique filed)
+<span class="fc" id="L84">            em.getTransaction().rollback(); //abort transaction</span>
+<span class="fc" id="L85">            em.close();</span>
+<span class="fc" id="L86">            throw ex; //rethrow for the upper layer to know what happened</span>
+<span class="fc" id="L87">        }</span>
+<span class="fc" id="L88">        return entity;</span>
+    }
+
+    /***
+     * Read operation uses getID() function inside the entity
+     * to call for read(int id) function.
+     * @param entity A BaseEntity subclass object
+     * @return the entity full info that was in the DB or null if it does not exist
+     */
+    public E read(E entity){
+<span class="fc" id="L98">        return read(entity.getID());</span>
+    }
+
+    /***
+     * Read operation, searches DB for the specified ID.
+     * @param id The id in the DB
+     * @return A BaseEntity subclass with the appropriate record in the DB, or null if it does not exist
+     */
+    public E read(int id){
+<span class="fc" id="L107">        EntityManager em = this.getEntityManager();</span>
+<span class="fc" id="L108">        E entity = em.find(EntityClass, id);</span>
+<span class="fc" id="L109">        em.close();</span>
+<span class="fc" id="L110">        return entity;</span>
+    }
+
+    /***
+     * Updates the entity in the DB
+     * @param entity The entity to be updated
+     * @return The updated version of the entity
+     */
+    public E update(E entity){
+<span class="fc" id="L119">        EntityManager em = this.getEntityManager();</span>
+<span class="fc" id="L120">        E updated = null;</span>
+        try {
+<span class="fc" id="L122">            em.getTransaction().begin();</span>
+<span class="fc" id="L123">            updated = em.merge(entity);</span>
+<span class="fc" id="L124">            em.getTransaction().commit();</span>
+<span class="fc" id="L125">            em.close();</span>
+<span class="fc" id="L126">        }catch(Exception ex){</span>
+<span class="fc" id="L127">            em.getTransaction().rollback();</span>
+<span class="fc" id="L128">            em.close();</span>
+<span class="fc" id="L129">            throw ex;</span>
+<span class="fc" id="L130">        }</span>
+<span class="fc" id="L131">        return updated;</span>
+    }
+
+    /***
+     * Deletes the record in DB specified by the ID.
+     * @param id The ID in the DB
+     */
+    public void delete(int id){
+<span class="fc" id="L139">        E entity = read(id);</span>
+<span class="fc" id="L140">        delete(entity);</span>
+<span class="fc" id="L141">    }</span>
+
+    /***
+     * Deletes the entity in the DB
+     * @param entity
+     */
+    public void delete(E entity){
+<span class="pc bpc" id="L148" title="1 of 4 branches missed.">        if(entity==null || entity.getID()==null){</span>
+<span class="fc" id="L149">            return;</span>
+        }
+
+<span class="fc" id="L152">        EntityManager em = this.getEntityManager();</span>
+        try {
+<span class="fc" id="L154">            em.getTransaction().begin();</span>
+<span class="fc" id="L155">            E mergedContext = em.merge(entity);</span>
+<span class="fc" id="L156">            em.remove(mergedContext);</span>
+<span class="fc" id="L157">            em.getTransaction().commit();</span>
+<span class="fc" id="L158">            em.close();</span>
+<span class="nc" id="L159">        }catch(Exception ex){</span>
+<span class="nc" id="L160">            em.getTransaction().rollback();</span>
+<span class="nc" id="L161">            em.close();</span>
+<span class="nc" id="L162">            throw ex;</span>
+<span class="fc" id="L163">        }</span>
+<span class="fc" id="L164">    }</span>
+
+    /***
+     * Deletes all records in the table.
+     * This should *not* be used in Production DB only for TestDB
+     */
+    public void deleteAll(){
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        if(DbTypeOutput!=DbType.TEST){</span>
+<span class="nc" id="L172">            System.out.println(&quot;Access Denied, cannot use deleteAll outside testing.&quot;);</span>
+<span class="nc" id="L173">            return;</span>
+        }
+
+<span class="fc" id="L176">        String query = &quot;DELETE FROM &quot;+getTableName();</span>
+
+<span class="fc" id="L178">        EntityManager em = this.getEntityManager();</span>
+        try {
+<span class="fc" id="L180">            em.getTransaction().begin();</span>
+<span class="fc" id="L181">            em.createQuery(query).executeUpdate();</span>
+<span class="fc" id="L182">            em.getTransaction().commit();</span>
+<span class="fc" id="L183">            em.close();</span>
+<span class="nc" id="L184">        }catch(Exception ex){</span>
+<span class="nc" id="L185">            em.getTransaction().rollback();</span>
+<span class="nc" id="L186">            em.close();</span>
+<span class="nc" id="L187">            throw ex;</span>
+<span class="fc" id="L188">        }</span>
+<span class="fc" id="L189">    }</span>
+
+    /***
+     * List operation returns a list of all records in the table mapped by the DAO.
+     *
+     * @param Order String specifying the database field(s) for the Order by clause.
+     * @return A java.util.List of entities
+     */
+    public List&lt;E&gt; list(String Order){
+<span class="fc" id="L198">        String query = &quot;SELECT entity FROM &quot;+getTableName()+&quot; entity&quot;;</span>
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">        if(Order!=null) query+=&quot; ORDER BY &quot;+Order;</span>
+
+<span class="fc" id="L201">        EntityManager em = this.getEntityManager();</span>
+<span class="fc" id="L202">        List&lt;E&gt; results = em.createQuery(query,EntityClass).getResultList();</span>
+<span class="fc" id="L203">        return results;</span>
+    }
+
+    /***
+     * Used to get the Table Name in the DB mapped by this DAO.
+     * @return A String with the appropriate table name mapped by this DAO.
+     */
+    public String getTableName(){
+<span class="fc" id="L211">        javax.persistence.Table tableAnnotation = EntityClass.getAnnotation(javax.persistence.Table.class);</span>
+<span class="pc bpc" id="L212" title="1 of 2 branches missed.">        if(tableAnnotation != null) return tableAnnotation.name();</span>
+<span class="fc" id="L213">        else return EntityClass.getName();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

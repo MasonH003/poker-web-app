@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnvProperties.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.example.pokerwebapp.util</a> &gt; <span class="el_source">EnvProperties.java</span></div><h1>EnvProperties.java</h1><pre class="source lang-java linenums">package com.example.pokerwebapp.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
+/***
+ * Singleton pattern for Environment Properties
+ * @author Prof. H. Rocha
+ */
+public class EnvProperties {
+<span class="nc" id="L14">    private static EnvProperties Instance = null;</span>
+
+    private Properties Prop;
+
+<span class="nc" id="L18">    private EnvProperties() throws IOException{</span>
+<span class="nc" id="L19">        this.Prop = new Properties();</span>
+<span class="nc" id="L20">        this.readFromFile(&quot;.env&quot;);</span>
+<span class="nc" id="L21">    }</span>
+
+    public static EnvProperties getInstance(){
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if(Instance==null){</span>
+            try {
+<span class="nc" id="L26">                Instance = new EnvProperties();</span>
+<span class="nc" id="L27">            }catch(IOException ex){</span>
+<span class="nc" id="L28">                System.out.println(ex);</span>
+<span class="nc" id="L29">            }</span>
+        }
+<span class="nc" id="L31">        return Instance;</span>
+    }
+
+    public Properties getProperties() {
+<span class="nc" id="L35">        return Prop;</span>
+    }
+
+    public static String get(String key){
+<span class="nc" id="L39">        return getInstance().getProperties().getProperty(key);</span>
+    }
+
+    public void readFromFile(String filename) throws IOException {
+<span class="nc" id="L43">        File EnvFile = new File(filename);</span>
+<span class="nc" id="L44">        System.out.println(EnvFile.getAbsolutePath());</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        if(EnvFile.exists()) {</span>
+<span class="nc" id="L46">            this.Prop.load(new FileInputStream(EnvFile));</span>
+        }else{
+<span class="nc" id="L48">            throw new IOException(&quot;.env file do not exist&quot;);</span>
+        }
+<span class="nc" id="L50">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
