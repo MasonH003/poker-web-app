@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableEntityTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">TableEntityTest.java</span></div><h1>TableEntityTest.java</h1><pre class="source lang-java linenums">import com.example.pokerwebapp.model.dao.GenericDAO;
+import com.example.pokerwebapp.model.dao.TableDAO;
+import com.example.pokerwebapp.model.entity.TableEntity;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+<span class="fc" id="L7">public class TableEntityTest {</span>
+<span class="fc" id="L8">    TableDAO dao = new TableDAO();</span>
+
+    @Test public void TableTesting(){
+<span class="fc" id="L11">        dao.setDbTypeOutput(GenericDAO.DbType.TEST);</span>
+<span class="fc" id="L12">        TableEntity t = new TableEntity();</span>
+<span class="fc" id="L13">        t.setName(&quot;test_table&quot;);</span>
+<span class="nc" id="L14">        dao.create(t);</span>
+<span class="nc" id="L15">        assertNotNull(t.getID());</span>
+<span class="nc" id="L16">        dao.deleteAll();</span>
+<span class="nc" id="L17">    }</span>
+
+    @Test public void TableRead(){
+<span class="fc" id="L20">        dao.setDbTypeOutput(GenericDAO.DbType.TEST);</span>
+<span class="fc" id="L21">        TableEntity t2 = new TableEntity();</span>
+<span class="fc" id="L22">        t2.setName(&quot;test_table23&quot;);</span>
+<span class="fc" id="L23">        t2.setPlayers(2);</span>
+<span class="nc" id="L24">        dao.create(t2);</span>
+<span class="nc" id="L25">        assertNotNull(dao.read(t2));</span>
+<span class="nc" id="L26">        dao.deleteAll();</span>
+<span class="nc" id="L27">    }</span>
+
+    @Test public void TableUpdate(){
+<span class="fc" id="L30">        dao.setDbTypeOutput(GenericDAO.DbType.TEST);</span>
+<span class="fc" id="L31">        TableEntity t2 = new TableEntity();</span>
+<span class="fc" id="L32">        t2.setName(&quot;test_table23&quot;);</span>
+<span class="fc" id="L33">        t2.setPlayers(2);</span>
+<span class="nc" id="L34">        dao.create(t2);</span>
+<span class="nc" id="L35">        assertAll(()-&gt;assertNotNull(dao.updatePlayers(t2,3)),</span>
+<span class="nc" id="L36">                ()-&gt;assertEquals(3,t2.getPlayers()));</span>
+<span class="nc" id="L37">        dao.deleteAll();</span>
+<span class="nc" id="L38">    }</span>
+
+    @Test public void TableDelete(){
+<span class="fc" id="L41">        dao.setDbTypeOutput(GenericDAO.DbType.TEST);</span>
+<span class="fc" id="L42">        TableEntity t2 = new TableEntity();</span>
+<span class="fc" id="L43">        t2.setName(&quot;test_table24&quot;);</span>
+<span class="nc" id="L44">        dao.create(t2);</span>
+<span class="nc" id="L45">        System.out.println(t2.getID());</span>
+<span class="nc" id="L46">        dao.delete(t2.getID());</span>
+<span class="nc" id="L47">        System.out.println(t2);</span>
+<span class="nc" id="L48">        assertNull(t2.getID());</span>
+<span class="nc" id="L49">    }</span>
+
+    @Test public void TableFind(){
+<span class="fc" id="L52">        dao.setDbTypeOutput(GenericDAO.DbType.TEST);</span>
+<span class="fc" id="L53">        TableEntity t2 = new TableEntity();</span>
+<span class="fc" id="L54">        TableEntity t3 = new TableEntity();</span>
+<span class="fc" id="L55">        t2.setName(&quot;test_table2&quot;);</span>
+<span class="fc" id="L56">        t3.setName(&quot;test_table3&quot;);</span>
+<span class="nc" id="L57">        dao.create(t2);</span>
+<span class="nc" id="L58">        dao.create(t3);</span>
+<span class="nc" id="L59">        assertNotNull(dao.find(&quot;test_table2&quot;));</span>
+<span class="nc" id="L60">        dao.deleteAll();</span>
+<span class="nc" id="L61">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

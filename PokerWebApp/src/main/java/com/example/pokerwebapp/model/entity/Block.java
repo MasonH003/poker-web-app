@@ -1,8 +1,9 @@
 package com.example.pokerwebapp.model.entity;
 import javax.persistence.*;
 
+@Entity
 public class Block extends BaseEntity{
-    @Id @Column(name="id_account") @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @Column(name="id_blocked") @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID = null;
 
     @ManyToOne
@@ -16,14 +17,18 @@ public class Block extends BaseEntity{
     {
     }
 
-    public Block(Account a, Account b)
+    public Block(Account account, Account blocked)
     {
-        this.account = a;
-        this.blocked = b;
+        this.account = account;
+        this.blocked = blocked;
     }
 
     public Integer getID() {
         return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
     public Account getAccount() {
@@ -44,7 +49,7 @@ public class Block extends BaseEntity{
 }
 
 /**
- CREATE TABLE Block (
+ CREATE TABLE block (
  id_block INT AUTO_INCREMENT PRIMARY KEY,
  account_id INT,
  block_id INT,

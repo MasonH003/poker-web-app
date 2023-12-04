@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FriendshipService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.example.pokerwebapp.controller.service</a> &gt; <span class="el_source">FriendshipService.java</span></div><h1>FriendshipService.java</h1><pre class="source lang-java linenums">package com.example.pokerwebapp.controller.service;
+import com.example.pokerwebapp.model.dao.AccountDAO;
+import com.example.pokerwebapp.model.dao.FriendshipDAO;
+import com.example.pokerwebapp.model.entity.Account;
+import com.example.pokerwebapp.model.entity.Friendship;
+import com.example.pokerwebapp.model.entity.FriendshipStatus;
+
+import java.util.List;
+
+<span class="nc" id="L10">public class FriendshipService {</span>
+
+<span class="fc" id="L12">    public static FriendshipDAO dao = new FriendshipDAO();</span>
+
+    public static void setDAO(FriendshipDAO dao){
+<span class="fc" id="L15">        FriendshipService.dao = dao;</span>
+<span class="fc" id="L16">    }</span>
+
+
+    public static Friendship createFriendship(Friendship f) {
+<span class="fc" id="L20">        Friendship found = dao.findFriendshipByAccounts(f.getAccount(), f.getFriend());</span>
+
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">        if(found == null) {</span>
+            try {
+<span class="fc" id="L24">                f = dao.create(f);</span>
+<span class="fc" id="L25">            } catch (javax.persistence.PersistenceException ex) {</span>
+<span class="fc" id="L26">                f = null;</span>
+<span class="fc" id="L27">                System.out.println(ex);</span>
+<span class="fc" id="L28">            }</span>
+        }
+        else
+        {
+            //friendship already exists
+<span class="nc" id="L33">            f = null;</span>
+        }
+<span class="fc" id="L35">        return f;</span>
+    }
+
+    public static List&lt;Friendship&gt; listIncomingFriendships(Account a)
+    {
+<span class="nc" id="L40">        return dao.incomingFriendships(a);</span>
+    }
+    public static void acceptFriendRequest(int friendship_id)
+    {
+<span class="nc" id="L44">        Friendship f = dao.read(friendship_id);</span>
+<span class="nc" id="L45">        f.setStatus(FriendshipStatus.ACCEPTED);</span>
+<span class="nc" id="L46">        dao.update(f);</span>
+<span class="nc" id="L47">    }</span>
+
+    public static void removeFriend(int friendship_id)
+    {
+<span class="nc" id="L51">         dao.delete(friendship_id);</span>
+<span class="nc" id="L52">    }</span>
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginServlet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in PokerWebApp Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.example.pokerwebapp.controller.servlet</a> &gt; <span class="el_source">LoginServlet.java</span></div><h1>LoginServlet.java</h1><pre class="source lang-java linenums">package com.example.pokerwebapp.controller.servlet;
+import com.example.pokerwebapp.controller.service.AccountService;
+import com.example.pokerwebapp.model.entity.Account;
+
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
+
+@WebServlet(name = &quot;loginServlet&quot;, value = &quot;/loginServlet&quot;)
+<span class="fc" id="L14">public class LoginServlet extends HttpServlet {</span>
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+<span class="fc" id="L17">        System.out.println(&quot;Security Issue: passwords should never be sent via GET.&quot;);</span>
+<span class="fc" id="L18">        response.sendRedirect(&quot;index.jsp&quot;);</span>
+<span class="fc" id="L19">    }</span>
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+<span class="fc" id="L21">        String login = request.getParameter(&quot;txt_login&quot;);</span>
+<span class="fc" id="L22">        String unhashedPass = request.getParameter(&quot;txt_pass&quot;);</span>
+
+<span class="fc" id="L24">        Account logged = AccountService.loginAccount(login, unhashedPass);</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if(logged!=null){</span>
+            //Session is how we (safe) persist info from a specif user in a webapp
+<span class="fc" id="L27">            HttpSession session = request.getSession();</span>
+<span class="fc" id="L28">            logged.setPassword(&quot;&quot;); //For security lets scrub the password</span>
+<span class="fc" id="L29">            session.setAttribute(&quot;Account&quot;,logged); //adding user to session</span>
+<span class="fc" id="L30">            response.sendRedirect(&quot;index.jsp&quot;);</span>
+<span class="fc" id="L31">        } else {</span>
+<span class="fc" id="L32">            response.sendRedirect(&quot;login.jsp?msg=1&quot;);</span>
+        }
+<span class="fc" id="L34">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

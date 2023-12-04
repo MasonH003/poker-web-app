@@ -55,11 +55,14 @@ public class Friendship extends BaseEntity{
         return ID;
     }
 
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
 }
 
 
 /**
- CREATE TABLE Friendship (
+ CREATE TABLE friendship (
  id_friendship INT AUTO_INCREMENT PRIMARY KEY,
  status VARCHAR(255),
  account_id INT,
