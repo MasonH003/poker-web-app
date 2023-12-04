@@ -11,6 +11,9 @@ public class TableEntity extends BaseEntity{
     @Column(name="table_name")
     private String name;
 
+    @Column(name="player_count")
+    private Integer players = 0;
+
     @Override
     public Integer getID() {
         return ID;
@@ -26,5 +29,13 @@ public class TableEntity extends BaseEntity{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Integer players) {
+        this.players = players;
     }
 }
