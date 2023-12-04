@@ -37,9 +37,7 @@
     </div>
 
     <div class="logo-area">
-        <center>
-            <img src = "images/Futuretech logo 3NEW.png" width="280" height="180"/>
-        </center>
+        <img src = "images/Futuretech logo 3NEW.png" width="280" height="180"/>
     </div>
 
 </div>
