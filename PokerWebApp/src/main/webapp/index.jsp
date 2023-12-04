@@ -122,9 +122,6 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
   <%= "USER: " + username %>
 </div>
 
-
-
-
 <% if(message.length()>0){ %>
 
 <div class="alert custom-alert-size alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
@@ -134,7 +131,6 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
   </div>
   <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 </div>
-
 
 <% } /*Closing IF */ %>
 
@@ -155,6 +151,14 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
 
 <%--</div>--%>
 
+<!------------------------------------------------------------------------------------->
+
+<!-- Menu buttons -->
+<div>
+  <center>
+  <a href="table.jsp" class = "blue-button">Join Table </a>
+  </center>
+</div>
 <!------------------------------------------------------------------------------------->
 
 <% } %>
