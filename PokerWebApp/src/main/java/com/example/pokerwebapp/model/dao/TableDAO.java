@@ -12,6 +12,18 @@ public class TableDAO extends GenericDAO<TableEntity> {
     }
 
     /***
+     * Read operation for the specified table name.
+     * @param t The table in the DB
+     * @return A BaseEntity subclass with the appropriate record in the DB, or null if it does not exist
+     */
+    public TableEntity read(TableEntity t){
+        EntityManager em = this.getEntityManager();
+        TableEntity entity = em.find(EntityClass, t.getID());
+        em.close();
+        return entity;
+    }
+
+    /***
      * Deletes the record in DB specified by the ID.
      * @param id The ID in the DB
      */
@@ -49,13 +61,19 @@ public class TableDAO extends GenericDAO<TableEntity> {
         return results;
     }
 
+    /***
+     * Updates the entity in the DB
+     * @param t to be updated
+     * @param pl player count to be updated
+     * @return The updated version of the entity
+     */
     public TableEntity updatePlayers(TableEntity t, int pl){
     EntityManager em = this.getEntityManager();
         TableEntity updated = null;
         try {
         em.getTransaction().begin();
+        t.setPlayers(pl);
         updated = em.merge(t);
-        updated.setPlayers(pl);
         em.getTransaction().commit();
         em.close();
         }
