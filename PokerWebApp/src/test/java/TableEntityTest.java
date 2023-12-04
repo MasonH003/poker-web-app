@@ -44,8 +44,7 @@ public class TableEntityTest {
         dao.create(t2);
         System.out.println(t2.getID());
         dao.delete(t2.getID());
-        System.out.println(t2);
-        assertNull(t2.getID());
+        assertNull(dao.read(t2));
     }
 
     @Test public void TableFind(){

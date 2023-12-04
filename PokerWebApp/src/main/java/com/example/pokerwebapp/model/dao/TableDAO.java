@@ -1,8 +1,10 @@
 package com.example.pokerwebapp.model.dao;
 
+import com.example.pokerwebapp.model.entity.Account;
 import com.example.pokerwebapp.model.entity.TableEntity;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.sql.ResultSet;
 import java.util.List;
 
@@ -23,41 +25,18 @@ public class TableDAO extends GenericDAO<TableEntity> {
         return entity;
     }
 
-    /***
-     * Deletes the record in DB specified by the ID.
-     * @param id The ID in the DB
-     */
-    public void delete(int id){
-        EntityManager em = this.getEntityManager();
 
+    public List<TableEntity> find(String table_name){
+        String query = "SELECT u FROM "+getTableName()+" u WHERE u.table_name CONTAINS :name";
+        List<TableEntity> results;
+        EntityManager em = this.getEntityManager();
         try {
-            TableEntity entity = em.find(TableEntity.class, id);
-            if(entity==null || entity.getID()==null){
-                return;
-            }
-            em.getTransaction().begin();
-            em.remove(entity);
-            em.getTransaction().commit();
+            results = em.createQuery(query, TableEntity.class).setParameter("name", table_name).getResultList();
+        } catch(NoResultException ex){
+            results = null;
+        } finally{
             em.close();
-        }catch(Exception ex){
-            em.getTransaction().rollback();
-            em.close();
-            throw ex;
         }
-    }
-
-    /***
-     * Deletes the entity in the DB
-     * @param t
-     */
-    public void delete(TableEntity t){
-        delete(t.getID());
-    }
-    public List<TableEntity> find(String name){
-        String query = "SELECT FROM "+getTableName()+" WHERE table_name CONTAINS "+name;
-        EntityManager em = this.getEntityManager();
-
-        List<TableEntity> results = em.createQuery(query,EntityClass).getResultList();
         return results;
     }
 
