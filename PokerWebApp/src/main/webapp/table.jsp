@@ -9,6 +9,11 @@
 
 <div class="table">
 
+    <div class="table-area">
+
+
+    </div>
+
     <div class="button-area">
         <div class="rounded-rectangle">
             <center>
