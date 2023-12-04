@@ -89,6 +89,12 @@
             margin-top: 10px;
         }
 
+        .card {
+
+            width: 100px;
+            height: 100px;
+        }
+
     </style>
 
 </head>
