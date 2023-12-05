@@ -128,6 +128,8 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
 <%
   username = logged.getEmail();
 %>
+<a href="friends.jsp" class="blue-button">Show Friends</a>
+
 
 <div style="position: absolute; top: 0; right: 0; padding: 10px;">
   <%= "USER: " + username %>
