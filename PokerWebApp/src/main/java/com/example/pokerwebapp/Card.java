@@ -1,5 +1,7 @@
 package com.example.pokerwebapp;
 
+import java.util.Locale;
+
 //A simple card class
 public class Card implements Comparable<Card>{
     public enum Suit {
@@ -37,6 +39,14 @@ public class Card implements Comparable<Card>{
         return rank;
     }
 
+    public String generateImageUrl() {
+        String str = "";
+        if( rank == Rank.ACE || rank == Rank.JACK || rank == Rank.QUEEN || rank == rank.KING )
+            str = "images/playing-cards/" + rank + "_of_" + suit + ".png";
+        else
+            str = "images/playing-cards/" + rank.cardValue + "_of_" + suit + ".png";
+        return str.toLowerCase();
+    }
 
     @Override
     public int compareTo(Card card)
@@ -48,10 +58,15 @@ public class Card implements Comparable<Card>{
     {
         return rank + " OF " + suit;
     }
-//    public static void main(String[] args)
-//    {
-//        Card card = new Card(Rank.ACE, Suit.SPADES);
-//        System.out.println(card);
-//        System.out.println(card.getRankValue());
-//    }
+    /*public static void main(String[] args)
+    {
+        Card card = new Card(Rank.ACE, Suit.SPADES);
+        System.out.println(card);
+        System.out.println(card.getRankValue());
+
+        System.out.println( card.generateImageUrl() );
+        Card card2 = new Card(Rank.TWO, Suit.CLUBS);
+        System.out.println( card2.generateImageUrl() );
+        System.out.println( "images/playing-cards/2_of_clubs.png");
+    }*/
 }
