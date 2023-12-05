@@ -58,29 +58,29 @@
     </ul>
 </div>
 
-<div class="friend-list">
-    <h2>Friends</h2>
-    <ul class="list-group">
-        <% for(Friendship f : sent){ %>
-        <li class="list-group-item">
-            <span><%= f.getFriend().getUsername() %></span>
-            <button type="button" class="btn btn-success">Cancel</button>
-        </li>
-        <% } %>
-    </ul>
-</div>
+<%--<div class="friend-list">--%>
+<%--    <h2>Friends</h2>--%>
+<%--    <ul class="list-group">--%>
+<%--        <% for(Friendship f : sent){ %>--%>
+<%--        <li class="list-group-item">--%>
+<%--            <span><%= f.getFriend().getUsername() %></span>--%>
+<%--            <button type="button" class="btn btn-success">Cancel</button>--%>
+<%--        </li>--%>
+<%--        <% } %>--%>
+<%--    </ul>--%>
+<%--</div>--%>
 
-    <div class="friend-list">
-        <h2>Blocked</h2>
-        <ul class="list-group">
-            <% for(Friendship f : sent){ %>
-            <li class="list-group-item">
-                <span><%= f.getFriend().getUsername() %></span>
-                <button type="button" class="btn btn-success">Cancel</button>
-            </li>
-            <% } %>
-        </ul>
-    </div>
+<%--    <div class="friend-list">--%>
+<%--        <h2>Blocked</h2>--%>
+<%--        <ul class="list-group">--%>
+<%--            <% for(Friendship f : sent){ %>--%>
+<%--            <li class="list-group-item">--%>
+<%--                <span><%= f.getFriend().getUsername() %></span>--%>
+<%--                <button type="button" class="btn btn-success">Cancel</button>--%>
+<%--            </li>--%>
+<%--            <% } %>--%>
+<%--        </ul>--%>
+<%--    </div>--%>
 
 
 
