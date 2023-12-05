@@ -4,6 +4,7 @@ import com.example.pokerwebapp.model.dao.FriendshipDAO;
 import com.example.pokerwebapp.model.entity.Account;
 import com.example.pokerwebapp.model.entity.Friendship;
 import com.example.pokerwebapp.model.entity.FriendshipStatus;
+import com.mysql.cj.protocol.FullReadInputStream;
 
 import java.util.List;
 
@@ -38,6 +39,10 @@ public class FriendshipService {
     public static List<Friendship> listIncomingFriendships(Account a)
     {
         return dao.incomingFriendships(a);
+    }
+    public static List<Friendship> listSentFriendships(Account a)
+    {
+        return dao.sentFriendships(a);
     }
     public static void acceptFriendRequest(int friendship_id)
     {

@@ -17,7 +17,7 @@ public class AddFriendServlet extends HttpServlet {
         Account sender = (Account) request.getSession().getAttribute("Account");
         String friend = request.getParameter("friend");
         Account receiver = AccountService.dao.findUserByUsername(friend);
-        if(receiver != null && friend != "")
+        if(receiver != null && friend != "" && sender.getID() != receiver.getID())
         {
             Friendship newFriendship = new Friendship(sender, receiver);
             Friendship created = FriendshipService.createFriendship(newFriendship);

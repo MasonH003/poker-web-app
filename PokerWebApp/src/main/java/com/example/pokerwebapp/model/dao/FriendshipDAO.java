@@ -38,6 +38,8 @@ public class FriendshipDAO extends GenericDAO<Friendship> {
     }
 
 
+    //can make both of these into one function and just get the account/friend
+    //TODO: Refactor this
     public List<Friendship> incomingFriendships(Account a)
     {
         EntityManager em = getEntityManager();
@@ -56,6 +58,48 @@ public class FriendshipDAO extends GenericDAO<Friendship> {
             em.close();
         }
         return pending;
+    }
+
+
+    public List<Friendship> sentFriendships(Account a)
+    {
+        EntityManager em = getEntityManager();
+        String query = "Select f FROM "+getTableName()+" f WHERE f.account = :sender AND f.status = :status";
+        List<Friendship> sent = null;
+        try{
+            sent = em.createQuery(query, Friendship.class)
+                    .setParameter("sender", a)
+                    .setParameter("status", FriendshipStatus.PENDING)
+                    .getResultList();
+
+        }catch(NoResultException ex)
+        {
+            sent = null;
+        }finally{
+            em.close();
+        }
+        return sent;
+    }
+
+    public List<Friendship> accepted(Account a)
+    {
+        EntityManager em = getEntityManager();
+        String query = "Select f FROM "+getTableName()+" f WHERE f.account = :account OR f.friend = :account2 AND f.status = :status";
+        List<Friendship> accepted = null;
+        try{
+           accepted = em.createQuery(query, Friendship.class)
+                   .setParameter("account", a)
+                   .setParameter("account2", a)
+                   .setParameter("status", FriendshipStatus.ACCEPTED)
+                   .getResultList();
+
+        }catch(NoResultException ex)
+        {
+            accepted = null;
+        }finally{
+            em.close();
+        }
+        return accepted;
     }
 
 

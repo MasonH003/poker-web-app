@@ -69,19 +69,9 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
 <button type="button" class="btn btn-success mt-3 ms-3" data-bs-toggle="modal" data-bs-target="#addFriendModal">
   Add Friend <i class="bi bi-person-add"></i>
 </button>
-
-
-<% for(Friendship f : incomingFriendships) { %>
-<p> <%= f.getAccount().getUsername()%></p>
-<form method="post" action="acceptFriendRequestServlet">
-  <input type="hidden" name="friendship_ID" value="<%= f.getID()%>">
-  <button type="submit" class="btn btn-success btn-sm">
-    Accept
-  </button>
-</form>
-<% } %>
-
-
+<button type="button" class="btn btn-danger mt-3 ms-3" data-bs-toggle="modal" data-bs-target="#reportAccountModal">
+  Report <i class="bi bi-exclamation-triangle"></i>
+</button>
 <%-- Add Friend Modal--%>
 <div class="modal fade" id="addFriendModal" tabindex="-1">
   <div class="modal-dialog">
@@ -107,13 +97,34 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
 </div>
 <%-- End Of Add Friend Modal --%>
 
+<%-- Start of Report Account Modal --%>
+<div class="modal fade" id="reportAccountModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="reportAccountModalLabel">Report!</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" action="reportAccountServlet">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="reportName" class="form-label">Account Username</label>
+            <input type="text" class="form-control" id="reportName" name="report_name" placeholder="Enter account username">
+          </div>
+          <div class="mb-3">
+            <label for="reportReason" class="form-label">Reason for Reporting</label>
+            <textarea class="form-control" id="reportReason" name="report_message" placeholder="Enter reason for reporting"></textarea>
+          </div>
+          <div class="text-end">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger">Report Account</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
-
-<%-- Incoming Friend Requests --%>
-
-
-
-<%-- Show the user currently logged in --%>
 <%
   username = logged.getEmail();
 %>

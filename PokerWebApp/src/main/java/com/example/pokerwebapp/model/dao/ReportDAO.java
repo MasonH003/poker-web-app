@@ -14,13 +14,13 @@ public class ReportDAO extends GenericDAO<Report> {
     public Report existingReport(Account logged, Account reported)
     {
         EntityManager em = getEntityManager();
-        String query = "Select r FROM "+getTableName()+" r WHERE r.account = :accountLogged AND r.reported = :accountReported";
+        String query = "Select r FROM "+getTableName()+" r WHERE r.account.ID = :accountLoggedID AND r.reported.ID = :accountReportedID";
         Report found = null;
         try
         {
             found = em.createQuery(query, Report.class)
-                    .setParameter("accountLogged", logged)
-                    .setParameter("accountReported", reported)
+                    .setParameter("accountLoggedID", logged.getID())
+                    .setParameter("accountReportedID", reported.getID())
                     .getSingleResult();
         }catch(NoResultException ex)
         {
