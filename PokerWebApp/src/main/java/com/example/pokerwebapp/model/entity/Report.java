@@ -61,7 +61,7 @@ public class Report extends BaseEntity{
 
 /**
  create table report(
- id_report INT AUTO_INCREMENT PRIMARY KEY,
+ id_reported INT AUTO_INCREMENT PRIMARY KEY,
  account_id INT,
  reported_id INT,
  report_message VARCHAR(150),
