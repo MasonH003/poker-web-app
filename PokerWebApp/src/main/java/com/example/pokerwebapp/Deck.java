@@ -195,9 +195,9 @@ public class Deck  {
                 && findCard( Card.Suit.SPADES, Card.Rank.JACK ) && findCard( Card.Suit.SPADES, Card.Rank.QUEEN )
                 && findCard( Card.Suit.SPADES, Card.Rank.KING ) )
             return true;
-        else if( findCard( Card.Suit.DIAMONDS, Card.Rank.ACE ) && findCard( Card.Suit.DIAMONDS, Card.Rank.TEN )
-                && findCard( Card.Suit.DIAMONDS, Card.Rank.JACK ) && findCard( Card.Suit.DIAMONDS, Card.Rank.QUEEN )
-                && findCard( Card.Suit.DIAMONDS, Card.Rank.KING ) )
+        else if( findCard( Card.Suit.CLUBS, Card.Rank.ACE ) && findCard( Card.Suit.CLUBS, Card.Rank.TEN )
+                && findCard( Card.Suit.CLUBS, Card.Rank.JACK ) && findCard( Card.Suit.CLUBS, Card.Rank.QUEEN )
+                && findCard( Card.Suit.CLUBS, Card.Rank.KING ) )
             return true;
         else
             return false;
