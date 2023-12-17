@@ -66,6 +66,23 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
 <a href="registernewaccount.jsp" class="blue-button">REGISTER</a>
 </center>
 <% } else { %>
+<%
+  username = logged.getEmail();
+%>
+
+<div class="dropdown" style="position: absolute; top: 0; right: 0; padding: 10px;">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="bi bi-person-circle"></i>
+    <%= username %>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="account.jsp">Profile</a></li>
+
+  </ul>
+</div>
+
+
+
 <button type="button" class="btn btn-success mt-3 ms-3" data-bs-toggle="modal" data-bs-target="#addFriendModal">
   Add Friend <i class="bi bi-person-add"></i>
 </button>
@@ -125,15 +142,11 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
   </div>
 </div>
 
-<%
-  username = logged.getEmail();
-%>
+
 <a href="friends.jsp" class="blue-button">Show Friends</a>
 
 
-<div style="position: absolute; top: 0; right: 0; padding: 10px;">
-  <%= "USER: " + username %>
-</div>
+
 
 <% if(message.length()>0){ %>
 
