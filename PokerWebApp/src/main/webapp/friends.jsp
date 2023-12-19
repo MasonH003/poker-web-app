@@ -7,9 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.example.pokerwebapp.model.entity.Account"%>
+<%@ page import="com.example.pokerwebapp.model.entity.Block"%>
 <%@ page import="com.example.pokerwebapp.model.entity.Friendship" %>
 <%@ page import="com.example.pokerwebapp.controller.service.FriendshipService" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.pokerwebapp.controller.service.BlockService" %>
 <html>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -21,7 +23,8 @@
 <% Account logged = (Account) session.getAttribute("Account");
     List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships(logged);
     List<Friendship> sent = FriendshipService.listSentFriendships(logged);
-
+    List<Account> friends = FriendshipService.listFriends(logged);
+    List<Block> blockList = BlockService.blockList(logged);
 %>
 
 <div class="d-flex">
@@ -66,10 +69,16 @@
 <div class="friend-list">
     <h2>Friends</h2>
     <ul class="list-group">
-        <% for(Friendship f : sent){ %>
+        <% for(Account a : friends){ %>
         <li class="list-group-item">
-            <span><%= f.getFriend().getUsername() %></span>
-            <button type="button" class="btn btn-success">Cancel</button>
+            <span><%= a.getUsername() %></span>
+            <button type="button" class="btn btn-success">Invite</button>
+            <% Friendship f = FriendshipService.dao.findFriendshipByAccounts(logged, a);%>
+            <form method="post" action="removeFriendServlet">
+            <input type="hidden" name="friendship_id" value="<%= f.getID() %>">
+            <button type="submit" class="btn btn-danger">Remove</button>
+            </form>
+
         </li>
         <% } %>
     </ul>
@@ -78,10 +87,12 @@
     <div class="friend-list">
         <h2>Blocked</h2>
         <ul class="list-group">
-            <% for(Friendship f : sent){ %>
+            <% for(Block b : blockList){ %>
             <li class="list-group-item">
-                <span><%= f.getFriend().getUsername() %></span>
-                <button type="button" class="btn btn-success">Cancel</button>
+                <span><%= b.getBlocked().getUsername() %></span>
+                <form method="post" action="unblockServlet">
+                    <input type="hidden" name="block_id" value="<%= b.getID() %>">
+                    <button type="submit" class="btn btn-success">Unblock <i class="bi bi-person-fill-slash"></i></button>
             </li>
             <% } %>
         </ul>

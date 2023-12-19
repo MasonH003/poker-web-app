@@ -6,6 +6,7 @@ import com.example.pokerwebapp.model.entity.FriendshipStatus;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import java.util.ArrayList;
 import java.util.List;
 public class FriendshipDAO extends GenericDAO<Friendship> {
 
@@ -81,17 +82,28 @@ public class FriendshipDAO extends GenericDAO<Friendship> {
         return sent;
     }
 
-    public List<Friendship> accepted(Account a)
+    public List<Account> friends(Account a)
     {
         EntityManager em = getEntityManager();
-        String query = "Select f FROM "+getTableName()+" f WHERE f.account = :account OR f.friend = :account2 AND f.status = :status";
+        String query = "SELECT f FROM " + getTableName() + " f WHERE (f.account = :account OR f.friend = :account) AND f.status = :status";
+
         List<Friendship> accepted = null;
+        List<Account> friends = new ArrayList<>();
         try{
            accepted = em.createQuery(query, Friendship.class)
                    .setParameter("account", a)
-                   .setParameter("account2", a)
                    .setParameter("status", FriendshipStatus.ACCEPTED)
                    .getResultList();
+           for (Friendship f : accepted)
+           {
+               if(f.getAccount().getID().equals(a.getID()))
+               {
+                   friends.add(f.getFriend());
+               }
+               else{
+                   friends.add(f.getAccount());
+               }
+           }
 
         }catch(NoResultException ex)
         {
@@ -99,7 +111,8 @@ public class FriendshipDAO extends GenericDAO<Friendship> {
         }finally{
             em.close();
         }
-        return accepted;
+
+        return friends;
     }
 
 

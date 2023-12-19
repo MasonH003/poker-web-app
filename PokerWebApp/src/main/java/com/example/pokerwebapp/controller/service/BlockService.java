@@ -1,10 +1,13 @@
 package com.example.pokerwebapp.controller.service;
 
 import com.example.pokerwebapp.model.dao.BlockDAO;
+import com.example.pokerwebapp.model.entity.Account;
 import com.example.pokerwebapp.model.entity.Block;
 
 import com.example.pokerwebapp.model.dao.FriendshipDAO;
 import com.example.pokerwebapp.model.entity.Friendship;
+
+import java.util.List;
 
 public class BlockService {
     public static BlockDAO dao = new BlockDAO();
@@ -31,5 +34,15 @@ public class BlockService {
         }
         return b;
     }
+    public static List<Block> blockList(Account a)
+    {
+        return dao.blockList(a);
+    }
+
+    public static void unblock(int block_id)
+    {
+        dao.delete(block_id);
+    }
+
 
 }

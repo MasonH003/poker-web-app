@@ -56,6 +56,10 @@ public class FriendshipService {
          dao.delete(friendship_id);
     }
 
+    public static List<Account> listFriends(Account a)
+    {
+        return dao.friends(a);
+    }
 
 
 }
