@@ -44,3 +44,26 @@
 
 }
 
+/*.bottom-right-image {*/
+/*    position: fixed;*/
+/*    bottom: 20px; !* Adjust this value to position vertically from the bottom *!*/
+/*    right: 20px; !* Adjust this value to position horizontally from the right *!*/
+/*    width: 125px; !* Set width *!*/
+/*    height: 100px; !* Set height *!*/
+/*}*/
+
+.top-left-image {
+    position: fixed;
+    top: -35px; /* Adjust this value to position vertically from the top */
+    left: 10px; /* Adjust this value to position horizontally from the left */
+    width: 325px; /* Set width */
+    height: 200px; /* Set height */
+}
+.flipped {
+    position: fixed;
+    bottom: 160px; /* Adjust this value to position vertically from the bottom */
+    right: -190px; /* Adjust this value to position horizontally from the right */
+    width: 570px; /* Set width */
+    height: 300px; /* Set height */
+    transform: rotate(-90deg);
+}

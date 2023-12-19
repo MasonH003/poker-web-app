@@ -189,8 +189,14 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
   </div>
 </div>
 <%-- End Of Block Modal --%>
+<%--<img src = "images/FuturetechLogo.jpg" class="bottom-right-image"/>--%>
 
 
+
+<img src = "images/Futuretech logo 3NEW.png" class="top-left-image"/>
+
+
+<img src = "images/Futuretech logo 3NEW.png" class="bottom-right-image flipped"/>
 
 <%--<a href="friends.jsp" class="blue-button">Show Friends</a>--%>
 
