@@ -30,13 +30,18 @@
 
         <ul class="list-group">
             <% for(Friendship f : incomingFriendships){ %>
-            <form method="post" action="acceptFriendRequestServlet">
             <li class="list-group-item">
                 <span><%= f.getAccount().getUsername() %></span>
-                <input type="hidden" name="f_accept_id" value="<%= f.getID() %>">
-                <button type="submit" class="btn btn-success">Accept</button>
+                <form method="post" action="acceptFriendRequestServlet">
+                    <input type="hidden" name="f_accept_id" value="<%= f.getID() %>">
+                    <button type="submit" class="btn btn-success">Accept</button>
+                </form>
+                <form method="post" action="removeFriendServlet">
+                    <input type="hidden" name="friendship_id" value="<%= f.getID() %>">
+                    <button type="submit" class="btn btn-danger">Decline</button>
+                </form>
             </li>
-            </form>
+
             <% } %>
         </ul>
 </div>
@@ -51,7 +56,7 @@
         <li class="list-group-item">
             <span><%= f.getFriend().getUsername() %></span>
                 <input type="hidden" name="friendship_id" value="<%= f.getID() %>">
-                <button type="submit" class="btn btn-success">Cancel</button>
+                <button type="submit" class="btn btn-danger">Cancel</button>
         </li>
         </form>
         <% } %>
