@@ -6,10 +6,10 @@
 
 <head>
     <jsp:include page="components/table-styling.jsp"/>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-
 <%
     // Get session:
 
@@ -32,7 +32,9 @@
 <div class="table">
 
     <div class="table-area">
-        <div style="position: fixed; top: 20px; left 20px;">
+        <img src = "images/poker-table.png" class="center-image"/>
+
+        <div style="position: fixed; top: 20px; left: 20px;">
 
             <!--
             <img src="images/playing-cards/card-sleeve.png" class="card"/>
@@ -75,6 +77,10 @@
     </div>
 
 </div>
+
+
+
+
 
 </body>
 

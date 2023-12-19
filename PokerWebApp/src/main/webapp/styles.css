@@ -67,3 +67,12 @@
     height: 300px; /* Set height */
     transform: rotate(-90deg);
 }
+.center-image {
+    position: fixed;
+    left: 140px;
+    top: 70px;
+    height: 600px;
+    width: 870px; /* Set width */
+
+
+}

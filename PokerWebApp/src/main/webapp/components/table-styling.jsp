@@ -38,6 +38,7 @@
 
             grid-area: table-area;
             background-color: #FFFFFF;
+            place-items: center;
         }
 
         .blue-button {
