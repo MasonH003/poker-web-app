@@ -76,19 +76,26 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
     <%= username %>
   </button>
   <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="account.jsp">Profile</a></li>
+    <li><a class="dropdown-item" href="account.jsp">Profile <i class="bi bi-person-fill"></i></a></li>
     <li>
       <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addFriendModal">
         Add Friend <i class="bi bi-person-add"></i>
       </a>
     </li>
-    <li><a class="dropdown-item" href="friends.jsp">Friends</a></li>
+    <li><a class="dropdown-item" href="friends.jsp">Friends <i class="bi bi-person-heart"></i></a></li>
 
     <li>
       <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reportAccountModal">
         Report <i class="bi bi-exclamation-triangle"></i>
       </a>
     </li>
+
+    <li>
+      <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#blockModal">
+        Block <i class="bi bi-person-fill-slash"></i>
+      </a>
+    </li>
+
     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logoutServlet">Logout <i class="bi bi-box-arrow-left"></i></a></li>
 
 
@@ -157,7 +164,35 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
 </div>
 
 
-<a href="friends.jsp" class="blue-button">Show Friends</a>
+
+<%-- Block Modal--%>
+<div class="modal fade" id="blockModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="blockModalLabel">Block Account!</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" action="blockAccountServlet">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="blockName" class="form-label">Block Username</label>
+            <input type="text" class="form-control" id="blockName" name="block" placeholder="Enter username to block">
+          </div>
+          <div class="text-end">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger">Block Account</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<%-- End Of Block Modal --%>
+
+
+
+<%--<a href="friends.jsp" class="blue-button">Show Friends</a>--%>
 
 
 

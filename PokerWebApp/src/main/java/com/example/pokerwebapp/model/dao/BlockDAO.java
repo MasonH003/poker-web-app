@@ -1,6 +1,7 @@
 package com.example.pokerwebapp.model.dao;
 import com.example.pokerwebapp.model.entity.Block;
 import com.example.pokerwebapp.model.entity.Account;
+import com.example.pokerwebapp.model.entity.Friendship;
 
 
 import javax.persistence.EntityManager;
@@ -13,23 +14,24 @@ public class BlockDAO extends GenericDAO<Block>{
         super(Block.class);
     }
 
-    public List<Block> blocked(Account a)
+    public Block existingBlock(Account one, Account two)
     {
         EntityManager em = getEntityManager();
-        String query = "Select b FROM "+getTableName()+" b WHERE b.account = :account";
-        List<Block> blocked = null;
+        String query = "Select b FROM "+getTableName()+" b WHERE b.account = :account AND b.blocked = :blocked";
+        Block found = null;
         try
         {
-            blocked = em.createQuery(query, Block.class)
-                    .setParameter("account", a)
-                    .getResultList();
+            found = em.createQuery(query, Block.class)
+                    .setParameter("account", one)
+                    .setParameter("blocked", two)
+                    .getSingleResult();
         }catch(NoResultException ex)
         {
-            blocked = null;
+            found = null;
         }finally{
             em.close();
         }
-        return blocked;
+        return found;
 
 
 

@@ -1,6 +1,8 @@
 package com.example.pokerwebapp.controller.service;
 
 import com.example.pokerwebapp.model.dao.BlockDAO;
+import com.example.pokerwebapp.model.entity.Block;
+
 import com.example.pokerwebapp.model.dao.FriendshipDAO;
 import com.example.pokerwebapp.model.entity.Friendship;
 
@@ -12,22 +14,22 @@ public class BlockService {
     }
 
 
-//    public static Block createFriendship(Friendship f) {
-//        Friendship found = dao.findFriendshipByAccounts(f.getAccount(), f.getFriend());
-//
-//        if(found == null) {
-//            try {
-//                f = dao.create(f);
-//            } catch (javax.persistence.PersistenceException ex) {
-//                f = null;
-//                System.out.println(ex);
-//            }
-//        }
-//        else
-//        {
-//            //friendship already exists
-//            f = null;
-//        }
-//        return f;
-//    }
+    public static Block createBlock(Block b) {
+        Block found = dao.existingBlock(b.getAccount(), b.getBlocked());
+
+        if(found == null) {
+            try {
+                b = dao.create(b);
+            } catch (javax.persistence.PersistenceException ex) {
+                b = null;
+                System.out.println(ex);
+            }
+        }
+        else
+        {
+            b = null;
+        }
+        return b;
+    }
+
 }

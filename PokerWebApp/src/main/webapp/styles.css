@@ -37,9 +37,10 @@
 }
 
 .dropdown-menu .dropdown-item {
-    text-align: center;
+    text-align: left;
 }
 .custom-color-dropdown-btn:focus {
     background-color: #3498db;
 
 }
+

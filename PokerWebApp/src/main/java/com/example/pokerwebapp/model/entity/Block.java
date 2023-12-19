@@ -50,10 +50,10 @@ public class Block extends BaseEntity{
 
 /**
  CREATE TABLE block (
- id_block INT AUTO_INCREMENT PRIMARY KEY,
+ id_blocked INT AUTO_INCREMENT PRIMARY KEY,
  account_id INT,
- block_id INT,
+ blocked_id INT,
  FOREIGN KEY (account_id) REFERENCES Account(id_account),
- FOREIGN KEY (block_id) REFERENCES Account(id_account)
+ FOREIGN KEY (blocked_id) REFERENCES Account(id_account)
  );
  */
