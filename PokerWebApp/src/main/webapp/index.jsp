@@ -28,7 +28,7 @@
   <jsp:include page="components/popup.jsp"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="components/styles.css">
+  <link rel="stylesheet" href="styles.css">
   <style>
     .blue-button {
       width: 100px; /* Adjust the width as needed */
@@ -71,25 +71,36 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
 %>
 
 <div class="dropdown" style="position: absolute; top: 0; right: 0; padding: 10px;">
-  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <button class="btn btn-secondary dropdown-toggle custom-color-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
     <i class="bi bi-person-circle"></i>
     <%= username %>
   </button>
   <ul class="dropdown-menu">
     <li><a class="dropdown-item" href="account.jsp">Profile</a></li>
+    <li>
+      <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addFriendModal">
+        Add Friend <i class="bi bi-person-add"></i>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reportAccountModal">
+        Report <i class="bi bi-exclamation-triangle"></i>
+      </a>
+    </li>
     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logoutServlet">Logout</a></li>
+
 
   </ul>
 </div>
 
 
 
-<button type="button" class="btn btn-success mt-3 ms-3" data-bs-toggle="modal" data-bs-target="#addFriendModal">
-  Add Friend <i class="bi bi-person-add"></i>
-</button>
-<button type="button" class="btn btn-danger mt-3 ms-3" data-bs-toggle="modal" data-bs-target="#reportAccountModal">
-  Report <i class="bi bi-exclamation-triangle"></i>
-</button>
+<%--<button type="button" class="btn btn-success mt-3 ms-3" data-bs-toggle="modal" data-bs-target="#addFriendModal">--%>
+<%--  Add Friend <i class="bi bi-person-add"></i>--%>
+<%--</button>--%>
+<%--<button type="button" class="btn btn-danger mt-3 ms-3" data-bs-toggle="modal" data-bs-target="#reportAccountModal">--%>
+<%--  Report <i class="bi bi-exclamation-triangle"></i>--%>
+<%--</button>--%>
 <%-- Add Friend Modal--%>
 <div class="modal fade" id="addFriendModal" tabindex="-1">
   <div class="modal-dialog">

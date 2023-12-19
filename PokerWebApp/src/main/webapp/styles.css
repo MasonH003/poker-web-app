@@ -16,3 +16,19 @@
     padding: 10px;
     justify-content: center; /* Center horizontally */
 }
+
+
+.dropdown-menu {
+    background-color: #3498db;
+}
+
+.custom-color-dropdown-btn{
+    background-color: #3498db;
+    border-color: #3498db;
+}
+.custom-color-dropdown-btn:hover{
+    background-color: #3498db;
+}
+.custom-color-dropdown-btn:active{
+    background-color: #3498db;
+}

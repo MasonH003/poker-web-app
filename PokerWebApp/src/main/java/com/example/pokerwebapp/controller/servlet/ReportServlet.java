@@ -25,7 +25,7 @@ public class ReportServlet extends HttpServlet {
             Report created = ReportService.createReport(r);
             if(created == null)
             {
-                //reported the same account twice (not allowed)
+                response.sendRedirect("index.jsp");
             }
             else{
                 response.sendRedirect("index.jsp");
@@ -33,7 +33,7 @@ public class ReportServlet extends HttpServlet {
 
         }
         else{
-            //account reported not found
+            response.sendRedirect("index.jsp");
         }
     }
 
