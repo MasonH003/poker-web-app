@@ -28,7 +28,12 @@
 }
 .custom-color-dropdown-btn:hover{
     background-color: #3498db;
+
 }
-.custom-color-dropdown-btn:active{
+
+.dropdown-menu .dropdown-item {
+    text-align: center;
+}
+.custom-color-dropdown-btn:focus {
     background-color: #3498db;
 }

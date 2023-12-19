@@ -71,7 +71,7 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
 %>
 
 <div class="dropdown" style="position: absolute; top: 0; right: 0; padding: 10px;">
-  <button class="btn btn-secondary dropdown-toggle custom-color-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <button class="btn dropdown-toggle custom-color-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
     <i class="bi bi-person-circle"></i>
     <%= username %>
   </button>
@@ -82,12 +82,14 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
         Add Friend <i class="bi bi-person-add"></i>
       </a>
     </li>
+    <li><a class="dropdown-item" href="friends.jsp">Friends</a></li>
+
     <li>
       <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reportAccountModal">
         Report <i class="bi bi-exclamation-triangle"></i>
       </a>
     </li>
-    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logoutServlet">Logout</a></li>
+    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logoutServlet">Logout <i class="bi bi-box-arrow-left"></i></a></li>
 
 
   </ul>
