@@ -77,6 +77,7 @@ List<Friendship> incomingFriendships = FriendshipService.listIncomingFriendships
   </button>
   <ul class="dropdown-menu">
     <li><a class="dropdown-item" href="account.jsp">Profile</a></li>
+    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logoutServlet">Logout</a></li>
 
   </ul>
 </div>
